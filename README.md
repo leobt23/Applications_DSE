@@ -9,9 +9,8 @@ Data exploration
 Supervised baseline(s)
 Unsupervised models (classic & deep learning models)
 Reporting
-References
+References:
 Scholkopf et al., Support Vector Method for Novelty Detection, NeurIPS 1999
 Liu et al., Isolation Forest, IEEE International Conference on Data Mining 2008
 van den Oord et al., Representation Learning with Contrastive Predictive Coding
 
-Contact: Jacopo Bono (jacopo.bono@feedzai.com)
