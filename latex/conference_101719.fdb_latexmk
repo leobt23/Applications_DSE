@@ -1,5 +1,5 @@
 # Fdb version 4
-["pdflatex"] 1696411674 "c:/Users/leo_b/OneDrive/Documentos/Projects/personal_projects/Applications_DSE/latex/conference_101719.tex" "conference_101719.pdf" "conference_101719" 1696411675 0
+["pdflatex"] 1696437177 "c:/Users/leo_b/OneDrive/Documentos/Projects/personal_projects/Applications_DSE/latex/conference_101719.tex" "conference_101719.pdf" "conference_101719" 1696437178 0
   "C:/Users/leo_b/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1695217127 82507 a9eef8696c92627b87e9975edea03b2a ""
   "C:/Users/leo_b/AppData/Local/MiKTeX/miktex/data/le/pdftex/pdflatex.fmt" 1695217083 23178960 d5d5a19967e8d9f4d43d11518c50cafe ""
   "C:/Users/leo_b/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/base/8r.enc" 1458477487 4993 80dc9bab7f31fb78a000ccfed0e27cab ""
@@ -72,10 +72,11 @@
   "C:/Users/leo_b/AppData/Local/Programs/MiKTeX/tex/latex/l3backend/l3backend-pdftex.def" 1680182075 29768 5600b3a98028e2e01b60e7f98fbf4b9c ""
   "C:/Users/leo_b/AppData/Local/Programs/MiKTeX/tex/latex/psnfss/ot1ptm.fd" 1585257378 1007 15056f4a61917ceed3a44e4ac11fcc52 ""
   "C:/Users/leo_b/AppData/Local/Programs/MiKTeX/tex/latex/xcolor/xcolor.sty" 1656236890 56148 51a9a8571c07b9921892ae11063ae853 ""
-  "c:/Users/leo_b/OneDrive/Documentos/Projects/personal_projects/Applications_DSE/latex/conference_101719.tex" 1696411673 5501 db0730f8adb527fc033a851e1292725c ""
-  "conference_101719.aux" 1696411675 743 9d36efc714d9c1f43c3d6a3ff5e47110 "pdflatex"
-  "conference_101719.tex" 1696411673 5501 db0730f8adb527fc033a851e1292725c ""
+  "c:/Users/leo_b/OneDrive/Documentos/Projects/personal_projects/Applications_DSE/latex/conference_101719.tex" 1696437176 6812 ab6be57c9458828e53e1f9eb55cedc2d ""
+  "conference_101719.aux" 1696437177 1055 6f8f07f5f41a84cccfc4dd2227b7f931 "pdflatex"
+  "conference_101719.tex" 1696437176 6812 ab6be57c9458828e53e1f9eb55cedc2d ""
   "fig1.png" 1695214567 4535 0e284ca354e1b5c77378d3dfdb543874 ""
+  "images/initial_dataset_balance.png" 1696435634 7292 c87d5e2cecbbf58e88aa3e36cf66864d ""
   (generated)
   "conference_101719.aux"
   "conference_101719.log"

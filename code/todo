@@ -5,3 +5,5 @@ Types of features:
 - Outliers
 - Can we group into sequences?
 - Fraud rate over time
+
+27 such transactions with 0 euros were a fraudulent transactions 27/492 = 5%

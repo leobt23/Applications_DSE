@@ -51,7 +51,19 @@ Drawing from open-source datasets, this report sets out to critically evaluate a
 
 \section{Data Exploration}
 
+\subsection{European cardholders's transactions}
 
+This dataset represents credit card transactions made by European cardholders in September 2013 over a span of two days.
+
+Out of the 284,807 transactions recorded, 492 were fraudulent, making up a mere 0.172% of the total transactions. Given the disparity in numbers, the dataset is notably imbalanced.
+
+The dataset consists mainly of numerical variables derived from a Principal Component Analysis (PCA) transformation. To maintain confidentiality, the original features and further details about the data are not disclosed. The variables V1, V2, through V28 are the principal components derived from the PCA. The only exceptions that haven't undergone PCA are 'Time' and 'Amount'. The 'Time' feature indicates the seconds that have passed between each transaction and the first one in the dataset. On the other hand, 'Amount' denotes the transaction value, which can be useful for context-sensitive learning approaches. The 'Class' feature is the target variable, where a value of 1 indicates a fraudulent transaction, and 0 signifies a legitimate one.
+
+\begin{figure}[htbp]
+    \centerline{\includegraphics[scale=0.5]{images/initial_dataset_balance.png}}
+    \caption{Example of a figure caption.}
+    \label{initial_dataset_balance}
+\end{figure}
 
 \begin{table}[htbp]
     \caption{Table Type Styles}
