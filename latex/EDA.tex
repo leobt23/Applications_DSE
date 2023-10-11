@@ -1,0 +1,83 @@
+\section{Exploratory Data Analysis}
+
+\subsection{European cardholders's transactions}
+
+This dataset represents credit card transactions made by European cardholders in September 2013 over a span of two days.
+
+Out of the 284,807 transactions recorded, 492 were fraudulent, making up a mere 0.172% of the total transactions. Given the disparity in numbers, the dataset is notably imbalanced.
+
+The dataset consists mainly of numerical variables derived from a Principal Component Analysis (PCA) transformation. To maintain confidentiality, the original features and further details about the data are not disclosed. The variables V1, V2, through V28 are the principal components derived from the PCA. The only exceptions that haven't undergone PCA are 'Time' and 'Amount'. The 'Time' feature indicates the seconds that have passed between each transaction and the first one in the dataset. On the other hand, 'Amount' denotes the transaction value, which can be useful for context-sensitive learning approaches. The 'Class' feature is the target variable, where a value of 1 indicates a fraudulent transaction, and 0 signifies a legitimate one.
+
+There is no null or missing values of the dataset.
+
+\begin{table}[htbp]
+    \caption{Summary Statistics for Fraud and Valid Transactions}
+    \begin{center}
+        \begin{tabular}{|c|c|c|}
+            \hline
+            \textbf{Statistic}     & \textbf{Fraud} & \textbf{Valid} \\
+            \hline
+            Count                  & 492            & 284315         \\
+            \hline
+            Mean                   & 122.21         & 88.29          \\
+            \hline
+            Standard Deviation     & 256.68         & 250.11         \\
+            \hline
+            Minimum                & 0.0            & 0.0            \\
+            \hline
+            25\% Quantile          & 1.0            & 5.65           \\
+            \hline
+            50\% Quantile (Median) & 9.25           & 22.0           \\
+            \hline
+            75\% Quantile          & 105.89         & 77.05          \\
+            \hline
+            Maximum                & 2125.87        & 25691.16       \\
+            \hline
+        \end{tabular}
+        \label{tab:transaction_summary}
+    \end{center}
+\end{table}
+
+\subsection{Analysis of Transaction Amounts for Fraudulent and Valid Transactions}
+
+The table presents a summary of transaction amounts for both fraudulent and valid categories. A notable observation is the disparity in the count of transactions: while there are only 492 fraudulent transactions, there are a staggering 284,315 valid ones. This vast difference highlights the class imbalance inherent in the dataset.
+
+When examining the transaction amounts, fraudulent transactions have a mean value of approximately \$122.21, which is slightly higher than the valid transactions' mean of \$88.29. Despite this, the maximum fraudulent transaction (\$2125.87) is significantly lower than the highest valid transaction, which reaches a substantial \$25,691.16.
+
+The spread of transaction amounts, as represented by the standard deviation, is roughly similar for both classes, hovering around the \$250 mark. The median value for valid transactions (\$22.00) is more than double that of fraudulent transactions (\$9.25), indicating that half of the fraudulent transactions are below this amount.
+
+While fraudulent transactions are comparatively rarer, their amounts can vary significantly, sometimes even surpassing the typical amounts seen in valid transactions. It underscores the importance of leveraging advanced techniques to detect such anomalies amidst the vast sea of valid transactions.
+
+
+\subsubsection{Imbalanced Dataset}
+
+An imbalanced (or unbalanced) dataset refers to a situation where the number of observations belonging to one class is significantly lower than those belonging to the other classes. In the context of a binary classification, which consists of two classes, an imbalanced dataset typically has a disproportionate ratio of observations in one class compared to the other.
+This problem can lead to:
+\begin{itemize}
+    \item \textbf{Performance Deception:} Traditional metrics like accuracy can be misleading. A naive classifier predicting only the majority class would still achieve a very high accuracy due to the imbalance.
+    \item \textbf{Model Bias:} Many machine learning models might exhibit a bias towards the majority class, often ignoring the minority class.
+    \item \textbf{Decreased Predictive Power:} The minority class, in this case, the class of higher interest might not be predicted well, leading to a higher number of false negatives.
+\end{itemize}
+
+Given that our dataset has a class with 99.83\% representation, it's highly imbalanced. I will present later on this report some considerations and how to deal with this problem.
+
+subsubsection{Correlation Matrix}
+The fact the dataset is unbalanced can lead to misleading results when using correlation metrics:
+\begin{itemize}
+    \item In highly imbalanced datasets, even small patterns in the minority class can result in seemingly strong correlations. This can lead to the model finding relationships that aren't generalizable.
+    \item Correlation measures in an imbalanced dataset might be dominated by the majority class, potentially overshadowing meaningful relationships present in the minority class.
+    \item Also, because the minority class has fewer data points, there's a higher risk of not detecting a relationship (false negative) when one might exist.
+\end{itemize}
+
+Due to the problem i presented, Traditional correlation metrics may not be suitable for imbalanced datasets. In this binary classification problem with a highly imbalanced target, a high Pearson correlation coefficient with a predictor might be misleading.
+
+\begin{figure}[htbp]
+    \centerline{\includegraphics[scale=0.5]{images/initial_dataset_balance.png}}
+    \caption{Example of a figure caption.}
+    \label{initial_dataset_balance}
+\end{figure}
+
+
+
+
+
