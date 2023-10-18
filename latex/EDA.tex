@@ -77,7 +77,65 @@ Due to the problem i presented, Traditional correlation metrics may not be suita
     \label{initial_dataset_balance}
 \end{figure}
 
+\subsection{Correlation Matrix}
 
+The Pearson correlation coefficient, often denoted as \( r \), measures the linear relationship between two continuous variables. The value of \( r \) lies between -1 and 1, where:
+\begin{itemize}
+    \item \( r = 1 \): Indicates a perfect positive linear relationship.
+    \item \( r = -1 \): Indicates a perfect negative linear relationship.
+    \item \( r = 0 \): Suggests no linear relationship.
+\end{itemize}
+
+The mathematical formula for the Pearson correlation coefficient between two variables \( X \) and \( Y \) is:
+\[
+    r = \frac{\sum (X_i - \bar{X})(Y_i - \bar{Y})}{\sqrt{\sum (X_i - \bar{X})^2 \sum (Y_i - \bar{Y})^2}}
+\]
+Where:
+\begin{itemize}
+    \item \( X_i \) and \( Y_i \) are the individual data points.
+    \item \( \bar{X} \) and \( \bar{Y} \) are the means of \( X \) and \( Y \) respectively.
+\end{itemize}
+
+The numerator of the formula calculates the covariance between \( X \) and \( Y \). It sums the product of the differences of each data point from their respective means. The denominator, on the other hand, normalizes this covariance by the product of the standard deviations of \( X \) and \( Y \), ensuring the correlation coefficient remains between -1 and 1.
+
+\subsection{Variance}
+
+\documentclass{article}
+\usepackage{amsmath}
+
+
+Given that your data is the result of a PCA transformation, several unique characteristics and considerations come into play:
+
+\begin{enumerate}
+    \item \textbf{Orthogonality:} The principal components resulting from PCA are orthogonal (uncorrelated). Thus, the correlation matrix of these components should be a diagonal matrix with ones on the diagonal (or very close to this in practice due to numerical precision).
+
+    \item \textbf{Variance Explained:} One of the key aspects of PCA is the amount of variance explained by each principal component. The first few components typically capture the majority of the variance in the dataset, while the latter components capture less and less variance.
+\end{enumerate}
+
+Given these considerations, the variation analysis that makes the most sense for PCA-transformed data includes:
+
+\begin{enumerate}
+    \item \textbf{Variance Explained:}
+          \begin{itemize}
+              \item \textbf{Scree Plot:} A plot showing the fraction of total variance explained by each principal component. This helps in determining how many components to retain for further analysis.
+          \end{itemize}
+\end{enumerate}
+
+PCA is a dimensionality reduction technique that seeks to identify axes in data that maximize variance. The method involves computing the eigenvalues and eigenvectors of the dataset's covariance matrix. The eigenvectors, termed principal components, determine the direction of the new feature space, while the eigenvalues define their magnitude, i.e., the variance in those directions.
+
+
+\begin{enumerate}
+    \item \textbf{Eigenvalues and Variance}: The eigenvalue associated with each principal component signifies the variance along that component. In PCA, these components are ordered by descending eigenvalues. This means the first principal component encapsulates the largest variance in the dataset.
+
+    \item \textbf{Orthogonality}: Every principal component is orthogonal to every other, implying they are uncorrelated. Hence, each subsequent component captures the direction of maximum variance not represented by the preceding components.
+
+    \item \textbf{Maximizing Variance}: The first principal component (often denoted as \( PC1 \)) represents the direction in the original feature space capturing the utmost variance. The second principal component (often \( PC2 \)) is orthogonal to \( PC1 \) and represents the second-highest variance, and so forth.
+\end{enumerate}
+
+Consequently, when PCA-transformed features are acquired (like 'V1', 'V2', 'V3', etc.), they are inherently ordered by the variance they represent from the original dataset, with 'V1' representing the most and the final component the least.
+
+
+\end{document}
 
 
 

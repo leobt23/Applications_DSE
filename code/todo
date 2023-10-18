@@ -1,15 +1,20 @@
 EDA:
 
-- Test Dataprep and AutoViz
-- Scaled amount and scaled time are the columns with scaled values.
+- (REVIEW) Normalising the Time amount column. The amount column is not in line with the anonimised features. Time and Amount
+- Transactions in time , Features density plot (https://www.kaggle.com/code/gpreda/credit-card-fraud-detection-predictive-models#Data-exploration)
+- for wach feature, distributions of fraud vs no fraud (https://www.kaggle.com/code/currie32/predicting-fraud-with-tensorflow)
+- (DONE) Converting the time values to hour or day
 - Fit distributions
-- Features importance (is it only for models?)
+
 - Can we group into sequences?
-- Fraud rate over time
+- (DONE )Fraud rate over time
 - 27 such transactions with 0 euros were a fraudulent transactions 27/492 = 5%
 - Distribution (Fraud Transactions and Not fraud)
 - Outliers (https://www.kaggle.com/code/nareshbhat/outlier-the-silent-killer)
 - Dimensionality Reduction and Clustering, t-SNE
+- Variation
+- ANOVA?
+- Test Dataprep and AutoViz
 
   pré-processing:
 
@@ -21,8 +26,10 @@ EDA:
 - Correlation after
 - Correlation boxplot
 - resampling and simple logistic regression classifier.
+- (XXX) Features importance (random forest) (is it only for models?)
 
 Some considerations:
+Verify accuracy with and without preprocessing
 Never test on the oversampled or undersampled dataset.
 If we want to implement cross validation, remember to oversample or undersample your training data during cross-validation, not before!
 Don't use accuracy score as a metric with imbalanced datasets (will be usually high and misleading), instead use f1-score, precision/recall score or confusion matrix
