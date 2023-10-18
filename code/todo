@@ -5,7 +5,10 @@ EDA:
 - for wach feature, distributions of fraud vs no fraud (https://www.kaggle.com/code/currie32/predicting-fraud-with-tensorflow)
 - (DONE) Converting the time values to hour or day
 - Fit distributions
-
+- Fraud rate peak over time (comparing to non fraud. the percentage of each at each time);
+- Time to hours of the day (good feature);
+- Amount to log of 10 (In feedzai the do that);
+- Check hours with more fraud since the dataset is 2 days;
 - Can we group into sequences?
 - (DONE )Fraud rate over time
 - 27 such transactions with 0 euros were a fraudulent transactions 27/492 = 5%
@@ -19,7 +22,7 @@ EDA:
   pré-processing:
 
 - Data clean
-- Scale
+- Scale and RobustScale
 - Supervised Encoding Methods
 - Approaching for Novel Categories
 - Spliting w/ - Undersampling, Oversampling , both together or not
@@ -27,6 +30,10 @@ EDA:
 - Correlation boxplot
 - resampling and simple logistic regression classifier.
 - (XXX) Features importance (random forest) (is it only for models?)
+
+- OneClassSVM
+- IsolationForest
+- Autoencoders
 
 Some considerations:
 Verify accuracy with and without preprocessing
