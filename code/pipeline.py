@@ -311,9 +311,9 @@ if __name__ == "__main__":
             "min_samples_leaf": [1, 2, 4],
         },
         "Support Vector Machine": {
-            "C": [0.1, 1, 10, 100],
-            "gamma": ["scale", "auto"],
-            "kernel": ["linear", "rbf", "poly"],
+            "C": [0.1],  # 1, 10, 100],  Commented for performance reasons
+            # "gamma": ["scale", "auto"],
+            # "kernel": ["linear", "rbf", "poly"],
         },
     }
 
