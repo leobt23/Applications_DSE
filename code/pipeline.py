@@ -27,6 +27,8 @@ from sklearn.metrics import (
 from typing import Tuple
 from tqdm.auto import tqdm
 from sklearn.base import clone
+import os
+from sklearn.model_selection import RandomizedSearchCV
 
 
 def load_library(path: str) -> pd.DataFrame:
@@ -116,7 +118,9 @@ def split_data(
     return X_train, X_test, y_train, y_test, X_train_85, X_val_15, y_train_85, y_val_15
 
 
-def evaluate_ml_models(models, X_train, y_train, X_val, y_val):
+def evaluate_ml_models(
+    models, params, X_train, y_train, X_val, y_val, n_iter=100, cv=5
+):
     """Evaluate the models using a training and validation set.
     Args:
         models (list): List of (model, name) tuples.
@@ -125,20 +129,30 @@ def evaluate_ml_models(models, X_train, y_train, X_val, y_val):
         X_val (DataFrame): Validation data features.
         y_val (Series): Validation data labels.
     Returns:
-        dict: A dictionary with model performance summary.
+        dict, dict: Summary and predictions for each model.
     """
+
     model_summary = {}
+    model_predictions = {}
+
     for model, name in models:
         print(f"Training {name}...")
 
-        # Fit the model with a progress bar (specific to RandomForest)
-        if name == "Random Forest":
-            model = fit_with_progress_bar(model, X_train, y_train)
-        else:
-            model.fit(X_train, y_train)
+        # Random search for hyperparameter tuning
+        random_search = RandomizedSearchCV(
+            model,
+            params[name],
+            n_iter=n_iter,
+            cv=cv,
+            scoring="roc_auc",
+            random_state=42,
+            n_jobs=-1,
+        )
+        random_search.fit(X_train, y_train)
 
-        y_pred = model.predict(X_val)
-        y_pred_prob = model.predict_proba(X_val)[:, 1]
+        best_model = random_search.best_estimator_
+        y_pred = best_model.predict(X_val)
+        y_pred_prob = best_model.predict_proba(X_val)[:, 1]
 
         # Calculate metrics
         auc_score = roc_auc_score(y_val, y_pred_prob)
@@ -150,9 +164,12 @@ def evaluate_ml_models(models, X_train, y_train, X_val, y_val):
             "ROC AUC": auc_score,
             "F1 Score": f1,
             "Accuracy": accuracy,
+            "Best Params": random_search.best_params_,
         }
 
-    return model_summary
+        model_predictions[name] = {"y_pred": y_pred, "y_pred_prob": y_pred_prob}
+
+    return model_summary, model_predictions
 
 
 def fit_with_progress_bar(model, X, y):
@@ -212,7 +229,54 @@ def train_nn(X_train: pd.DataFrame, y_train: pd.DataFrame):
     return model_nn, history, model_summary
 
 
+def save_confusion_matrix(y_true, y_pred, model_name, folder="model_plots"):
+    cm = confusion_matrix(y_true, y_pred)
+    fig, ax = plt.subplots(figsize=(6, 5))
+    sns.heatmap(cm, annot=True, fmt="d", cmap="Reds", ax=ax)
+    plt.xlabel("Predicted label")
+    plt.ylabel("True label")
+    plt.title(f"Confusion Matrix: {model_name}")
+    plt.tight_layout()
+    plt.savefig(f"{folder}/confusion_matrix_{model_name}.png")
+    plt.close()
+
+
+def save_roc_curve(y_true, y_pred_prob, model_name, folder="model_plots"):
+    fpr, tpr, _ = roc_curve(y_true, y_pred_prob)
+    auc_score = roc_auc_score(y_true, y_pred_prob)
+    plt.figure(figsize=(8, 6))
+    plt.plot(fpr, tpr, label=f"ROC Curve (AUC = {auc_score:.2f})")
+    plt.plot([0, 1], [0, 1], linestyle="--")
+    plt.xlabel("False Positive Rate")
+    plt.ylabel("True Positive Rate")
+    plt.title(f"ROC Curve: {model_name}")
+    plt.legend(loc="lower right")
+    plt.savefig(f"{folder}/roc_curve_{model_name}.png")
+    plt.close()
+
+
+def save_all_plots(y_val_15, model_predictions):
+    # Generate and save plots for each model
+    for name in model_predictions:
+        save_confusion_matrix(y_val_15, model_predictions[name]["y_pred"], name)
+        save_roc_curve(y_val_15, model_predictions[name]["y_pred_prob"], name)
+
+
+def save_model_summary(model_summary: dict, file_path: str = "latex/model_summary.txt"):
+    # Convert the model_summary dictionary to a string representation
+    model_summary_str = "\n".join(
+        f"{model}: {metrics}" for model, metrics in model_summary.items()
+    )
+
+    # Save the string to a text file
+    with open(file_path, "w") as file:
+        file.write(model_summary_str)
+
+
 if __name__ == "__main__":
+    # Create a directory for model plots
+    os.makedirs("latex/model_plots", exist_ok=True)
+
     # Load the dataset
     df = load_library("code/creditcard.csv")
 
@@ -232,24 +296,39 @@ if __name__ == "__main__":
         y_val_15,
     ) = split_data(df_modified)
 
-    # TODO - RANDOM SEARCH FOR HYPERPARAMETER TUNING
     # Define a list of (model, name) tuples
     models = [
         (RandomForestClassifier(n_estimators=2, random_state=42), "Random Forest"),
         (SVC(probability=True), "Support Vector Machine"),
     ]
 
-    # Dictionary to hold summary results
-    model_summary = {}
+    # Define the hyperparameter space for each model
+    params = {
+        "Random Forest": {
+            "n_estimators": [2, 4, 6],
+            "max_depth": [None, 4, 6, 8],
+            "min_samples_split": [2, 5, 10],
+            "min_samples_leaf": [1, 2, 4],
+        },
+        "Support Vector Machine": {
+            "C": [0.1, 1, 10, 100],
+            "gamma": ["scale", "auto"],
+            "kernel": ["linear", "rbf", "poly"],
+        },
+    }
 
-    # Evaluate the models using cross-validation
-    model_summary = evaluate_ml_models(
-        models, X_train_85, y_train_85, X_val_15, y_val_15
+    # Evaluate the models using random search
+    model_summary, model_predictions = evaluate_ml_models(
+        models, params, X_train_85, y_train_85, X_val_15, y_val_15, n_iter=2
     )
 
     print(model_summary)
 
-    # TODO Guardar modelo, e guardar imagens de performance
+    # Save plots
+    save_all_plots(y_val_15, model_predictions)
+
+    # Save model summary
+    save_model_summary(model_summary, file_path="latex/model_summary.txt")
 
     # Train a neural network
     # model_nn, history, model_summary = train_nn(X_train, y_train)

@@ -1,13 +1,13 @@
 TODO
 
+- (DONE) guardar imagens de performance
 - RANDOM SEARCH FOR HYPERPARAMETER TUNING
-- Guardar modelo, e guardar imagens de performance
 - 27 such transactions with 0 euros were a fraudulent transactions 27/492 = 5%
-- Can we group into sequences?
-- Escolher o melhor modelo e fazer treino conforme
+- Escolher o melhor modelo, guardar modelo e fazer treino conforme
 - NN a funcionar;
 - Models (OneClassSVM, IsolationForest, Autoencoders)
 - Supervised Encoding Methods
+- Can we group into sequences?
 - Approaching for Novel Categories
 - Spliting w/ - Undersampling, Oversampling , both together or not;
 - Escrever relatório;
