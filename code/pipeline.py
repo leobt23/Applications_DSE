@@ -29,6 +29,7 @@ from tqdm.auto import tqdm
 from sklearn.base import clone
 import os
 from sklearn.model_selection import RandomizedSearchCV
+from joblib import dump
 
 
 def load_library(path: str) -> pd.DataFrame:
@@ -118,6 +119,12 @@ def split_data(
     return X_train, X_test, y_train, y_test, X_train_85, X_val_15, y_train_85, y_val_15
 
 
+def save_model(model: object, file_path: str = "code/bestmodels/model.joblib"):
+    # Save the model
+    dump(model, file_path)
+
+
+# TODO - Use train and validation sets to evaluate the models
 def evaluate_ml_models(
     models, params, X_train, y_train, X_val, y_val, n_iter=100, cv=5
 ):
@@ -151,6 +158,7 @@ def evaluate_ml_models(
         random_search.fit(X_train, y_train)
 
         best_model = random_search.best_estimator_
+        save_model(best_model, file_path=f"code/bestmodels/{name}.joblib")
         y_pred = best_model.predict(X_val)
         y_pred_prob = best_model.predict_proba(X_val)[:, 1]
 
@@ -229,7 +237,7 @@ def train_nn(X_train: pd.DataFrame, y_train: pd.DataFrame):
     return model_nn, history, model_summary
 
 
-def save_confusion_matrix(y_true, y_pred, model_name, folder="model_plots"):
+def save_confusion_matrix(y_true, y_pred, model_name, folder="latex/model_plots"):
     cm = confusion_matrix(y_true, y_pred)
     fig, ax = plt.subplots(figsize=(6, 5))
     sns.heatmap(cm, annot=True, fmt="d", cmap="Reds", ax=ax)
@@ -241,7 +249,7 @@ def save_confusion_matrix(y_true, y_pred, model_name, folder="model_plots"):
     plt.close()
 
 
-def save_roc_curve(y_true, y_pred_prob, model_name, folder="model_plots"):
+def save_roc_curve(y_true, y_pred_prob, model_name, folder="latex/model_plots"):
     fpr, tpr, _ = roc_curve(y_true, y_pred_prob)
     auc_score = roc_auc_score(y_true, y_pred_prob)
     plt.figure(figsize=(8, 6))
@@ -300,6 +308,7 @@ if __name__ == "__main__":
     models = [
         (RandomForestClassifier(n_estimators=2, random_state=42), "Random Forest"),
         (SVC(probability=True), "Support Vector Machine"),
+        # TODO - add OneClassSVM, IsolationForest
     ]
 
     # Define the hyperparameter space for each model
