@@ -124,7 +124,6 @@ def save_model(model: object, file_path: str = "code/bestmodels/model.joblib"):
     dump(model, file_path)
 
 
-# TODO - Use train and validation sets to evaluate the models
 def evaluate_ml_models(
     models, params, X_train, y_train, X_val, y_val, n_iter=100, cv=5
 ):
@@ -139,8 +138,8 @@ def evaluate_ml_models(
         dict, dict: Summary and predictions for each model.
     """
 
-    model_summary = {}
-    model_predictions = {}
+    model_summary_evaluation = {}
+    model_predictions_evaluation = {}
 
     for model, name in models:
         print(f"Training {name}...")
@@ -168,14 +167,70 @@ def evaluate_ml_models(
         accuracy = accuracy_score(y_val, y_pred)
 
         # Add model performance to summary
-        model_summary[name] = {
+        model_summary_evaluation[name] = {
             "ROC AUC": auc_score,
             "F1 Score": f1,
             "Accuracy": accuracy,
             "Best Params": random_search.best_params_,
         }
 
+        model_predictions_evaluation[name] = {
+            "y_pred": y_pred,
+            "y_pred_prob": y_pred_prob,
+        }
+
+    return model_summary_evaluation, model_predictions_evaluation
+
+
+def train_ml_models(
+    X_train: pd.DataFrame,
+    y_train: pd.DataFrame,
+    X_test: pd.DataFrame,
+    y_test: pd.DataFrame,
+    model_summary_evaluation: dict,
+) -> Tuple[dict, dict]:
+    """Train the models on the entire training set
+
+    Args:
+        X_train (pd.DataFrame): Training set
+        y_train (pd.DataFrame): Training labels
+        X_test (pd.DataFrame): Testing set
+        y_test (pd.DataFrame): Testing labels
+        model_summary_evaluation (dict): Summary of the models
+
+    Returns:
+        Tuple[dict, dict]: Summary and predictions for each model
+    """
+
+    for model, name in models:
+        print(f"Training {name}...")
+
+        # define the model with the best parameters
+        model = model.set_params(**model_summary_evaluation[name]["Best Params"])
+
+        # Train the model
+        model.fit(X_train, y_train)
+
+        # Make predictions
+        y_pred = model.predict(X_test)
+        y_pred_prob = model.predict_proba(X_test)[:, 1]
+
+        # Calculate metrics
+        auc_score = roc_auc_score(y_test, y_pred_prob)
+        f1 = f1_score(y_test, y_pred)
+        accuracy = accuracy_score(y_test, y_pred)
+
+        # Add model performance to summary
+        model_summary[name] = {
+            "ROC AUC": auc_score,
+            "F1 Score": f1,
+            "Accuracy": accuracy,
+            "Best Params": model_summary_evaluation[name]["Best Params"],
+        }
+
         model_predictions[name] = {"y_pred": y_pred, "y_pred_prob": y_pred_prob}
+
+        save_model(model, file_path=f"code/bestmodels/{name}.joblib")
 
     return model_summary, model_predictions
 
@@ -237,7 +292,7 @@ def train_nn(X_train: pd.DataFrame, y_train: pd.DataFrame):
     return model_nn, history, model_summary
 
 
-def save_confusion_matrix(y_true, y_pred, model_name, folder="latex/model_plots"):
+def save_confusion_matrix(y_true, y_pred, model_name, folder, type):
     cm = confusion_matrix(y_true, y_pred)
     fig, ax = plt.subplots(figsize=(6, 5))
     sns.heatmap(cm, annot=True, fmt="d", cmap="Reds", ax=ax)
@@ -245,11 +300,11 @@ def save_confusion_matrix(y_true, y_pred, model_name, folder="latex/model_plots"
     plt.ylabel("True label")
     plt.title(f"Confusion Matrix: {model_name}")
     plt.tight_layout()
-    plt.savefig(f"{folder}/confusion_matrix_{model_name}.png")
+    plt.savefig(f"{folder}/{type}_confusion_matrix_{model_name}.png")
     plt.close()
 
 
-def save_roc_curve(y_true, y_pred_prob, model_name, folder="latex/model_plots"):
+def save_roc_curve(y_true, y_pred_prob, model_name, folder, type):
     fpr, tpr, _ = roc_curve(y_true, y_pred_prob)
     auc_score = roc_auc_score(y_true, y_pred_prob)
     plt.figure(figsize=(8, 6))
@@ -259,22 +314,36 @@ def save_roc_curve(y_true, y_pred_prob, model_name, folder="latex/model_plots"):
     plt.ylabel("True Positive Rate")
     plt.title(f"ROC Curve: {model_name}")
     plt.legend(loc="lower right")
-    plt.savefig(f"{folder}/roc_curve_{model_name}.png")
+    plt.savefig(f"{folder}/{type}_roc_curve_{model_name}.png")
     plt.close()
 
 
-def save_all_plots(y_val_15, model_predictions):
+def save_all_plots(
+    y_val_15, model_predictions, folder="latex/model_plots", type="evaluate"
+):
     # Generate and save plots for each model
     for name in model_predictions:
-        save_confusion_matrix(y_val_15, model_predictions[name]["y_pred"], name)
-        save_roc_curve(y_val_15, model_predictions[name]["y_pred_prob"], name)
+        save_confusion_matrix(
+            y_val_15, model_predictions[name]["y_pred"], name, folder=folder, type=type
+        )
+        save_roc_curve(
+            y_val_15,
+            model_predictions[name]["y_pred_prob"],
+            name,
+            folder=folder,
+            type=type,
+        )
 
 
-def save_model_summary(model_summary: dict, file_path: str = "latex/model_summary.txt"):
-    # Convert the model_summary dictionary to a string representation
-    model_summary_str = "\n".join(
-        f"{model}: {metrics}" for model, metrics in model_summary.items()
-    )
+def save_model_summary(
+    model_summary: dict, file_path: str = "latex/model_summary.txt", type="evaluate"
+):
+    # Create the initial summary string with the type
+    model_summary_str = f"Type: {type}\n"
+
+    # Append each model and its metrics to the summary string
+    for model, metrics in model_summary.items():
+        model_summary_str += f"{model}: {metrics}\n"
 
     # Save the string to a text file
     with open(file_path, "w") as file:
@@ -311,13 +380,15 @@ if __name__ == "__main__":
         # TODO - add OneClassSVM, IsolationForest
     ]
 
+    ### Evaluate the models
+
     # Define the hyperparameter space for each model
     params = {
         "Random Forest": {
-            "n_estimators": [2, 4, 6],
+            # "n_estimators": [2, 4, 6],
             "max_depth": [None, 4, 6, 8],
             "min_samples_split": [2, 5, 10],
-            "min_samples_leaf": [1, 2, 4],
+            # "min_samples_leaf": [1, 2, 4],
         },
         "Support Vector Machine": {
             "C": [0.1],  # 1, 10, 100],  Commented for performance reasons
@@ -327,17 +398,38 @@ if __name__ == "__main__":
     }
 
     # Evaluate the models using random search
-    model_summary, model_predictions = evaluate_ml_models(
+    model_summary_evaluation, model_predictions_evaluation = evaluate_ml_models(
         models, params, X_train_85, y_train_85, X_val_15, y_val_15, n_iter=2
+    )
+
+    print(model_summary_evaluation)
+
+    # Save plots
+    save_all_plots(y_val_15, model_predictions_evaluation, type="evaluate")
+
+    # Save model summary
+    save_model_summary(
+        model_summary_evaluation,
+        file_path="latex/evaluate_model_summary.txt",
+        type="evaluate",
+    )
+
+    ### Train the models
+
+    # Train the models on the entire training set
+    model_summary = {}
+    model_predictions = {}
+
+    model_summary, model_predictions = train_ml_models(
+        X_train, y_train, X_test, y_test, model_summary_evaluation
     )
 
     print(model_summary)
 
     # Save plots
-    save_all_plots(y_val_15, model_predictions)
+    save_all_plots(y_test, model_predictions, type="test")
 
     # Save model summary
-    save_model_summary(model_summary, file_path="latex/model_summary.txt")
-
-    # Train a neural network
-    # model_nn, history, model_summary = train_nn(X_train, y_train)
+    save_model_summary(
+        model_summary, file_path="latex/test_model_summary.txt", type="test"
+    )
