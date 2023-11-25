@@ -1,0 +1,3 @@
+Type: test
+Random Forest: {'ROC AUC': 0.9035378933148424, 'F1 Score': 0.5647668393782384, 'Accuracy': 0.9988061059154609, 'Best Params': {'min_samples_split': 5, 'max_depth': 8}}
+Support Vector Machine: {'ROC AUC': 0.96802332793109, 'F1 Score': 0.0, 'Accuracy': 0.9985076323943262, 'Best Params': {'C': 0.1}}

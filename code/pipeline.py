@@ -31,6 +31,11 @@ import os
 from sklearn.model_selection import RandomizedSearchCV
 from joblib import dump
 
+import warnings
+
+# Ignore specific UserWarnings from SciPy about NumPy version
+warnings.filterwarnings("ignore")
+
 
 def load_library(path: str) -> pd.DataFrame:
     """Load the dataset
@@ -119,9 +124,25 @@ def split_data(
     return X_train, X_test, y_train, y_test, X_train_85, X_val_15, y_train_85, y_val_15
 
 
-def save_model(model: object, file_path: str = "code/bestmodels/model.joblib"):
+def save_model(model: object, model_name: str, directory: str = "bestmodels/"):
+    # Add model name to directory
+    directory += model_name + "/"
+
+    # Create the directory if it doesn't exist
+    try:
+        os.makedirs(directory, exist_ok=True)
+    except OSError as error:
+        print("Directory '%s' can not be created" % directory)
+    else:
+        pass
+
     # Save the model
-    dump(model, file_path)
+    try:
+        dump(model, directory + model_name + ".joblib")
+    except OSError as error:
+        print("Model '%s' can not be saved" % model_name)
+    else:
+        print("Successfully saved the model '%s'" % model_name)
 
 
 def evaluate_ml_models(
@@ -142,7 +163,7 @@ def evaluate_ml_models(
     model_predictions_evaluation = {}
 
     for model, name in models:
-        print(f"Training {name}...")
+        print(f"Evaluating {name}...")
 
         # Random search for hyperparameter tuning
         random_search = RandomizedSearchCV(
@@ -157,7 +178,7 @@ def evaluate_ml_models(
         random_search.fit(X_train, y_train)
 
         best_model = random_search.best_estimator_
-        save_model(best_model, file_path=f"code/bestmodels/{name}.joblib")
+
         y_pred = best_model.predict(X_val)
         y_pred_prob = best_model.predict_proba(X_val)[:, 1]
 
@@ -230,7 +251,7 @@ def train_ml_models(
 
         model_predictions[name] = {"y_pred": y_pred, "y_pred_prob": y_pred_prob}
 
-        save_model(model, file_path=f"code/bestmodels/{name}.joblib")
+        save_model(model, name)
 
     return model_summary, model_predictions
 
