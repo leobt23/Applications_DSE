@@ -7,7 +7,7 @@ import plotly.offline as pyo
 import numpy as np
 from sklearn.ensemble import IsolationForest, RandomForestClassifier
 import scipy.stats as stats
-from sklearn.svm import SVC
+from sklearn.svm import SVC, OneClassSVM
 import tensorflow as tf
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Dropout
@@ -37,40 +37,36 @@ import warnings
 warnings.filterwarnings("ignore")
 
 
-def load_library(path: str) -> pd.DataFrame:
-    """Load the dataset
-
-    Args:
-        path (str): Path to the dataset
-
-    Returns:
-        pd.DataFrame: Dataframe with the dataset
+def load_dataset(path: str) -> pd.DataFrame:
     """
-    df = pd.read_csv(path)
+    Load the dataset from the specified path.
+    Args:
+        path (str): Path to the dataset file.
+    Returns:
+        pd.DataFrame: Loaded dataset.
+    """
+    return pd.read_csv(path)
+
+
+def remove_duplicates(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Remove duplicated rows from the dataframe.
+    Args:
+        df (pd.DataFrame): Dataframe to clean.
+    Returns:
+        pd.DataFrame: Dataframe without duplicates.
+    """
+    df = df.drop_duplicates(inplace=True)
     return df
 
 
-def del_duplicated(df: pd.DataFrame) -> pd.DataFrame:
-    """Delete duplicated rows
-
-    Args:
-        df (Pandas Dataframe): Dataframe to be cleaned
-
-    Returns:
-        Pandas Dataframe: Dataframe without duplicated rows
+def add_hour_columns(df: pd.DataFrame) -> pd.DataFrame:
     """
-    df.drop_duplicates(inplace=True)
-    return df
-
-
-def time_to_hours(df: pd.DataFrame):
-    """Convert 'Time' to hours
-
+    Add hour columns to the dataframe based on 'Time'.
     Args:
-        df (Pandas Dataframe): Dataframe to be cleaned
-
+        df (pd.DataFrame): Dataframe to process.
     Returns:
-        Pandas Dataframe: Dataframe with 'Time' converted to hours
+        pd.DataFrame: Dataframe with added hour columns.
     """
     df["hour"] = df["Time"].apply(lambda x: np.ceil(float(x) / 3600) % 24)
     df["hour48"] = df["Time"].apply(lambda x: np.ceil(float(x) / 3600) % 48)
@@ -78,50 +74,61 @@ def time_to_hours(df: pd.DataFrame):
     return df
 
 
-def split_data(
-    df: pd.DataFrame,
-) -> Tuple[
-    pd.DataFrame,
-    pd.DataFrame,
-    pd.DataFrame,
-    pd.DataFrame,
-    pd.DataFrame,
-    pd.DataFrame,
-    pd.DataFrame,
-    pd.DataFrame,
-]:
-    """Split the data into training and testing sets but keep the same class distribution as the original dataset
-
-    Args:
-        df (pd.DataFrame): Dataframe to be split
-
-    Returns:
-        Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame]: Training and testing sets
+# TODO - Time-Based Cross-Validation: Instead of a single 85%-15% split for training-validation, consider using time-based cross-validation. This involves using several train-validation splits over time. For example, you might use the first 70% of day 1 for training and the next 15% for validation, then shift this window forward in time for the next fold.
+def create_features_and_labels(df: pd.DataFrame) -> Tuple[pd.DataFrame, pd.Series]:
     """
-    # Order the dataset by time
+    Create feature and label sets from the dataframe.
+    Args:
+        df (pd.DataFrame): Dataframe to process.
+    Returns:
+        Tuple[pd.DataFrame, pd.Series]: Features (X) and labels (y).
+    """
     df = df.sort_values(by=["Time"])
-
-    # Create the X and y datasets
     X = df.drop(["Class"], axis=1)
     y = df["Class"]
+    return X, y
 
-    # Divide two days. Train with the first day and test with the second day
-    # divide indices into two groups: hour48 < 24 and hour48 >= 24
-    # train with the first group and test with the second group
-    X_train = X[X["hour48"] < 24]
-    X_test = X[X["hour48"] >= 24]
+
+def split_into_train_test(
+    X: pd.DataFrame, y: pd.Series
+) -> Tuple[pd.DataFrame, pd.DataFrame, pd.Series, pd.Series]:
+    """
+    Split data into training and testing sets based on 'hour48'.
+    Args:
+        X (pd.DataFrame): Feature set.
+        y (pd.Series): Label set.
+    Returns:
+        Tuple: Training and testing feature and label sets.
+    """
+    X_train = X[X["hour48"] < 24].drop(["hour48", "Time"], axis=1)
     y_train = y[X["hour48"] < 24]
+    X_test = X[X["hour48"] >= 24].drop(["hour48", "Time"], axis=1)
     y_test = y[X["hour48"] >= 24]
 
     X_train = X_train.drop(["hour48", "Time"], axis=1)
     X_test = X_test.drop(["hour48", "Time"], axis=1)
+    return X_train, X_test, y_train, y_test
 
-    # Divide the training set into train and validation sets (85% and 15%) and keep the same class distribution
-    X_train_85, X_val_15, y_train_85, y_val_15 = train_test_split(
+
+def train_validation_split(
+    X_train: pd.DataFrame,
+    y_train: pd.Series,
+    test_size: float = 0.15,
+    random_state: int = 42,
+) -> Tuple[pd.DataFrame, pd.DataFrame, pd.Series, pd.Series]:
+    """
+    Split training data into training and validation sets.
+    Args:
+        X_train (pd.DataFrame): Training feature set.
+        y_train (pd.Series): Training label set.
+        test_size (float): Proportion of validation set.
+        random_state (int): Seed for random number generator.
+    Returns:
+        Tuple: Training and validation feature and label sets.
+    """
+    return train_test_split(
         X_train, y_train, test_size=0.15, random_state=42, stratify=y_train
     )
-
-    return X_train, X_test, y_train, y_test, X_train_85, X_val_15, y_train_85, y_val_15
 
 
 def save_model(model: object, model_name: str, directory: str = "bestmodels/"):
@@ -375,31 +382,33 @@ if __name__ == "__main__":
     # Create a directory for model plots
     os.makedirs("latex/model_plots", exist_ok=True)
 
-    # Load the dataset
-    df = load_library("code/creditcard.csv")
-
-    # Clean the dataset
-    df_modified = del_duplicated(df)
-    df_modified = time_to_hours(df_modified)
-
-    # Split the dataset
-    (
-        X_train,
-        X_test,
-        y_train,
-        y_test,
-        X_train_85,
-        X_val_15,
-        y_train_85,
-        y_val_15,
-    ) = split_data(df_modified)
+    # TODO - Change this: Using a lighter version of the dataset for faster training
+    df = load_dataset("code/creditcard_test_light09.csv")
+    df = remove_duplicates(df)
+    df = add_hour_columns(df)
+    X, y = create_features_and_labels(df)
+    X_train, X_test, y_train, y_test = split_into_train_test(X, y)
+    X_train_85, X_val_15, y_train_85, y_val_15 = train_validation_split(
+        X_train, y_train
+    )
 
     # Define a list of (model, name) tuples
-    models = [
+    # Divide models into two groups: supervised and unsupervised and also by complexity (NN and ML)
+    models_supervised_ML = [
         (RandomForestClassifier(n_estimators=2, random_state=42), "Random Forest"),
         (SVC(probability=True), "Support Vector Machine"),
-        # TODO - add OneClassSVM, IsolationForest
     ]
+
+    models_supervised_NN = [
+        # (Sequential(), "Neural Network"),
+    ]
+
+    models_unsupervised_ML = [
+        (RandomForestClassifier(n_estimators=2, random_state=42), "Random Forest"),
+        (SVC(probability=True), "Support Vector Machine"),
+    ]
+
+    Models_unsupervised_NN = []  # TODO - Add neural network
 
     ### Evaluate the models
 
@@ -416,11 +425,26 @@ if __name__ == "__main__":
             # "gamma": ["scale", "auto"],
             # "kernel": ["linear", "rbf", "poly"],
         },
+        "One Class SVM": {
+            "gamma": ["scale"],  # , "auto"],
+            # "kernel": ["linear", "rbf", "poly"],
+        },
+        "Isolation Forest": {
+            "n_estimators": [2],  # , 200, 300],
+            #  "max_samples": [100, 200, 300],
+            "contamination": [0.1, 0.2, 0.3],
+        },
     }
 
     # Evaluate the models using random search
     model_summary_evaluation, model_predictions_evaluation = evaluate_ml_models(
-        models, params, X_train_85, y_train_85, X_val_15, y_val_15, n_iter=2
+        models_supervised_ML,
+        params,
+        X_train_85,
+        y_train_85,
+        X_val_15,
+        y_val_15,
+        n_iter=2,
     )
 
     print(model_summary_evaluation)
