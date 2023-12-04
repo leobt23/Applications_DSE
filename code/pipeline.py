@@ -1,37 +1,41 @@
-import pandas as pd
-import matplotlib.pyplot as plt
-import seaborn as sns
+import os
+import sys
 import warnings
+from typing import Tuple
+
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
 import plotly.figure_factory as ff
 import plotly.offline as pyo
-import numpy as np
-from sklearn.ensemble import IsolationForest, RandomForestClassifier
 import scipy.stats as stats
-from sklearn.svm import SVC, OneClassSVM
+import seaborn as sns
 import tensorflow as tf
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, Dropout
-from tensorflow.keras.optimizers import Adam
-from tensorflow.keras.callbacks import EarlyStopping
-from sklearn.model_selection import train_test_split, cross_val_score
+import yaml
+from joblib import dump
+from sklearn.base import clone
+from sklearn.ensemble import IsolationForest, RandomForestClassifier
 from sklearn.metrics import (
-    classification_report,
     accuracy_score,
+    auc,
+    classification_report,
     confusion_matrix,
     f1_score,
-    roc_curve,
-    roc_auc_score,
     precision_recall_curve,
-    auc,
+    roc_auc_score,
+    roc_curve,
 )
-from typing import Tuple
+from sklearn.model_selection import (
+    RandomizedSearchCV,
+    cross_val_score,
+    train_test_split,
+)
+from sklearn.svm import SVC, OneClassSVM
+from tensorflow.keras.callbacks import EarlyStopping
+from tensorflow.keras.layers import Dense, Dropout
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.optimizers import Adam
 from tqdm.auto import tqdm
-from sklearn.base import clone
-import os
-from sklearn.model_selection import RandomizedSearchCV
-from joblib import dump
-
-import warnings
 
 # Ignore specific UserWarnings from SciPy about NumPy version
 warnings.filterwarnings("ignore")
@@ -56,7 +60,7 @@ def remove_duplicates(df: pd.DataFrame) -> pd.DataFrame:
     Returns:
         pd.DataFrame: Dataframe without duplicates.
     """
-    df = df.drop_duplicates(inplace=True)
+    df.drop_duplicates(inplace=True)
     return df
 
 
@@ -100,9 +104,9 @@ def split_into_train_test(
     Returns:
         Tuple: Training and testing feature and label sets.
     """
-    X_train = X[X["hour48"] < 24].drop(["hour48", "Time"], axis=1)
+    X_train = X[X["hour48"] < 24]
     y_train = y[X["hour48"] < 24]
-    X_test = X[X["hour48"] >= 24].drop(["hour48", "Time"], axis=1)
+    X_test = X[X["hour48"] >= 24]
     y_test = y[X["hour48"] >= 24]
 
     X_train = X_train.drop(["hour48", "Time"], axis=1)
@@ -132,6 +136,13 @@ def train_validation_split(
 
 
 def save_model(model: object, model_name: str, directory: str = "bestmodels/"):
+    """Save a model to a directory.
+
+    Args:
+        model (object): Model to save.
+        model_name (str): Name of the model.
+        directory (str, optional): Directory to save the model to. Defaults to "bestmodels/".
+    """
     # Add model name to directory
     directory += model_name + "/"
 
@@ -211,6 +222,7 @@ def evaluate_ml_models(
 
 
 def train_ml_models(
+    models: dict,
     X_train: pd.DataFrame,
     y_train: pd.DataFrame,
     X_test: pd.DataFrame,
@@ -229,12 +241,16 @@ def train_ml_models(
     Returns:
         Tuple[dict, dict]: Summary and predictions for each model
     """
+    model_summary = {}
+    model_predictions = {}
 
     for model, name in models:
-        print(f"Training {name}...")
+        if name in model_summary_evaluation:
+            print(f"Training {name}...")
 
-        # define the model with the best parameters
-        model = model.set_params(**model_summary_evaluation[name]["Best Params"])
+        # Define the model with the best parameters
+        best_params = model_summary_evaluation[name]["Best Params"]
+        model.set_params(**best_params)
 
         # Train the model
         model.fit(X_train, y_train)
@@ -264,7 +280,16 @@ def train_ml_models(
 
 
 def fit_with_progress_bar(model, X, y):
-    """Fit a RandomForest model with a progress bar."""
+    """Fit a model with a progress bar
+
+    Args:
+        model (object): Model to fit
+        X (pd.DataFrame): Training set
+        y (pd.DataFrame): Training labels
+
+    Returns:
+        object: Fitted model
+    """
     model_clone = clone(model)
     n_estimators = model_clone.get_params()["n_estimators"]
 
@@ -321,34 +346,84 @@ def train_nn(X_train: pd.DataFrame, y_train: pd.DataFrame):
 
 
 def save_confusion_matrix(y_true, y_pred, model_name, folder, type):
-    cm = confusion_matrix(y_true, y_pred)
-    fig, ax = plt.subplots(figsize=(6, 5))
-    sns.heatmap(cm, annot=True, fmt="d", cmap="Reds", ax=ax)
-    plt.xlabel("Predicted label")
-    plt.ylabel("True label")
-    plt.title(f"Confusion Matrix: {model_name}")
-    plt.tight_layout()
-    plt.savefig(f"{folder}/{type}_confusion_matrix_{model_name}.png")
-    plt.close()
+    """Save a confusion matrix plot
+
+    Args:
+        y_true (pd.Series): True labels
+        y_pred (pd.Series): Predicted labels
+        model_name (str): Name of the model
+        folder (str): Folder to save the plot to
+        type (str): Type of the plot (evaluate or test)
+    """
+    try:
+        # Ensure the folder exists
+        os.makedirs(folder, exist_ok=True)
+
+        # Generate the confusion matrix
+        cm = confusion_matrix(y_true, y_pred)
+
+        # Plot and save the confusion matrix
+        fig, ax = plt.subplots(figsize=(6, 5))
+        sns.heatmap(cm, annot=True, fmt="d", cmap="Reds", ax=ax)
+        plt.xlabel("Predicted label")
+        plt.ylabel("True label")
+        plt.title(f"Confusion Matrix: {model_name}")
+        plt.tight_layout()
+        plt.savefig(f"{folder}/{type}_confusion_matrix_{model_name}.png")
+        plt.close()
+
+    except Exception as e:
+        print(
+            f"An error occurred while saving the confusion matrix for {model_name}: {e}"
+        )
+        sys.exit(1)
 
 
 def save_roc_curve(y_true, y_pred_prob, model_name, folder, type):
-    fpr, tpr, _ = roc_curve(y_true, y_pred_prob)
-    auc_score = roc_auc_score(y_true, y_pred_prob)
-    plt.figure(figsize=(8, 6))
-    plt.plot(fpr, tpr, label=f"ROC Curve (AUC = {auc_score:.2f})")
-    plt.plot([0, 1], [0, 1], linestyle="--")
-    plt.xlabel("False Positive Rate")
-    plt.ylabel("True Positive Rate")
-    plt.title(f"ROC Curve: {model_name}")
-    plt.legend(loc="lower right")
-    plt.savefig(f"{folder}/{type}_roc_curve_{model_name}.png")
-    plt.close()
+    """Save a ROC curve plot
+
+    Args:
+        y_true (pd.Series): True labels
+        y_pred_prob (pd.Series): Predicted probabilities
+        model_name (str): Name of the model
+        folder (str): Folder to save the plot to
+        type (str): Type of the plot (evaluate or test)
+    """
+    try:
+        # Ensure the folder exists
+        os.makedirs(folder, exist_ok=True)
+
+        # Calculate ROC curve and AUC
+        fpr, tpr, _ = roc_curve(y_true, y_pred_prob)
+        auc_score = roc_auc_score(y_true, y_pred_prob)
+
+        # Generate and save the ROC curve plot
+        plt.figure(figsize=(8, 6))
+        plt.plot(fpr, tpr, label=f"ROC Curve (AUC = {auc_score:.2f})")
+        plt.plot([0, 1], [0, 1], linestyle="--")
+        plt.xlabel("False Positive Rate")
+        plt.ylabel("True Positive Rate")
+        plt.title(f"ROC Curve: {model_name}")
+        plt.legend(loc="lower right")
+        plt.savefig(f"{folder}/{type}_roc_curve_{model_name}.png")
+        plt.close()
+
+    except Exception as e:
+        print(f"An error occurred while saving the ROC curve for {model_name}: {e}")
+        sys.exit(1)
 
 
 def save_all_plots(
     y_val_15, model_predictions, folder="latex/model_plots", type="evaluate"
 ):
+    """Save all plots for each model
+
+    Args:
+        y_val_15 (pd.Series): Validation labels
+        model_predictions (dict): Predictions for each model
+        folder (str, optional): Folder to save the plots to. Defaults to "latex/model_plots".
+        type (str, optional): Type of the plots (evaluate or test). Defaults to "evaluate".
+    """
     # Generate and save plots for each model
     for name in model_predictions:
         save_confusion_matrix(
@@ -366,6 +441,13 @@ def save_all_plots(
 def save_model_summary(
     model_summary: dict, file_path: str = "latex/model_summary.txt", type="evaluate"
 ):
+    """Save the model summary to a text file
+
+    Args:
+        model_summary (dict): Summary of the models
+        file_path (str, optional): Path to the file. Defaults to "latex/model_summary.txt".
+        type (str, optional): Type of the summary (evaluate or test). Defaults to "evaluate".
+    """
     # Create the initial summary string with the type
     model_summary_str = f"Type: {type}\n"
 
@@ -374,16 +456,43 @@ def save_model_summary(
         model_summary_str += f"{model}: {metrics}\n"
 
     # Save the string to a text file
-    with open(file_path, "w") as file:
-        file.write(model_summary_str)
+    try:
+        with open(file_path, "w") as file:
+            file.write(model_summary_str)
+    except OSError as error:
+        print("Model summary can not be saved")
+    else:
+        print("Successfully saved the model summary")
 
 
 if __name__ == "__main__":
+    # Define the hyperparameter space for each model
+    try:
+        with open("code/parameters.yaml", "r") as file:
+            params = yaml.safe_load(file)
+        with open("code/paths.yaml", "r") as file:
+            paths = yaml.safe_load(file)
+    except FileNotFoundError:
+        print("Error: The file was not found.")
+        sys.exit(1)
+    except yaml.YAMLError as exc:
+        print(f"Error parsing YAML file: {exc}")
+        sys.exit(1)
+    except Exception as exc:
+        print(f"An unexpected error occurred: {exc}")
+        sys.exit(1)
+
     # Create a directory for model plots
-    os.makedirs("latex/model_plots", exist_ok=True)
+    # os.makedirs(paths["model_plots"], exist_ok=True)
+    try:
+        os.makedirs(paths["model_plots"], exist_ok=True)
+    except OSError as error:
+        print("Directory '%s' can not be created" % paths["model_plots"])
+    else:
+        pass
 
     # TODO - Change this: Using a lighter version of the dataset for faster training
-    df = load_dataset("code/creditcard_test_light09.csv")
+    df = load_dataset(paths["data"]["light_version"])
     df = remove_duplicates(df)
     df = add_hour_columns(df)
     X, y = create_features_and_labels(df)
@@ -411,30 +520,6 @@ if __name__ == "__main__":
     Models_unsupervised_NN = []  # TODO - Add neural network
 
     ### Evaluate the models
-
-    # Define the hyperparameter space for each model
-    params = {
-        "Random Forest": {
-            # "n_estimators": [2, 4, 6],
-            "max_depth": [None, 4, 6, 8],
-            "min_samples_split": [2, 5, 10],
-            # "min_samples_leaf": [1, 2, 4],
-        },
-        "Support Vector Machine": {
-            "C": [0.1],  # 1, 10, 100],  Commented for performance reasons
-            # "gamma": ["scale", "auto"],
-            # "kernel": ["linear", "rbf", "poly"],
-        },
-        "One Class SVM": {
-            "gamma": ["scale"],  # , "auto"],
-            # "kernel": ["linear", "rbf", "poly"],
-        },
-        "Isolation Forest": {
-            "n_estimators": [2],  # , 200, 300],
-            #  "max_samples": [100, 200, 300],
-            "contamination": [0.1, 0.2, 0.3],
-        },
-    }
 
     # Evaluate the models using random search
     model_summary_evaluation, model_predictions_evaluation = evaluate_ml_models(
@@ -466,7 +551,7 @@ if __name__ == "__main__":
     model_predictions = {}
 
     model_summary, model_predictions = train_ml_models(
-        X_train, y_train, X_test, y_test, model_summary_evaluation
+        models_supervised_ML, X_train, y_train, X_test, y_test, model_summary_evaluation
     )
 
     print(model_summary)
