@@ -13,6 +13,8 @@ TODO
 - Escrever relatório;
 
 Falar do setup + requirements
+no train + validation os dados devem ser sequenciais? Mas o gajo nunca viu aquilo na vida!
+o oversampling tem que ficar ordenado, correto?
 Nos unsupervised, o processo de train, validation, test é igual? ou não há validação?
 Estava a pensar em separar os dados, o treino/validação e teste é uma boa divisão?
 
