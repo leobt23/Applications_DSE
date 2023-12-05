@@ -7,3 +7,4 @@ scipy==1.11.3
 scikit-learn==1.3.0
 tensorflow==2.10.0
 tqdm==4.65.0
+imbalanced-learning==0.10.1

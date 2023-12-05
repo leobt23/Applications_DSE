@@ -1,3 +1,6 @@
 Type: test
 Random Forest: {'ROC AUC': 0.8686627142314784, 'F1 Score': 0.7340425531914894, 'Accuracy': 0.992986393603591, 'Best Params': {'min_samples_split': 5, 'max_depth': 8}}
 Support Vector Machine: {'ROC AUC': 0.9821611617312073, 'F1 Score': 0.0, 'Accuracy': 0.9852714265675411, 'Best Params': {'C': 0.1}}
+Neural Network: {'ROC AUC': 0.5, 'F1 Score': 0.0, 'Accuracy': 0.9852714265675411}
+One Class SVM: {'F1 Score': 0.047058823529411764, 'Accuracy': 0.4943891148828728}
+Isolation Forest: {'F1 Score': 0.38352638352638346, 'Accuracy': 0.9664048253612008}

@@ -12,6 +12,7 @@ import scipy.stats as stats
 import seaborn as sns
 import tensorflow as tf
 import yaml
+from imblearn.over_sampling import RandomOverSampler
 from joblib import dump
 from sklearn.base import clone
 from sklearn.ensemble import IsolationForest, RandomForestClassifier
@@ -76,6 +77,27 @@ def add_hour_columns(df: pd.DataFrame) -> pd.DataFrame:
     df["hour48"] = df["Time"].apply(lambda x: np.ceil(float(x) / 3600) % 48)
 
     return df
+
+
+# TODO - Garantir que os daddos ficam sequenciais
+def oversample_data(X: pd.DataFrame, y: pd.Series) -> tuple:
+    """
+    Performs random oversampling on the underrepresented class in a binary dataset.
+
+    Args:
+    X (pd.DataFrame): Training features.
+    y (pd.Series): Training labels.
+
+    Returns:
+    tuple: The oversampled training features and labels (X_resampled, y_resampled).
+    """
+    # Initialize the RandomOverSampler
+    ros = RandomOverSampler(random_state=42)
+
+    # Resample the dataset
+    X_resampled, y_resampled = ros.fit_resample(X, y)
+
+    return X_resampled, y_resampled
 
 
 # TODO - Time-Based Cross-Validation: Instead of a single 85%-15% split for training-validation, consider using time-based cross-validation. This involves using several train-validation splits over time. For example, you might use the first 70% of day 1 for training and the next 15% for validation, then shift this window forward in time for the next fold.
@@ -221,7 +243,7 @@ def evaluate_ml_models(
     return model_summary_evaluation, model_predictions_evaluation
 
 
-def train_ml_models(
+def train_ml_models_supervised(
     models: dict,
     X_train: pd.DataFrame,
     y_train: pd.DataFrame,
@@ -279,6 +301,166 @@ def train_ml_models(
     return model_summary, model_predictions
 
 
+def evaluate_nn(
+    X_train: pd.DataFrame,
+    y_train: pd.DataFrame,
+    X_val_15: pd.DataFrame,
+    y_val_15: pd.DataFrame,
+    model_summary: dict,
+    model_predictions: dict,
+    models: dict,
+) -> Tuple[object, object, dict, dict]:
+    """Train a neural network
+
+    Args:
+        X_train (pd.DataFrame): Training set
+        y_train (pd.DataFrame): Training labels
+
+    Returns:
+        Tuple[object, object, dict, dict]: Model, history, summary, and predictions for each model
+    """
+
+    # open models dict and get the model
+    model_nn, name = models[0]
+    model_nn.add(Dense(128, input_dim=X_train.shape[1], activation="relu"))
+    model_nn.add(Dropout(0.5))
+    model_nn.add(Dense(64, activation="relu"))
+    model_nn.add(Dense(1, activation="sigmoid"))
+    model_nn.compile(
+        loss="binary_crossentropy", optimizer=Adam(lr=0.001), metrics=["accuracy"]
+    )
+    callback = EarlyStopping(monitor="val_loss", patience=5)
+    history = model_nn.fit(
+        X_train,
+        y_train,
+        validation_split=0.2,
+        epochs=100,
+        batch_size=128,
+        callbacks=[callback],
+    )
+
+    y_pred_nn = (model_nn.predict(X_val_15) > 0.5).astype(int).ravel()
+    y_pred_prob = model_nn.predict(X_val_15)
+    y_pred_prob = y_pred_prob.ravel()
+    auc_nn = roc_auc_score(y_val_15, y_pred_nn)
+    f1_nn = f1_score(y_val_15, y_pred_nn)
+    accuracy_nn = accuracy_score(y_val_15, y_pred_nn)
+
+    # Add neural network performance to summary
+    model_summary["Neural Network"] = {
+        "ROC AUC": auc_nn,
+        "F1 Score": f1_nn,
+        "Accuracy": accuracy_nn,
+    }
+
+    model_predictions["Neural Network"] = {
+        "y_pred": y_pred_nn,
+        "y_pred_prob": y_pred_prob,
+    }
+
+    return model_nn, history, model_summary, model_predictions
+
+
+def train_nn(
+    X_train: pd.DataFrame,
+    y_train: pd.DataFrame,
+    X_test: pd.DataFrame,
+    y_test: pd.DataFrame,
+    model_summary: dict,
+    model_predictions: dict,
+    models: dict,
+) -> Tuple[object, object, dict, dict]:
+    model_nn, name = models[0]
+    model_nn.add(Dense(128, input_dim=X_train.shape[1], activation="relu"))
+    model_nn.add(Dropout(0.5))
+    model_nn.add(Dense(64, activation="relu"))
+    model_nn.add(Dense(1, activation="sigmoid"))
+    model_nn.compile(
+        loss="binary_crossentropy", optimizer=Adam(lr=0.001), metrics=["accuracy"]
+    )
+    callback = EarlyStopping(monitor="val_loss", patience=5)
+    history = model_nn.fit(
+        X_train,
+        y_train,
+        validation_split=0.2,
+        epochs=100,
+        batch_size=128,
+        callbacks=[callback],
+    )
+
+    y_pred_nn = (model_nn.predict(X_test) > 0.5).astype(int).ravel()
+    y_pred_prob = model_nn.predict(X_test)
+    y_pred_prob = y_pred_prob.ravel()
+    auc_nn = roc_auc_score(y_test, y_pred_nn)
+    f1_nn = f1_score(y_test, y_pred_nn)
+    accuracy_nn = accuracy_score(y_test, y_pred_nn)
+
+    # Add neural network performance to summary
+    model_summary["Neural Network"] = {
+        "ROC AUC": auc_nn,
+        "F1 Score": f1_nn,
+        "Accuracy": accuracy_nn,
+    }
+
+    model_predictions["Neural Network"] = {
+        "y_pred": y_pred_nn,
+        "y_pred_prob": y_pred_prob,
+    }
+
+    return model_nn, history, model_summary, model_predictions
+
+
+def train_ml_models_unsupervised(
+    X_train: pd.DataFrame,
+    X_test: pd.DataFrame,
+    y_test: pd.Series,
+    models: dict,
+    model_summary: dict,
+    model_predictions: dict,
+):
+    """Train the unsupervised models on the entire training set
+
+    Args:
+        X_train (pd.DataFrame): Training set
+        X_test (pd.DataFrame): Testing set
+        y_test (pd.Series): Testing labels
+        models (dict): List of (model, name) tuples
+        model_summary (dict): Summary of the models
+        model_predictions (dict): Predictions for each model
+
+    Returns:
+        Tuple[dict, dict]: Summary and predictions for each model
+    """
+
+    for model, name in models:
+        print(f"Training {name}...")
+
+        # Train the model on normal data
+        model.fit(X_train)
+
+        # Make predictions (anomaly detection)
+        y_pred = model.predict(X_test)
+
+        # Convert anomaly labels (-1, 1) to binary labels (0, 1)
+        y_pred_binary = np.where(
+            y_pred == -1, 1, 0
+        )  # Assuming 1 for anomalies, 0 for normal
+
+        # Calculate metrics (adapted for anomaly detection)
+        f1 = f1_score(y_test, y_pred_binary)
+        accuracy = accuracy_score(y_test, y_pred_binary)
+
+        # Add model performance to summary
+        model_summary[name] = {"F1 Score": f1, "Accuracy": accuracy}
+
+        model_predictions[name] = y_pred_binary
+
+        # Save the model
+        save_model(model, name)
+
+    return model_summary, model_predictions
+
+
 def fit_with_progress_bar(model, X, y):
     """Fit a model with a progress bar
 
@@ -300,49 +482,6 @@ def fit_with_progress_bar(model, X, y):
             pbar.update(1)
 
     return model_clone
-
-
-def train_nn(X_train: pd.DataFrame, y_train: pd.DataFrame):
-    """Train a neural network
-
-    Args:
-        X_train (pd.DataFrame): Training set
-        y_train (pd.DataFrame): Training labels
-
-    Returns:
-        Tuple[Sequential, History]: Trained model and training history
-    """
-    model_nn = Sequential()
-    model_nn.add(Dense(128, input_dim=X_train.shape[1], activation="relu"))
-    model_nn.add(Dropout(0.5))
-    model_nn.add(Dense(64, activation="relu"))
-    model_nn.add(Dense(1, activation="sigmoid"))
-    model_nn.compile(
-        loss="binary_crossentropy", optimizer=Adam(lr=0.001), metrics=["accuracy"]
-    )
-    callback = EarlyStopping(monitor="val_loss", patience=5)
-    history = model_nn.fit(
-        X_train,
-        y_train,
-        validation_split=0.2,
-        epochs=100,
-        batch_size=128,
-        callbacks=[callback],
-    )
-
-    y_pred_nn = (model_nn.predict(X_test) > 0.5).astype(int).ravel()
-    auc_nn = roc_auc_score(y_test, y_pred_nn)
-    f1_nn = f1_score(y_test, y_pred_nn)
-    accuracy_nn = accuracy_score(y_test, y_pred_nn)
-
-    # Add neural network performance to summary
-    model_summary["Neural Network"] = {
-        "ROC AUC": auc_nn,
-        "F1 Score": f1_nn,
-        "Accuracy": accuracy_nn,
-    }
-
-    return model_nn, history, model_summary
 
 
 def save_confusion_matrix(y_true, y_pred, model_name, folder, type):
@@ -426,16 +565,23 @@ def save_all_plots(
     """
     # Generate and save plots for each model
     for name in model_predictions:
-        save_confusion_matrix(
-            y_val_15, model_predictions[name]["y_pred"], name, folder=folder, type=type
-        )
-        save_roc_curve(
-            y_val_15,
-            model_predictions[name]["y_pred_prob"],
-            name,
-            folder=folder,
-            type=type,
-        )
+        if name == "One Class SVM" or name == "Isolation Forest":
+            continue
+        else:
+            save_confusion_matrix(
+                y_val_15,
+                model_predictions[name]["y_pred"],
+                name,
+                folder=folder,
+                type=type,
+            )
+            save_roc_curve(
+                y_val_15,
+                model_predictions[name]["y_pred_prob"],
+                name,
+                folder=folder,
+                type=type,
+            )
 
 
 def save_model_summary(
@@ -465,6 +611,7 @@ def save_model_summary(
         print("Successfully saved the model summary")
 
 
+# Separate data, train (or param search), and test
 if __name__ == "__main__":
     # Define the hyperparameter space for each model
     try:
@@ -500,8 +647,8 @@ if __name__ == "__main__":
     X_train_85, X_val_15, y_train_85, y_val_15 = train_validation_split(
         X_train, y_train
     )
+    X_train_85, y_train_85 = oversample_data(X_train_85, y_train_85)
 
-    # Define a list of (model, name) tuples
     # Divide models into two groups: supervised and unsupervised and also by complexity (NN and ML)
     models_supervised_ML = [
         (RandomForestClassifier(n_estimators=2, random_state=42), "Random Forest"),
@@ -509,12 +656,12 @@ if __name__ == "__main__":
     ]
 
     models_supervised_NN = [
-        # (Sequential(), "Neural Network"),
+        (Sequential(), "Neural Network"),
     ]
 
     models_unsupervised_ML = [
-        (RandomForestClassifier(n_estimators=2, random_state=42), "Random Forest"),
-        (SVC(probability=True), "Support Vector Machine"),
+        (OneClassSVM(), "One Class SVM"),
+        (IsolationForest(), "Isolation Forest"),
     ]
 
     Models_unsupervised_NN = []  # TODO - Add neural network
@@ -534,6 +681,22 @@ if __name__ == "__main__":
 
     print(model_summary_evaluation)
 
+    # NN model
+    (
+        model_nn_supervised,
+        history_NN_supervised,
+        model_summary_evaluation,
+        model_predictions_evaluation,
+    ) = evaluate_nn(
+        X_train_85,
+        y_train_85,
+        X_val_15,
+        y_val_15,
+        model_summary_evaluation,
+        model_predictions_evaluation,
+        models_supervised_NN,
+    )
+
     # Save plots
     save_all_plots(y_val_15, model_predictions_evaluation, type="evaluate")
 
@@ -550,8 +713,34 @@ if __name__ == "__main__":
     model_summary = {}
     model_predictions = {}
 
-    model_summary, model_predictions = train_ml_models(
+    model_summary, model_predictions = train_ml_models_supervised(
         models_supervised_ML, X_train, y_train, X_test, y_test, model_summary_evaluation
+    )
+
+    # NN model
+    (
+        model_nn_supervised,
+        history_NN_supervised,
+        model_summary,
+        model_predictions,
+    ) = train_nn(
+        X_train,
+        y_train,
+        X_test,
+        y_test,
+        model_summary,
+        model_predictions,
+        models_supervised_NN,
+    )
+
+    # Unsupervised ML models
+    model_summary, model_predictions = train_ml_models_unsupervised(
+        X_train,
+        X_test,
+        y_test,
+        models_unsupervised_ML,
+        model_summary,
+        model_predictions,
     )
 
     print(model_summary)

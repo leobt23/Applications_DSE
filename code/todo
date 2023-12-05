@@ -4,16 +4,25 @@ TODO
 - (DONE) RANDOM SEARCH FOR HYPERPARAMETER TUNING
 - (DONE) 27 such transactions with 0 euros were a fraudulent transactions 27/492 = 5%
 - (DONE) Escolher o melhor modelo, guardar modelo e fazer treino conforme
-- NN a funcionar;
-- Models (OneClassSVM, IsolationForest, Autoencoders)
-- Supervised Encoding Methods
+- (DONE) NN a funcionar;
+- (Falta os Autoencoders) Models (OneClassSVM, IsolationForest, Autoencoders)
+- (TODO) Spliting w/ - Undersampling, Oversampling , both together or not;
 - Can we group into sequences?
 - Approaching for Novel Categories
-- Spliting w/ - Undersampling, Oversampling , both together or not;
-- Comment all and write annotations; 
+- Comment all and write annotations;
 - Escrever relatório;
+
+Falar do setup + requirements
+Nos unsupervised, o processo de train, validation, test é igual? ou não há validação?
+Estava a pensar em separar os dados, o treino/validação e teste é uma boa divisão?
+
+your_project/
+│
+├── data_processing.py
+├── model_training.py
+├── plotting_saving_utils.py
+└── main.py
 
 Some considerations:
 Verify accuracy with and without preprocessing
-Never test on the oversampled or undersampled dataset.
 If we want to implement cross validation, remember to oversample or undersample your training data during cross-validation, not before!
