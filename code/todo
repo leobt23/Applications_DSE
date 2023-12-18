@@ -1,22 +1,22 @@
 TODO
 
-- (DONE) guardar imagens de performance
-- (DONE) RANDOM SEARCH FOR HYPERPARAMETER TUNING
-- (DONE) 27 such transactions with 0 euros were a fraudulent transactions 27/492 = 5%
-- (DONE) Escolher o melhor modelo, guardar modelo e fazer treino conforme
-- (DONE) NN a funcionar;
-- (Falta os Autoencoders) Models (OneClassSVM, IsolationForest, Autoencoders)
-- (TODO) Spliting w/ - Undersampling, Oversampling , both together or not;
-- Can we group into sequences?
-- Approaching for Novel Categories
-- Comment all and write annotations;
+- Random search invés da gridsearch;
+- Guardar imagens, parâmetros e resultados para cada parâmetros em ficheiros separados;
+- (Falta os Autoencoders) Models (OneClassSVM, IsolationForest, Autoencoders);
+- Preencher hyperparameters;
+- Adicionar vários métodos de Undersampling, Oversampling, Over e Under ou nenhum;
+- Approaching for Novel Categories???;
+- Testar setup + requirements;
+- Mudar validação (15% do 2º dia); 
+- Garantir que o modelo é treinado apenas 1x os dois, para validation e teste;
+- Separar em ficheiros diferentes;
+- Criar versão OOP (com classes);
+- Train, validation e teste para os unsupervised;
+- Verificar accuracy com e sem preprocessing;
+- Implementar cross validation, oversample ou undersample durante cross-validation, not before; 
+- Fazer stardardscaler e verificar em que modelos é que funciona melhor e se o PCA o afeta de alguma maneira;
+- Advanced approaches (pooling data, ensembling models, etc.)
 - Escrever relatório;
-
-Falar do setup + requirements
-no train + validation os dados devem ser sequenciais? Mas o gajo nunca viu aquilo na vida!
-o oversampling tem que ficar ordenado, correto?
-Nos unsupervised, o processo de train, validation, test é igual? ou não há validação?
-Estava a pensar em separar os dados, o treino/validação e teste é uma boa divisão?
 
 your_project/
 │
@@ -25,6 +25,3 @@ your_project/
 ├── plotting_saving_utils.py
 └── main.py
 
-Some considerations:
-Verify accuracy with and without preprocessing
-If we want to implement cross validation, remember to oversample or undersample your training data during cross-validation, not before!
