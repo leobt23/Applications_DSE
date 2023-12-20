@@ -1,6 +1,11 @@
 import logging
+import os
 
 # TODO Clean up log.txt file when starting the app
+
+# Clean up log.txt file if it exists
+if os.path.exists("log.txt"):
+    os.remove("log.txt")
 
 app_logger = logging.getLogger(__name__)
 app_logger.setLevel(logging.INFO)
