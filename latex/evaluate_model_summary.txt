@@ -1,4 +1,4 @@
 Type: evaluate
-Random Forest: {'ROC AUC': 0.9696910232624518, 'F1 Score': 0.7294117647058824, 'Accuracy': 0.9895216400911162, 'Best Params': {'min_samples_split': 5, 'max_depth': 8}}
-Support Vector Machine: {'ROC AUC': 0.9735383663955093, 'F1 Score': 0.3821656050955413, 'Accuracy': 0.9558086560364465, 'Best Params': {'C': 0.1}}
-Neural Network: {'ROC AUC': 0.9454711954711955, 'F1 Score': 0.7954545454545455, 'Accuracy': 0.9917995444191344}
+Random Forest: {'ROC AUC': 1.0, 'F1 Score': 1.0, 'Accuracy': 1.0, 'Best Params': {'min_samples_split': 5, 'max_depth': 8}}
+Support Vector Machine: {'ROC AUC': 1.0, 'F1 Score': 0.16666666666666669, 'Accuracy': 0.2857142857142857, 'Best Params': {'C': 0.1}}
+Neural Network: {'ROC AUC': 0.8076923076923077, 'F1 Score': 0.2857142857142857, 'Accuracy': 0.6428571428571429}
