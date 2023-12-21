@@ -1,5 +1,6 @@
-2023-12-20 17:20:48,157 Config file loaded.
-2023-12-20 17:20:48,157 Data loaded from data/processed_data/creditcard_test_light099.csv
-2023-12-20 17:20:48,166 Removing duplicates from the data.
-2023-12-20 17:20:48,168 Adding hour columns to the data.
-2023-12-20 17:20:48,169 Splitting the data into features and targets.
+2023-12-21 13:09:01,933 Config file loaded.
+2023-12-21 13:09:01,939 Data loaded from data/processed_data/creditcard_test_light099.csv
+2023-12-21 13:09:01,946 Removing duplicates from the data.
+2023-12-21 13:09:01,948 Adding hour columns to the data.
+2023-12-21 13:09:01,951 Splitting the data into features and targets.
+2023-12-21 13:09:01,957 Splitting the data into train, test and validation sets.

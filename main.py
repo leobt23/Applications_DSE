@@ -31,14 +31,9 @@ def main():
     data_processor = DataProcessor(data)
     data_processor.remove_duplicates()
     data_processor.add_hour_columns()
-    data = data_processor.get_processed_data()
     data_processor.split_into_features_and_targets()
     data_processor.split_into_train_test()
-
-    # X_train, X_test, y_train, y_test = split_into_train_test(X, y)
-    # X_train_85, X_val_15, y_train_85, y_val_15 = train_validation_split(
-    #    X_train, y_train
-    # )
+    X_train, X_test, X_val, y_train, y_test, y_val = data_processor.get_processed_data()
 
 
 if __name__ == "__main__":

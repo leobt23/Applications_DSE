@@ -2,12 +2,18 @@ import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
 
+from src.data.abstract_data_processor import AbstractDataProcessor
 from src.logger_cfg import app_logger
 
 
-class DataProcessor:
+class DataProcessor(AbstractDataProcessor):
     def __init__(self, data):
-        self.data = data
+        """Initialize the DataProcessor with additional configurations.
+
+        Args:
+            data (pd.DataFrame): The data as a pandas DataFrame.
+        """
+        super().__init__(data)
 
     def remove_duplicates(self):
         """Remove duplicates from the data."""
@@ -54,10 +60,20 @@ class DataProcessor:
 
         self.X_train = self.X_train.drop(["hour48", "Time"], axis=1)
         self.X_test = self.X_test.drop(["hour48", "Time"], axis=1)
+        self.X_val = self.X_val.drop(["hour48", "Time"], axis=1)
 
         app_logger.info("Splitting the data into train, test and validation sets.")
 
-    def get_processed_data(self):  # -> pd.DataFrame:
+    def get_processed_data(
+        self,
+    ) -> tuple[
+        pd.DataFrame,
+        pd.DataFrame,
+        pd.DataFrame,
+        pd.DataFrame,
+        pd.DataFrame,
+        pd.DataFrame,
+    ]:
         """
         Return the processed data.
         """

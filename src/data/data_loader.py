@@ -1,19 +1,18 @@
 import pandas as pd
 
+from src.data.abstract_data_loader import AbstractDataLoader
 from src.logger_cfg import app_logger
 
 
-class DataLoader:
-    """This class will load the data from a csv file. The path of the csv file will be given in a yaml file."""
-
+class DataLoader(AbstractDataLoader):
     def __init__(self, filepath: str):
-        """Initialize the DataLoader with the path to the data file.
+        """Initialize the DataLoader with additional configurations.
 
         Args:
             filepath (str): The path to the data file.
+            additional_param (optional): Additional parameter for customization.
         """
-
-        self.filepath = filepath
+        super().__init__(filepath)  # Calls the __init__ method of the superclass
 
     def load_csv(self):
         """Load the csv file.
