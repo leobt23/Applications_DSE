@@ -1,4 +1,36 @@
 model_plots: "latex/model_plots/"
 data:
-  light_version: "data/processed_data/creditcard_test_light099.csv"
-  full_version: "code/creditcard.csv"
+  light_version: "data/processed_data/creditcard_test_light09.csv"
+  full_version: "data/raw_data/creditcard.csv"
+resampling:
+  strategy: "RandomUnderSampler" # Can be SMOTE, ADASYN, RandomUnderSampler, etc.
+  sampling_strategy: 0.5 # The desired sampling ratio
+models_parameters:
+  ml_supervised:
+    # Parameters for ML models
+    #
+    Random Forest:
+      # Parameters for Random Forest Classifier
+      max_depth: [None, 4, 6, 8] # The maximum depth of the tree (None means unlimited depth)
+      min_samples_split: [2, 5, 10] # The minimum number of samples required to split an internal node
+      # n_estimators: [2, 4, 6]  # Number of trees in the forest (commented out for now)
+      # min_samples_leaf: [1, 2, 4]  # The minimum number of samples required to be at a leaf node (commented out)
+    Support Vector Machine:
+      # Parameters for Support Vector Classifier
+      C: [0.1] # Regularization parameter (smaller values specify stronger regularization)
+      # Uncomment below for more options
+      # C: [1, 10, 100]  # Regularization parameter (commented out for performance reasons)
+      # gamma: ["scale", "auto"]  # Kernel coefficient (commented out)
+      # kernel: ["linear", "rbf", "poly"]  # Specifies the kernel type to be used in the algorithm (commented out)
+  ml_unsupervised:
+    # Parameters for unsupervised models
+    #
+    One Class SVM:
+      # Parameters for One Class Support Vector Machine
+      gamma: ["scale"] # Kernel coefficient ('scale' auto-adjusts based on input features)
+      # kernel: ["linear", "rbf", "poly"]  # Specifies the kernel type to be used in the algorithm (commented out)
+    Isolation Forest:
+      # Parameters for Isolation Forest (for anomaly detection)
+      n_estimators: [2] # Number of trees in the forest
+      contamination: [0.1, 0.2, 0.3] # Proportion of outliers in the data set
+      # max_samples: [100, 200, 300]  # The number of samples to draw from X to train each base estimator (commented out)
