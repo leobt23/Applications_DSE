@@ -1,7 +1,9 @@
 from sklearn.metrics import accuracy_score, f1_score, roc_auc_score
 from sklearn.model_selection import RandomizedSearchCV
 
+from src.logger_cfg import app_logger
 from src.models.abstract_model_evaluator import AbstractModelEvaluator
+from utils import save_model_summary
 
 
 class MLModelEvaluator(AbstractModelEvaluator):
@@ -42,6 +44,15 @@ class MLModelEvaluator(AbstractModelEvaluator):
             scoring="roc_auc",
             random_state=42,
             n_jobs=-1,
+        )
+
+        # random_search.cv_results_
+        path_to_save = "data_generated/evaluation/"
+        model_name = model.__class__.__name__
+        # Add the model name to path_to_save
+        path_to_save += model_name + "/" + "summary/"
+        save_model_summary(
+            random_search.cv_results_, "latex/model_summary.txt", "Random Search"
         )
         random_search.fit(X_train, y_train)
         return random_search

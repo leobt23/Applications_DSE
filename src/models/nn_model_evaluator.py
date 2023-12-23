@@ -27,7 +27,7 @@ class NNModelEvaluator(AbstractModelEvaluator):
         self.model_summary = None
         self.model_predictions = None
 
-    def build_model(self, input_dim):
+    def build_model(self, input_dim: int):
         """Builds a NN model.
 
         Args:
@@ -82,7 +82,6 @@ class NNModelEvaluator(AbstractModelEvaluator):
         y_pred = (model.predict(X_val) > 0.5).astype(int).ravel()
         y_pred_prob = model.predict(X_val).ravel()
         return {
-            # model name
             "NN": {
                 "ROC AUC": roc_auc_score(y_val, y_pred_prob),
                 "F1 Score": f1_score(y_val, y_pred),
@@ -111,7 +110,7 @@ class NNModelEvaluator(AbstractModelEvaluator):
             model_predictions,
         )
 
-    def get_evaluation_results(self):
+    def get_evaluation_results(self) -> tuple:
         """Returns the evaluation results.
 
         Returns:
