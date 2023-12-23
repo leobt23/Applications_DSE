@@ -32,7 +32,7 @@ def main():
 
     # Apply resampling - TODO: SMOTE is not working IDK why;
     resampler = Resampler()
-    X_train_resampled, y_train_resampled = resampler.apply_resampling(
+    X_train, y_train = resampler.apply_resampling(
         cfg_file["resampling"]["strategy"],
         X_train,
         y_train,
@@ -44,32 +44,35 @@ def main():
         (RandomForestClassifier(n_estimators=2, random_state=42), "Random Forest"),
         (SVC(probability=True), "Support Vector Machine"),
     ]
-    models_supervised_NN = Sequential()  # Assuming one NN model for simplicity
 
     # ML Model Evaluation
     ml_evaluator = MLModelEvaluator(
         models_supervised_ML, cfg_file["models_parameters"]["ml_supervised"]
     )
-    model_summary_evaluation, model_predictions_evaluation = ml_evaluator.evaluate(
-        X_train, y_train, X_val, y_val, n_iter=2
-    )
+    models_supervised_NN = Sequential()
 
-    # NN Model Evaluation
+    ml_evaluator.evaluate(X_train, y_train, X_val, y_val, n_iter=2)
+
+    # Retrieve summaries and predictions
+    model_summary, model_predictions = ml_evaluator.get_evaluation_results()
+
+    # Initialize NN Model Evaluator
     nn_evaluator = NNModelEvaluator()
+
+    # Evaluate NN Model
+    nn_evaluator.evaluate(X_train, y_train, X_val, y_val)
+
+    # Retrieve summaries and predictions
     (
-        _,
-        _,
-        model_summary_evaluation,
-        model_predictions_evaluation,
-    ) = nn_evaluator.evaluate(
-        X_train,
-        y_train,
-        X_val,
-        y_val,
-        model_summary_evaluation,
-        model_predictions_evaluation,
         models_supervised_NN,
-    )
+        history,
+        _model_summary,
+        model_predictions,
+    ) = nn_evaluator.get_evaluation_results()
+
+    model_summary.update(_model_summary)
+
+    print(model_summary)
 
 
 if __name__ == "__main__":

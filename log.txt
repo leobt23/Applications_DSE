@@ -1,7 +1,7 @@
-2023-12-23 12:05:50,946 Config file loaded.
-2023-12-23 12:05:51,074 Data loaded from data/processed_data/creditcard_test_light09.csv
-2023-12-23 12:05:51,105 Removing duplicates from the data.
-2023-12-23 12:05:51,164 Adding hour columns to the data.
-2023-12-23 12:05:51,171 Splitting the data into features and targets.
-2023-12-23 12:05:51,180 Splitting the data into train, test and validation sets.
-2023-12-23 12:05:51,188 Resampling applied: RandomUnderSampler with sampling_strategy=0.5
+2023-12-23 16:26:48,473 Config file loaded.
+2023-12-23 16:26:48,603 Data loaded from data/processed_data/creditcard_test_light09.csv
+2023-12-23 16:26:48,643 Removing duplicates from the data.
+2023-12-23 16:26:48,722 Adding hour columns to the data.
+2023-12-23 16:26:48,736 Splitting the data into features and targets.
+2023-12-23 16:26:48,754 Splitting the data into train, test and validation sets.
+2023-12-23 16:26:48,762 Resampling applied: RandomUnderSampler with sampling_strategy=0.5

@@ -9,15 +9,15 @@ models_parameters:
   ml_supervised:
     # Parameters for ML models
     #
-    Random Forest:
+    RandomForestClassifier:
       # Parameters for Random Forest Classifier
       max_depth: [None, 4, 6, 8] # The maximum depth of the tree (None means unlimited depth)
       min_samples_split: [2, 5, 10] # The minimum number of samples required to split an internal node
       # n_estimators: [2, 4, 6]  # Number of trees in the forest (commented out for now)
       # min_samples_leaf: [1, 2, 4]  # The minimum number of samples required to be at a leaf node (commented out)
-    Support Vector Machine:
+    SVC:
       # Parameters for Support Vector Classifier
-      C: [0.1] # Regularization parameter (smaller values specify stronger regularization)
+      C: [0.1, 0.2] # Regularization parameter (smaller values specify stronger regularization)
       # Uncomment below for more options
       # C: [1, 10, 100]  # Regularization parameter (commented out for performance reasons)
       # gamma: ["scale", "auto"]  # Kernel coefficient (commented out)

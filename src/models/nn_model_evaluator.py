@@ -3,12 +3,14 @@ import pandas as pd
 from sklearn.metrics import accuracy_score, f1_score, roc_auc_score
 from tensorflow.keras.callbacks import EarlyStopping
 from tensorflow.keras.layers import Dense, Dropout
+from tensorflow.keras.models import Sequential
 from tensorflow.keras.optimizers import Adam
 
 from src.logger_cfg import app_logger
+from src.models.abstract_model_evaluator import AbstractModelEvaluator
 
 
-class NNModelEvaluator:
+class NNModelEvaluator(AbstractModelEvaluator):
     """
     Class to evaluate NN models.
     """
@@ -80,9 +82,12 @@ class NNModelEvaluator:
         y_pred = (model.predict(X_val) > 0.5).astype(int).ravel()
         y_pred_prob = model.predict(X_val).ravel()
         return {
-            "ROC AUC": roc_auc_score(y_val, y_pred),
-            "F1 Score": f1_score(y_val, y_pred),
-            "Accuracy": accuracy_score(y_val, y_pred),
+            # model name
+            "NN": {
+                "ROC AUC": roc_auc_score(y_val, y_pred_prob),
+                "F1 Score": f1_score(y_val, y_pred),
+                "Accuracy": accuracy_score(y_val, y_pred),
+            }
         }, {"y_pred": y_pred, "y_pred_prob": y_pred_prob}
 
     def evaluate(self, X_train, y_train, X_val, y_val):
