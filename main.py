@@ -71,9 +71,6 @@ def main():
         models_supervised_NN,
     )
 
-    # Output results
-    print(model_summary_evaluation)
-
 
 if __name__ == "__main__":
     main()
