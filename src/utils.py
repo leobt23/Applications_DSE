@@ -173,19 +173,12 @@ def save_model(model: object, model_name: str, directory: str = "bestmodels/"):
         directory (str, optional): Directory to save the model to. Defaults to "bestmodels/".
     """
     # Add model name to directory
-    directory += model_name + "/"
-
-    # Create the directory if it doesn't exist
-    try:
-        os.makedirs(directory, exist_ok=True)
-    except OSError as error:
-        print("Directory '%s' can not be created" % directory)
-    else:
-        pass
+    directory = f"{directory}{model_name}/"
 
     # Save the model
     try:
-        dump(model, directory + model_name + ".joblib")
+        os.makedirs(directory, exist_ok=True)
+        dump(model, f"{directory}{model_name}.joblib")
     except OSError as error:
         print("Model '%s' can not be saved" % model_name)
     else:

@@ -107,8 +107,9 @@ class NNModelEvaluator(AbstractModelEvaluator):
             model, X_val, y_val
         )
 
-        # path_save_model = f"data_generated/evaluation/NN/NN.joblib"
-        # save_model(model, model_name="NN", directory=path_save_model)
+        # Save model
+        path_save_model = f"data_generated/evaluation/"
+        save_model(model, "NN", directory=path_save_model)
 
         self.model_nn, self.history, self.model_summary, self.model_predictions = (
             model,

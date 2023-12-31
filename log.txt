@@ -1,18 +1,18 @@
-2023-12-31 18:59:13,337 Config file loaded.
-2023-12-31 18:59:13,445 Data loaded from data/processed_data/creditcard_test_light09.csv
-2023-12-31 18:59:13,477 Removing duplicates from the data.
-2023-12-31 18:59:30,201 Adding hour columns to the data.
-2023-12-31 18:59:30,203 Scaling the data.
-2023-12-31 18:59:54,703 Splitting the data into features and targets.
-2023-12-31 18:59:54,713 Splitting the data into train, test and validation sets.
-2023-12-31 19:00:07,683 Resampling applied: RandomUnderSampler with sampling_strategy=0.5
-2023-12-31 19:00:07,712 Evaluating Random Forest...
-2023-12-31 19:00:11,479 Model summary saved.
-2023-12-31 19:00:11,479 Successfully saved the model summary
-2023-12-31 19:00:13,340 Evaluating Support Vector Machine...
-2023-12-31 19:00:13,538 Model summary saved.
-2023-12-31 19:00:13,538 Successfully saved the model summary
-2023-12-31 19:00:19,866 Saving all plots
-2023-12-31 19:00:23,650 Saving all plots
-2023-12-31 19:00:24,246 Model summary saved.
-2023-12-31 19:00:24,246 Successfully saved the model summary
+2023-12-31 23:00:57,332 Config file loaded.
+2023-12-31 23:00:57,450 Data loaded from data/processed_data/creditcard_test_light09.csv
+2023-12-31 23:00:57,480 Removing duplicates from the data.
+2023-12-31 23:00:57,527 Adding hour columns to the data.
+2023-12-31 23:00:57,527 Scaling the data.
+2023-12-31 23:00:57,556 Splitting the data into features and targets.
+2023-12-31 23:00:57,564 Splitting the data into train, test and validation sets.
+2023-12-31 23:00:57,569 Resampling applied: RandomUnderSampler with sampling_strategy=0.5
+2023-12-31 23:00:57,588 Evaluating RandomForestClassifier...
+2023-12-31 23:00:59,499 Model summary saved.
+2023-12-31 23:00:59,514 Successfully saved the model summary
+2023-12-31 23:01:00,617 Evaluating SVC...
+2023-12-31 23:01:00,796 Model summary saved.
+2023-12-31 23:01:00,796 Successfully saved the model summary
+2023-12-31 23:01:01,263 Saving all plots
+2023-12-31 23:01:03,946 Saving all plots
+2023-12-31 23:01:04,229 Model summary saved.
+2023-12-31 23:01:04,245 Successfully saved the model summary

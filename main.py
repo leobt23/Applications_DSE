@@ -42,8 +42,11 @@ def main():
 
     # Define models
     models_supervised_ML = [
-        (RandomForestClassifier(n_estimators=2, random_state=42), "Random Forest"),
-        (SVC(probability=True), "Support Vector Machine"),
+        (
+            RandomForestClassifier(n_estimators=2, random_state=42),
+            "RandomForestClassifier",
+        ),
+        (SVC(probability=True), "SVC"),
     ]
 
     # ML Model Evaluation

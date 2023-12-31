@@ -108,7 +108,7 @@ class MLModelEvaluator(AbstractModelEvaluator):
             }
 
             # Save model
-            path_save_model = f"data_generated/evaluation/{name}/name.joblib"
+            path_save_model = f"data_generated/evaluation/"
             save_model(model, name, directory=path_save_model)
 
         self.model_summary = model_summary
