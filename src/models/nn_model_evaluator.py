@@ -8,6 +8,7 @@ from tensorflow.keras.optimizers import Adam
 
 from src.logger_cfg import app_logger
 from src.models.abstract_model_evaluator import AbstractModelEvaluator
+from src.utils import save_all_plots, save_model
 
 
 class NNModelEvaluator(AbstractModelEvaluator):
@@ -55,7 +56,9 @@ class NNModelEvaluator(AbstractModelEvaluator):
             tensorflow.keras.callbacks.History: Training history.
         """
         model.compile(
-            loss="binary_crossentropy", optimizer=Adam(lr=0.001), metrics=["accuracy"]
+            loss="binary_crossentropy",
+            optimizer=Adam(learning_rate=0.001),
+            metrics=["accuracy"],
         )
         callback = EarlyStopping(monitor="val_loss", patience=5)
         history = model.fit(
@@ -66,7 +69,7 @@ class NNModelEvaluator(AbstractModelEvaluator):
             batch_size=128,
             callbacks=[callback],
         )
-        return history
+        return history, model
 
     def evaluate_performance(self, model, X_val, y_val):
         """Evaluates a given model.
@@ -87,7 +90,7 @@ class NNModelEvaluator(AbstractModelEvaluator):
                 "F1 Score": f1_score(y_val, y_pred),
                 "Accuracy": accuracy_score(y_val, y_pred),
             }
-        }, {"y_pred": y_pred, "y_pred_prob": y_pred_prob}
+        }, {"NN": {"y_pred": y_pred, "y_pred_prob": y_pred_prob}}
 
     def evaluate(self, X_train, y_train, X_val, y_val):
         """Evaluates the model.
@@ -99,15 +102,26 @@ class NNModelEvaluator(AbstractModelEvaluator):
             y_val (np.array): Validation targets.
         """
         model = self.build_model(X_train.shape[1])
-        history = self.compile_and_train_model(model, X_train, y_train)
+        history, model = self.compile_and_train_model(model, X_train, y_train)
         model_summary, model_predictions = self.evaluate_performance(
             model, X_val, y_val
         )
+
+        # path_save_model = f"data_generated/evaluation/NN/NN.joblib"
+        # save_model(model, model_name="NN", directory=path_save_model)
+
         self.model_nn, self.history, self.model_summary, self.model_predictions = (
             model,
             history,
             model_summary,
             model_predictions,
+        )
+
+        save_all_plots(
+            y_val,
+            model_predictions,
+            folder="data_generated/evaluation/plots",
+            type="validation",
         )
 
     def get_evaluation_results(self) -> tuple:

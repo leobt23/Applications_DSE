@@ -3,7 +3,7 @@ from sklearn.model_selection import RandomizedSearchCV
 
 from src.logger_cfg import app_logger
 from src.models.abstract_model_evaluator import AbstractModelEvaluator
-from utils import save_model_summary
+from src.utils import save_all_plots, save_model, save_model_summary
 
 
 class MLModelEvaluator(AbstractModelEvaluator):
@@ -46,13 +46,14 @@ class MLModelEvaluator(AbstractModelEvaluator):
             n_jobs=-1,
         )
 
-        # random_search.cv_results_
-        path_to_save = "data_generated/evaluation/"
+        random_search.fit(X_train, y_train)
+
         model_name = model.__class__.__name__
         # Add the model name to path_to_save
-        path_to_save += model_name + "/" + "summary/"
+        path_to_save = f"data_generated/evaluation/{model_name}/randsearch_summary.txt"
+
         save_model_summary(
-            random_search.cv_results_, "latex/model_summary.txt", "Random Search"
+            random_search.cv_results_, file_path=path_to_save, type="Random Search"
         )
         random_search.fit(X_train, y_train)
         return random_search
@@ -92,7 +93,7 @@ class MLModelEvaluator(AbstractModelEvaluator):
         model_predictions = {}
 
         for model, name in self.models:
-            print(f"Evaluating {name}...")
+            app_logger.info(f"Evaluating {name}...")
             random_search = self.perform_random_search(
                 model, X_train, y_train, n_iter, cv
             )
@@ -106,8 +107,19 @@ class MLModelEvaluator(AbstractModelEvaluator):
                 "y_pred_prob": best_model.predict_proba(X_val)[:, 1],
             }
 
+            # Save model
+            path_save_model = f"data_generated/evaluation/{name}/name.joblib"
+            save_model(model, name, directory=path_save_model)
+
         self.model_summary = model_summary
         self.model_predictions = model_predictions
+
+        save_all_plots(
+            y_val,
+            model_predictions,
+            folder="data_generated/evaluation/plots",
+            type="validation",
+        )
 
     def get_evaluation_results(self):
         """Returns the evaluation results.

@@ -1,4 +1,5 @@
 model_plots: "latex/model_plots/"
+model_summary_test: "data_generated/evaluation/test_all_summary.txt"
 data:
   light_version: "data/processed_data/creditcard_test_light09.csv"
   full_version: "data/raw_data/creditcard.csv"

@@ -1,7 +1,18 @@
-2023-12-23 16:26:48,473 Config file loaded.
-2023-12-23 16:26:48,603 Data loaded from data/processed_data/creditcard_test_light09.csv
-2023-12-23 16:26:48,643 Removing duplicates from the data.
-2023-12-23 16:26:48,722 Adding hour columns to the data.
-2023-12-23 16:26:48,736 Splitting the data into features and targets.
-2023-12-23 16:26:48,754 Splitting the data into train, test and validation sets.
-2023-12-23 16:26:48,762 Resampling applied: RandomUnderSampler with sampling_strategy=0.5
+2023-12-31 18:59:13,337 Config file loaded.
+2023-12-31 18:59:13,445 Data loaded from data/processed_data/creditcard_test_light09.csv
+2023-12-31 18:59:13,477 Removing duplicates from the data.
+2023-12-31 18:59:30,201 Adding hour columns to the data.
+2023-12-31 18:59:30,203 Scaling the data.
+2023-12-31 18:59:54,703 Splitting the data into features and targets.
+2023-12-31 18:59:54,713 Splitting the data into train, test and validation sets.
+2023-12-31 19:00:07,683 Resampling applied: RandomUnderSampler with sampling_strategy=0.5
+2023-12-31 19:00:07,712 Evaluating Random Forest...
+2023-12-31 19:00:11,479 Model summary saved.
+2023-12-31 19:00:11,479 Successfully saved the model summary
+2023-12-31 19:00:13,340 Evaluating Support Vector Machine...
+2023-12-31 19:00:13,538 Model summary saved.
+2023-12-31 19:00:13,538 Successfully saved the model summary
+2023-12-31 19:00:19,866 Saving all plots
+2023-12-31 19:00:23,650 Saving all plots
+2023-12-31 19:00:24,246 Model summary saved.
+2023-12-31 19:00:24,246 Successfully saved the model summary

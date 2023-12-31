@@ -1,22 +1,23 @@
 TODO
 
 - (DONE) Random search invés da gridsearch;
-- Guardar imagens, parâmetros e resultados para cada parâmetros em ficheiros separados;
-- Models (OneClassSVM, IsolationForest, Autoencoders);
-- Preencher hyperparameters;
 - (DONE) Adicionar vários métodos de Undersampling, Oversampling, Over e Under ou nenhum.
-- Approaching for Novel Categories???;
-- Testar setup + requirements;
-- Mudar validação (15% do 2º dia);
+- (DONE) Criar versão OOP (com classes);
+- (DONE) Separar em ficheiros diferentes;
+- (DONE) Guardar imagens, parâmetros e resultados para cada parâmetros em ficheiros separados;
+- (DONE) Mudar validação (15% do 2º dia);
+- Fazer stardardscaler e verificar em que modelos é que funciona melhor e se o PCA o afeta de alguma maneira;
 - Garantir que o modelo é treinado apenas 1x os dois, para validation e teste;
-- Separar em ficheiros diferentes;
-- Criar versão OOP (com classes);
 - Train, validation e teste para os unsupervised;
+- Models (OneClassSVM, IsolationForest, Autoencoders);
 - Verificar accuracy com e sem preprocessing;
 - Implementar cross validation, oversample ou undersample durante cross-validation, not before;
-- Fazer stardardscaler e verificar em que modelos é que funciona melhor e se o PCA o afeta de alguma maneira;
+- Preencher hyperparameters;
 - Advanced approaches (pooling data, ensembling models, etc.)
 - Escrever relatório;
+- Testar setup + requirements;
+- Approaching for Novel Categories???;
+- O standard scaler piora os resultados em principio... VERIFICAR ISTO
 
 separadamente(Resultados)
 salvar modelo

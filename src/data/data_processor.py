@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
 
 from src.data.abstract_data_processor import AbstractDataProcessor
 from src.logger_cfg import app_logger
@@ -24,6 +25,7 @@ class DataProcessor(AbstractDataProcessor):
         """
         Add hour columns to the dataframe based on 'Time'.
         """
+        self.data = self.data.copy()
         self.data["hour"] = self.data["Time"].apply(
             lambda x: np.ceil(float(x) / 3600) % 24
         )
@@ -31,6 +33,25 @@ class DataProcessor(AbstractDataProcessor):
             lambda x: np.ceil(float(x) / 3600) % 48
         )
         app_logger.info("Adding hour columns to the data.")
+
+    def scaling(self):
+        """
+        Scale the data.
+        """
+        app_logger.info("Scaling the data.")
+
+        # Logarithm of 10 to the Amount column
+        self.data["Amount"] = np.log10(self.data["Amount"] + 1)
+
+        # Separate out the features for scaling
+        features = self.data.iloc[:, :-3]  # All columns except last three
+        scaler = StandardScaler()
+
+        # Fit and transform the features
+        scaled_features = scaler.fit_transform(features)
+
+        # Update the data with scaled features
+        self.data.update(pd.DataFrame(scaled_features, columns=features.columns))
 
     def split_into_features_and_targets(self):
         """

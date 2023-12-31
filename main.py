@@ -11,7 +11,7 @@ from src.data.resampling import Resampler
 from src.logger_cfg import app_logger
 from src.models.ml_model_evaluator import MLModelEvaluator
 from src.models.nn_model_evaluator import NNModelEvaluator
-from src.utils import load_config
+from src.utils import load_config, save_model_summary
 
 
 def main():
@@ -26,6 +26,7 @@ def main():
     data_processor = DataProcessor(data)
     data_processor.remove_duplicates()
     data_processor.add_hour_columns()
+    data_processor.scaling()
     data_processor.split_into_features_and_targets()
     data_processor.split_into_train_test()
     X_train, X_test, X_val, y_train, y_test, y_val = data_processor.get_processed_data()
@@ -72,7 +73,7 @@ def main():
 
     model_summary.update(_model_summary)
 
-    print(model_summary)
+    save_model_summary(model_summary, file_path=cfg_file["model_summary_test"])
 
 
 if __name__ == "__main__":
