@@ -10,6 +10,7 @@ from src.data.data_processor import DataProcessor
 from src.data.resampling import Resampler
 from src.logger_cfg import app_logger
 from src.models.ml_model_evaluator import MLModelEvaluator
+from src.models.ml_model_tester import MLModelTester
 from src.models.nn_model_evaluator import NNModelEvaluator
 from src.utils import load_config, save_model_summary
 
@@ -26,9 +27,10 @@ def main():
     data_processor = DataProcessor(data)
     data_processor.remove_duplicates()
     data_processor.add_hour_columns()
-    data_processor.scaling()
+    data_processor.log_amount()
     data_processor.split_into_features_and_targets()
     data_processor.split_into_train_test()
+    data_processor.scale_data()
     X_train, X_test, X_val, y_train, y_test, y_val = data_processor.get_processed_data()
 
     # Apply resampling - TODO: SMOTE is not working IDK why;
@@ -77,6 +79,12 @@ def main():
     model_summary.update(_model_summary)
 
     save_model_summary(model_summary, file_path=cfg_file["model_summary_test"])
+
+    # Test ML Models
+    ml_tester = MLModelTester()
+    model_summary, model_predictions = ml_tester.test_ml_models_supervised(
+        models_supervised_ML, X_test, y_test, model_summary
+    )
 
 
 if __name__ == "__main__":

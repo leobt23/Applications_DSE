@@ -34,24 +34,14 @@ class DataProcessor(AbstractDataProcessor):
         )
         app_logger.info("Adding hour columns to the data.")
 
-    def scaling(self):
+    def log_amount(self):
         """
-        Scale the data.
+        Scale the amount data.
         """
-        app_logger.info("Scaling the data.")
+        app_logger.info("Logarithm of 10 to the Amount column")
 
         # Logarithm of 10 to the Amount column
         self.data["Amount"] = np.log10(self.data["Amount"] + 1)
-
-        # Separate out the features for scaling
-        features = self.data.iloc[:, :-3]  # All columns except last three
-        scaler = StandardScaler()
-
-        # Fit and transform the features
-        scaled_features = scaler.fit_transform(features)
-
-        # Update the data with scaled features
-        self.data.update(pd.DataFrame(scaled_features, columns=features.columns))
 
     def split_into_features_and_targets(self):
         """
@@ -84,6 +74,22 @@ class DataProcessor(AbstractDataProcessor):
         self.X_val = self.X_val.drop(["hour48", "Time"], axis=1)
 
         app_logger.info("Splitting the data into train, test and validation sets.")
+
+    def scale_data(self):
+        """
+        Scale the data.
+        """
+        app_logger.info("Scaling the data.")
+
+        scaler = StandardScaler()
+
+        # Fit on training data
+        scaler.fit(self.X_train)
+
+        # Transform train, test, and validation sets
+        self.X_train = scaler.transform(self.X_train)
+        self.X_test = scaler.transform(self.X_test)
+        self.X_val = scaler.transform(self.X_val)
 
     def get_processed_data(
         self,

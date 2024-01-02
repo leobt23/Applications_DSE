@@ -98,6 +98,8 @@ class MLModelEvaluator(AbstractModelEvaluator):
                 model, X_train, y_train, n_iter, cv
             )
             best_model = random_search.best_estimator_
+            # Now fit the best model
+            best_model.fit(X_train, y_train)
             model_eval = self.evaluate_model(best_model, X_val, y_val)
 
             model_summary[name] = model_eval
@@ -109,7 +111,7 @@ class MLModelEvaluator(AbstractModelEvaluator):
 
             # Save model
             path_save_model = f"data_generated/evaluation/"
-            save_model(model, name, directory=path_save_model)
+            save_model(best_model, name, directory=path_save_model)
 
         self.model_summary = model_summary
         self.model_predictions = model_predictions
