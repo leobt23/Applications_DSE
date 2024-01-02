@@ -1,21 +1,21 @@
-2024-01-02 15:39:23,394 Config file loaded.
-2024-01-02 15:39:23,515 Data loaded from data/processed_data/creditcard_test_light09.csv
-2024-01-02 15:39:23,543 Removing duplicates from the data.
-2024-01-02 15:39:23,591 Adding hour columns to the data.
-2024-01-02 15:39:23,591 Logarithm of 10 to the Amount column
-2024-01-02 15:39:23,597 Splitting the data into features and targets.
-2024-01-02 15:39:23,607 Splitting the data into train, test and validation sets.
-2024-01-02 15:39:23,608 Scaling the data.
-2024-01-02 15:39:23,623 Resampling applied: RandomUnderSampler with sampling_strategy=0.5
-2024-01-02 15:39:23,642 Evaluating RandomForestClassifier...
-2024-01-02 15:39:25,832 Model summary saved.
-2024-01-02 15:39:25,833 Successfully saved the model summary
-2024-01-02 15:39:27,126 Evaluating SVC...
-2024-01-02 15:39:27,231 Model summary saved.
-2024-01-02 15:39:27,232 Successfully saved the model summary
-2024-01-02 15:39:27,453 Saving all plots
-2024-01-02 15:39:30,219 Saving all plots
-2024-01-02 15:39:30,510 Model summary saved.
-2024-01-02 15:39:30,510 Successfully saved the model summary
-2024-01-02 15:39:30,510 Testing RandomForestClassifier...
-2024-01-02 15:39:30,532 Testing SVC...
+2024-01-02 15:52:02,900 Config file loaded.
+2024-01-02 15:52:03,018 Data loaded from data/processed_data/creditcard_test_light09.csv
+2024-01-02 15:52:03,054 Removing duplicates from the data.
+2024-01-02 15:52:03,104 Adding hour columns to the data.
+2024-01-02 15:52:03,105 Logarithm of 10 to the Amount column
+2024-01-02 15:52:03,113 Splitting the data into features and targets.
+2024-01-02 15:52:03,123 Splitting the data into train, test and validation sets.
+2024-01-02 15:52:03,123 Scaling the data.
+2024-01-02 15:52:03,140 Resampling applied: RandomUnderSampler with sampling_strategy=0.5
+2024-01-02 15:52:03,161 Evaluating RandomForestClassifier...
+2024-01-02 15:52:04,981 Model summary saved.
+2024-01-02 15:52:04,982 Successfully saved the model summary
+2024-01-02 15:52:06,118 Evaluating SVC...
+2024-01-02 15:52:06,209 Model summary saved.
+2024-01-02 15:52:06,210 Successfully saved the model summary
+2024-01-02 15:52:06,422 Saving all plots
+2024-01-02 15:52:09,265 Saving all plots
+2024-01-02 15:52:09,590 Model summary saved.
+2024-01-02 15:52:09,591 Successfully saved the model summary
+2024-01-02 15:52:09,591 Testing RandomForestClassifier...
+2024-01-02 15:52:09,610 Testing SVC...

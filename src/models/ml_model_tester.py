@@ -36,7 +36,7 @@ class MLModelTester(AbstractModelTester):
         X_test: pd.DataFrame,
         y_test: pd.DataFrame,
         model_summary_evaluation: dict,
-    ):
+    ) -> Tuple:
         """Test ML models
 
         Args:
