@@ -8,10 +8,10 @@ from tensorflow.keras.models import Sequential
 from src.data.data_loader import DataLoader
 from src.data.data_processor import DataProcessor
 from src.data.resampling import Resampler
-from src.logger_cfg import app_logger
 from src.models.ml_model_evaluator import MLModelEvaluator
 from src.models.ml_model_tester import MLModelTester
 from src.models.ml_model_unsupervised_evaluator import MLModelUnsupervisedEvaluator
+from src.models.ml_model_unsupervised_tester import MLModelUnsupervisedTester
 from src.models.nn_model_evaluator import NNModelEvaluator
 from src.models.nn_model_tester import NNModelTester
 from src.utils import load_config, save_model_summary
@@ -99,6 +99,18 @@ def main():
     model_summary, model_predictions = ml_tester.test_ml_models_supervised(
         models_supervised_ML, X_test, y_test, model_summary
     )
+
+    ml_unsupervised_tester = MLModelUnsupervisedTester(
+        models_unsupervised_ML,
+        X_train,
+        X_test,
+        y_test,
+        model_summary,
+        model_predictions,
+    )
+
+    _model_summary, model_predictions = ml_unsupervised_tester.test_model()
+    model_summary.update(_model_summary)
 
     # Test NN Model
     nn_tester = NNModelTester()

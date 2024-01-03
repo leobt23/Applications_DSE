@@ -129,8 +129,27 @@ def save_roc_curve(y_true, y_pred_prob, model_name, folder, type):
         sys.exit(1)
 
 
+def anomaly_scores(model_name, folder, scores="", type="evaluate"):
+    try:
+        # Ensure the folder exists
+        os.makedirs(folder, exist_ok=True)
+
+        plt.figure(figsize=(8, 6))
+        plt.hist(scores, bins=50)
+        plt.title("Anomaly Scores Distribution")
+        plt.xlabel("Score")
+        plt.ylabel("Frequency")
+        plt.savefig(f"{folder}/{type}_anomaly_scores_{model_name}.png")
+        plt.close()
+    except Exception as e:
+        app_logger.info(
+            f"An error occurred while saving the Anomaly Scores for {model_name}: {e}"
+        )
+        sys.exit(1)
+
+
 def save_all_plots(
-    y_val_15, model_predictions, folder="latex/model_plots", type="evaluate"
+    y_val_15, model_predictions, folder="latex/model_plots", type="evaluate", scores=""
 ):
     """Save all plots for each model
 
@@ -145,16 +164,7 @@ def save_all_plots(
     app_logger.info("Saving all plots")
     # Generate and save plots for each model
     for name in model_predictions:
-        if name == "One Class SVM" or name == "Isolation Forest":
-            continue
-        else:
-            save_confusion_matrix(
-                y_val_15,
-                model_predictions[name]["y_pred"],
-                name,
-                folder=folder,
-                type=type,
-            )
+        if name != "OneClassSVM" and name != "IsolationForest":
             save_roc_curve(
                 y_val_15,
                 model_predictions[name]["y_pred_prob"],
@@ -162,6 +172,17 @@ def save_all_plots(
                 folder=folder,
                 type=type,
             )
+
+        save_confusion_matrix(
+            y_val_15,
+            model_predictions[name]["y_pred"],
+            name,
+            folder=folder,
+            type=type,
+        )
+
+        if name == "OneClassSVM" or name == "IsolationForest":
+            anomaly_scores(name, folder, scores, type=type)
 
 
 def save_model(model: object, model_name: str, directory: str = "bestmodels/"):

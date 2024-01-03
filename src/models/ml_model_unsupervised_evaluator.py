@@ -1,8 +1,8 @@
 import numpy as np
 import pandas as pd
-from sklearn.metrics import accuracy_score, f1_score
+from sklearn.metrics import accuracy_score, f1_score, roc_auc_score
 
-from src.utils import save_model
+from src.utils import save_all_plots, save_model
 
 
 class MLModelUnsupervisedEvaluator:  # TODO: AbstractModelEvaluator
@@ -29,12 +29,21 @@ class MLModelUnsupervisedEvaluator:  # TODO: AbstractModelEvaluator
         # Calculate metrics (adapted for anomaly detection)
         f1 = f1_score(self.y_test, y_pred_binary)
         accuracy = accuracy_score(self.y_test, y_pred_binary)
+        roc_auc = roc_auc_score(self.y_test, y_pred_binary)
+
+        # assuming the model has a decision_function or score_samples method
+        if hasattr(model, "decision_function"):
+            scores = model.decision_function(self.X_test)
+        else:
+            scores = model.score_samples(self.X_test)
 
         # Add model performance to summary
-        model_summary[name] = {"F1 Score": f1, "Accuracy": accuracy}
-        model_predictions[name] = y_pred_binary
+        model_summary[name] = {"ROC AUC": roc_auc, "F1 Score": f1, "Accuracy": accuracy}
+        model_predictions[name] = {
+            "y_pred": y_pred_binary,
+        }
 
-        return model_summary, model_predictions
+        return model_summary, model_predictions, scores
 
     def fit_model(self):
         model_summary = {}
@@ -46,12 +55,19 @@ class MLModelUnsupervisedEvaluator:  # TODO: AbstractModelEvaluator
             model.fit(self.X_train)
 
             # Make predictions
-            model_summary, model_predictions = self.predict_model(
+            model_summary, model_predictions, scores = self.predict_model(
                 model, name, model_summary, model_predictions
             )
 
             # Save the model
             path_save_model = f"data_generated/evaluation/"
             save_model(model=model, model_name=name, directory=path_save_model)
+            save_all_plots(
+                self.y_test,
+                model_predictions,
+                folder="data_generated/evaluation/plots",
+                type="validation",
+                scores=scores,
+            )
 
         return model_summary, model_predictions

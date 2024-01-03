@@ -1,4 +1,6 @@
 Type: evaluate
-RandomForestClassifier: {'ROC AUC': 0.9435354295476732, 'F1 Score': 0.25504322766570603, 'Accuracy': 0.9274793098611306, 'Best Params': {'min_samples_split': 2, 'max_depth': 8}}
-SVC: {'ROC AUC': 0.9842709350254909, 'F1 Score': 0.6944444444444444, 'Accuracy': 0.9891990461495301, 'Best Params': {'C': 0.2}}
+RandomForestClassifier: {'ROC AUC': 0.912685588187439, 'F1 Score': 0.0735235034150261, 'Accuracy': 0.6765324729976153, 'Best Params': {'min_samples_split': 5, 'max_depth': 8}}
+SVC: {'ROC AUC': 0.980376464367068, 'F1 Score': 0.6388384754990925, 'Accuracy': 0.9860429232711461, 'Best Params': {'C': 0.1}}
+OneClassSVM: {'ROC AUC': 0.737793551361319, 'F1 Score': 0.05627462014631401, 'Accuracy': 0.5295272829288821}
+IsolationForest: {'ROC AUC': 0.6547113976570127, 'F1 Score': 0.25182481751824815, 'Accuracy': 0.9712442137747229}
 Neural Network: {'ROC AUC': 1.0, 'F1 Score': 1.0, 'Accuracy': 1.0}

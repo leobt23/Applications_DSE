@@ -1,27 +1,31 @@
-2024-01-02 23:50:49,379 Config file loaded.
-2024-01-02 23:50:49,491 Data loaded from data/processed_data/creditcard_test_light09.csv
-2024-01-02 23:50:49,522 Removing duplicates from the data.
-2024-01-02 23:50:49,570 Adding hour columns to the data.
-2024-01-02 23:50:49,571 Logarithm of 10 to the Amount column
-2024-01-02 23:50:49,578 Splitting the data into features and targets.
-2024-01-02 23:50:49,586 Splitting the data into train, test and validation sets.
-2024-01-02 23:50:49,587 Scaling the data.
-2024-01-02 23:50:49,602 Resampling applied: RandomUnderSampler with sampling_strategy=0.5
-2024-01-02 23:50:49,622 Evaluating RandomForestClassifier...
-2024-01-02 23:50:51,409 Model summary saved.
-2024-01-02 23:50:51,410 Successfully saved the model summary
-2024-01-02 23:50:52,523 Evaluating SVC...
-2024-01-02 23:50:52,614 Model summary saved.
-2024-01-02 23:50:52,614 Successfully saved the model summary
-2024-01-02 23:50:52,834 Saving all plots
-2024-01-02 23:50:54,965 Saving all plots
-2024-01-02 23:50:55,304 Model summary saved.
-2024-01-02 23:50:55,304 Successfully saved the model summary
-2024-01-02 23:50:55,304 Testing RandomForestClassifier...
-2024-01-02 23:50:55,322 Saving all plots
-2024-01-02 23:50:55,608 Testing SVC...
-2024-01-02 23:50:55,935 Saving all plots
-2024-01-02 23:50:56,510 Testing NN...
-2024-01-02 23:50:57,465 Saving all plots
-2024-01-02 23:50:57,777 Model summary saved.
-2024-01-02 23:50:57,777 Successfully saved the model summary
+2024-01-03 17:05:37,104 Config file loaded.
+2024-01-03 17:05:37,217 Data loaded from data/processed_data/creditcard_test_light09.csv
+2024-01-03 17:05:37,249 Removing duplicates from the data.
+2024-01-03 17:05:37,325 Adding hour columns to the data.
+2024-01-03 17:05:37,325 Logarithm of 10 to the Amount column
+2024-01-03 17:05:37,341 Splitting the data into features and targets.
+2024-01-03 17:05:37,354 Splitting the data into train, test and validation sets.
+2024-01-03 17:05:37,355 Scaling the data.
+2024-01-03 17:05:37,375 Resampling applied: RandomUnderSampler with sampling_strategy=0.5
+2024-01-03 17:05:37,405 Evaluating RandomForestClassifier...
+2024-01-03 17:05:40,820 Model summary saved.
+2024-01-03 17:05:40,820 Successfully saved the model summary
+2024-01-03 17:05:42,563 Evaluating SVC...
+2024-01-03 17:05:42,653 Model summary saved.
+2024-01-03 17:05:42,653 Successfully saved the model summary
+2024-01-03 17:05:42,922 Saving all plots
+2024-01-03 17:06:33,202 Saving all plots
+2024-01-03 17:06:57,237 Saving all plots
+2024-01-03 17:07:09,299 Saving all plots
+2024-01-03 17:07:09,910 Model summary saved.
+2024-01-03 17:07:09,910 Successfully saved the model summary
+2024-01-03 17:07:09,910 Testing RandomForestClassifier...
+2024-01-03 17:07:09,945 Saving all plots
+2024-01-03 17:07:10,494 Testing SVC...
+2024-01-03 17:07:10,878 Saving all plots
+2024-01-03 17:07:12,653 Saving all plots
+2024-01-03 17:07:17,249 Saving all plots
+2024-01-03 17:07:32,538 Testing NN...
+2024-01-03 17:07:53,902 Saving all plots
+2024-01-03 17:07:54,480 Model summary saved.
+2024-01-03 17:07:54,481 Successfully saved the model summary

@@ -9,11 +9,19 @@ from src.models.abstract_model_tester import AbstractModelTester
 from src.utils import app_logger, save_all_plots
 
 
-class MLModelTester(AbstractModelTester):
+class MLModelUnsupervisedTester(AbstractModelTester):
     """Test ML models"""
 
-    def __init__(self):
+    def __init__(
+        self, models, X_train, X_test, y_test, model_summary, model_predictions
+    ):
         super().__init__()
+        self.X_train = X_train
+        self.X_test = X_test
+        self.y_test = y_test
+        self.model_summary = model_summary
+        self.model_predictions = model_predictions
+        self.models = models
 
     def get_model(self, model_name: str) -> Tuple:
         """Load model from joblib file
@@ -31,55 +39,53 @@ class MLModelTester(AbstractModelTester):
 
         return model
 
-    def test_ml_models_supervised(
-        self,
-        models: dict,
-        X_test: pd.DataFrame,
-        y_test: pd.DataFrame,
-        model_summary_evaluation: dict,
-    ) -> Tuple:
-        """Test ML models
+    def predict_model(self, model, name, model_summary, model_predictions):
+        # Make predictions (anomaly detection)
+        y_pred = model.predict(self.X_test)
 
-        Args:
-            models (dict): models to be tested
-            X_test (pd.DataFrame): test features
-            y_test (pd.DataFrame): test targets
-            model_summary_evaluation (dict): model summary evaluation
+        # Convert anomaly labels (-1, 1) to binary labels (0, 1)
+        y_pred_binary = np.where(
+            y_pred == -1, 1, 0
+        )  # Assuming 1 for anomalies, 0 for normal
 
-        Returns:
-            Tuple: model summary, model predictions
-        """
+        # Calculate metrics (adapted for anomaly detection)
+        f1 = f1_score(self.y_test, y_pred_binary)
+        accuracy = accuracy_score(self.y_test, y_pred_binary)
+        roc_auc = roc_auc_score(self.y_test, y_pred_binary)
+
+        # assuming the model has a decision_function or score_samples method
+        if hasattr(model, "decision_function"):
+            scores = model.decision_function(self.X_test)
+        else:
+            scores = model.score_samples(self.X_test)
+
+        # Add model performance to summary
+        model_summary[name] = {"ROC AUC": roc_auc, "F1 Score": f1, "Accuracy": accuracy}
+        model_predictions[name] = {
+            "y_pred": y_pred_binary,
+        }
+
+        return model_summary, model_predictions, scores
+
+    def test_model(self):
         model_summary = {}
         model_predictions = {}
+        for _, name in self.models:
+            print(f"Training {name}...")
 
-        for _, name in models:
-            if name in model_summary_evaluation:
-                app_logger.info(f"Testing {name}...")
-
-            # Get model
             model = self.get_model(name)
 
             # Make predictions
-            y_pred = model.predict(X_test)
-            # Convert anomaly labels (-1, 1) to binary labels (0, 1)
-            y_pred_binary = np.where(
-                y_pred == -1, 1, 0
-            )  # Assuming 1 for anomalies, 0 for normal
-
-            # Calculate metrics
-            f1 = f1_score(y_test, y_pred)
-            accuracy = accuracy_score(y_test, y_pred)
-
-            # Add model performance to summary
-            model_summary[name] = {"F1 Score": f1, "Accuracy": accuracy}
-
-            model_predictions[name] = y_pred_binary
+            model_summary, model_predictions, scores = self.predict_model(
+                model, name, model_summary, model_predictions
+            )
 
             save_all_plots(
-                y_test,
+                self.y_test,
                 model_predictions,
                 folder="data_generated/test/plots",
                 type="test",
+                scores=scores,
             )
 
         return model_summary, model_predictions
