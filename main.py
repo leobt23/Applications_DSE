@@ -11,7 +11,9 @@ from src.data.resampling import Resampler
 from src.logger_cfg import app_logger
 from src.models.ml_model_evaluator import MLModelEvaluator
 from src.models.ml_model_tester import MLModelTester
+from src.models.ml_model_unsupervised_evaluator import MLModelUnsupervisedEvaluator
 from src.models.nn_model_evaluator import NNModelEvaluator
+from src.models.nn_model_tester import NNModelTester
 from src.utils import load_config, save_model_summary
 
 
@@ -51,16 +53,28 @@ def main():
         (SVC(probability=True), "SVC"),
     ]
 
+    models_unsupervised_ML = [
+        (OneClassSVM(), "OneClassSVM"),
+        (IsolationForest(), "IsolationForest"),
+    ]
+
+    models_supervised_NN = Sequential()
+
     # ML Model Evaluation
     ml_evaluator = MLModelEvaluator(
         models_supervised_ML, cfg_file["models_parameters"]["ml_supervised"]
     )
-    models_supervised_NN = Sequential()
 
     ml_evaluator.evaluate(X_train, y_train, X_val, y_val, n_iter=2)
 
     # Retrieve summaries and predictions
     model_summary, model_predictions = ml_evaluator.get_evaluation_results()
+
+    ml_evaluator_unsupervised = MLModelUnsupervisedEvaluator(
+        models_unsupervised_ML, X_train, X_val, y_val, model_summary, model_predictions
+    )
+    _model_summary, _model_predictions = ml_evaluator_unsupervised.fit_model()
+    model_summary.update(_model_summary)
 
     # Initialize NN Model Evaluator
     nn_evaluator = NNModelEvaluator()
@@ -78,7 +92,7 @@ def main():
 
     model_summary.update(_model_summary)
 
-    save_model_summary(model_summary, file_path=cfg_file["model_summary_test"])
+    save_model_summary(model_summary, file_path=cfg_file["model_summary_validation"])
 
     # Test ML Models
     ml_tester = MLModelTester()
@@ -87,6 +101,11 @@ def main():
     )
 
     # Test NN Model
+    nn_tester = NNModelTester()
+    _model_summary, model_predictions = nn_tester.test_nn_model(X_test, y_test)
+
+    model_summary.update(_model_summary)
+    save_model_summary(model_summary, file_path=cfg_file["model_summary_test"])
 
 
 if __name__ == "__main__":

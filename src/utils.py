@@ -178,7 +178,10 @@ def save_model(model: object, model_name: str, directory: str = "bestmodels/"):
     # Save the model
     try:
         os.makedirs(directory, exist_ok=True)
-        dump(model, f"{directory}{model_name}.joblib")
+        if model_name == "NN":
+            model.save(f"{directory}{model_name}.h5")
+        else:
+            dump(model, f"{directory}{model_name}.joblib")
     except OSError as error:
         print("Model '%s' can not be saved" % model_name)
     else:

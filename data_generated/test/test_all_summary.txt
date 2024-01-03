@@ -1,0 +1,4 @@
+Type: evaluate
+RandomForestClassifier: {'ROC AUC': 0.9435354295476732, 'F1 Score': 0.25504322766570603, 'Accuracy': 0.9274793098611306, 'Best Params': {'min_samples_split': 2, 'max_depth': 8}}
+SVC: {'ROC AUC': 0.9842709350254909, 'F1 Score': 0.6944444444444444, 'Accuracy': 0.9891990461495301, 'Best Params': {'C': 0.2}}
+Neural Network: {'ROC AUC': 1.0, 'F1 Score': 1.0, 'Accuracy': 1.0}

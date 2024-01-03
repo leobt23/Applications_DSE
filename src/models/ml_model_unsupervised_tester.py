@@ -1,6 +1,7 @@
 from typing import Tuple
 
 import joblib
+import numpy as np
 import pandas as pd
 from sklearn.metrics import accuracy_score, f1_score, roc_auc_score
 
@@ -60,22 +61,19 @@ class MLModelTester(AbstractModelTester):
 
             # Make predictions
             y_pred = model.predict(X_test)
-            y_pred_prob = model.predict_proba(X_test)[:, 1]
+            # Convert anomaly labels (-1, 1) to binary labels (0, 1)
+            y_pred_binary = np.where(
+                y_pred == -1, 1, 0
+            )  # Assuming 1 for anomalies, 0 for normal
 
             # Calculate metrics
-            auc_score = roc_auc_score(y_test, y_pred_prob)
             f1 = f1_score(y_test, y_pred)
             accuracy = accuracy_score(y_test, y_pred)
 
             # Add model performance to summary
-            model_summary[name] = {
-                "ROC AUC": auc_score,
-                "F1 Score": f1,
-                "Accuracy": accuracy,
-                "Best Params": model_summary_evaluation[name]["Best Params"],
-            }
+            model_summary[name] = {"F1 Score": f1, "Accuracy": accuracy}
 
-            model_predictions[name] = {"y_pred": y_pred, "y_pred_prob": y_pred_prob}
+            model_predictions[name] = y_pred_binary
 
             save_all_plots(
                 y_test,
