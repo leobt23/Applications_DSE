@@ -1,4 +1,0 @@
-model_plots: "latex/model_plots/"
-data:
-  light_version: "data/processed_data/creditcard_test_light099.csv"
-  full_version: "code/creditcard.csv"
