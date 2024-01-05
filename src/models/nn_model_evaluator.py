@@ -1,4 +1,5 @@
 # nn_model_evaluator.py
+import matplotlib.pyplot as plt
 import pandas as pd
 from sklearn.metrics import accuracy_score, f1_score, roc_auc_score
 from tensorflow.keras.callbacks import EarlyStopping
@@ -27,6 +28,32 @@ class NNModelEvaluator(AbstractModelEvaluator):
         self.history = None
         self.model_summary = None
         self.model_predictions = None
+
+    def plot_training_history(self, history):
+        plt.figure(figsize=(12, 6))
+
+        # Add title
+        plt.suptitle("Training History", fontsize=16)
+        # Plot training & validation accuracy values
+        plt.subplot(1, 2, 1)
+        plt.plot(history.history["accuracy"])
+        plt.plot(history.history["val_accuracy"])
+        plt.title("Model accuracy")
+        plt.ylabel("Accuracy")
+        plt.xlabel("Epoch")
+        plt.legend(["Train", "Test"], loc="upper left")
+
+        # Plot training & validation loss values
+        plt.subplot(1, 2, 2)
+        plt.plot(history.history["loss"])
+        plt.plot(history.history["val_loss"])
+        plt.title("Model loss")
+        plt.ylabel("Loss")
+        plt.xlabel("Epoch")
+        plt.legend(["Train", "Test"], loc="upper left")
+
+        plt.savefig("data_generated/evaluation/plots/nn.png")  # Add your path here
+        plt.close()
 
     def build_model(self, input_dim: int):
         """Builds a NN model.
@@ -60,7 +87,9 @@ class NNModelEvaluator(AbstractModelEvaluator):
             optimizer=Adam(learning_rate=0.001),
             metrics=["accuracy"],
         )
-        callback = EarlyStopping(monitor="val_loss", patience=5)
+        callback = EarlyStopping(
+            monitor="val_loss", patience=5, restore_best_weights=True
+        )
         history = model.fit(
             X_train,
             y_train,
@@ -124,6 +153,8 @@ class NNModelEvaluator(AbstractModelEvaluator):
             folder="data_generated/evaluation/plots",
             type="validation",
         )
+
+        self.plot_training_history(history)
 
     def get_evaluation_results(self) -> tuple:
         """Returns the evaluation results.

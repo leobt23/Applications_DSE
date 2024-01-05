@@ -7,7 +7,7 @@ from src.utils import save_all_plots, save_model
 
 class MLModelUnsupervisedEvaluator:  # TODO: AbstractModelEvaluator
     def __init__(
-        self, models, X_train, X_test, y_test, model_summary, model_predictions
+        self, models, X_train, X_test, y_test, model_summary, model_predictions, params
     ):
         super().__init__()
         self.X_train = X_train
@@ -16,6 +16,7 @@ class MLModelUnsupervisedEvaluator:  # TODO: AbstractModelEvaluator
         self.model_summary = model_summary
         self.model_predictions = model_predictions
         self.models = models
+        self.params = params
 
     def predict_model(self, model, name, model_summary, model_predictions):
         # Make predictions (anomaly detection)
@@ -50,6 +51,12 @@ class MLModelUnsupervisedEvaluator:  # TODO: AbstractModelEvaluator
         model_predictions = {}
         for model, name in self.models:
             print(f"Training {name}...")
+
+            random_search = self.perform_random_search(
+                model, X_train, y_train, n_iter, cv
+            )
+
+            model = random_search.best_estimator_
 
             # Train the model on normal data
             model.fit(self.X_train)

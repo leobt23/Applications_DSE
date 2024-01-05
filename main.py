@@ -71,7 +71,13 @@ def main():
     model_summary, model_predictions = ml_evaluator.get_evaluation_results()
 
     ml_evaluator_unsupervised = MLModelUnsupervisedEvaluator(
-        models_unsupervised_ML, X_train, X_val, y_val, model_summary, model_predictions
+        models_unsupervised_ML,
+        X_train,
+        X_val,
+        y_val,
+        model_summary,
+        model_predictions,
+        cfg_file["models_parameters"]["ml_unsupervised"],
     )
     _model_summary, _model_predictions = ml_evaluator_unsupervised.fit_model()
     model_summary.update(_model_summary)

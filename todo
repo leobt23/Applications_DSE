@@ -1,59 +1,16 @@
 TODO
 
-- (DONE) Random search invés da gridsearch;
-- (DONE) Adicionar vários métodos de Undersampling, Oversampling, Over e Under ou nenhum.
-- (DONE) Criar versão OOP (com classes);
-- (DONE) Separar em ficheiros diferentes;
-- (DONE) Guardar imagens, parâmetros e resultados para cada parâmetros em ficheiros separados;
-- (DONE) Mudar validação (15% do 2º dia);
 - Fazer stardardscaler e verificar em que modelos é que funciona melhor e se o PCA o afeta de alguma maneira;
-- Garantir que o modelo é treinado apenas 1x os dois, para validation e teste;
-- Train, validation e teste para os unsupervised;
 - Models (OneClassSVM, IsolationForest, Autoencoders);
 - Verificar accuracy com e sem preprocessing;
 - Implementar cross validation, oversample ou undersample durante cross-validation, not before;
-- Preencher hyperparameters;
 - Advanced approaches (pooling data, ensembling models, etc.)
 - Escrever relatório;
 - Testar setup + requirements;
-- Approaching for Novel Categories???;
 - O standard scaler piora os resultados em principio... VERIFICAR ISTO
+- RandomOverSampler 8% 10% 15% 20%
 
-separadamente(Resultados)
-salvar modelo
-salvar resultados
-salvar plot
-
-your_project_name/
-│
-├── data/
-│ ├── raw/ # Raw data, immutable
-│ ├── processed/ # Cleaned and processed data
-│ └── external/ # Data from external sources
-│
-├── notebooks/ # Jupyter notebooks for exploration and presentations
-│
-├── src/ # Source code for use in this project
-│ ├── **init**.py # Makes src a Python module
-│ ├── data/ # Scripts to download or generate data
-│ │ └── load_data.py
-│ ├── features/ # Scripts to turn raw data into features for modeling
-│ │ └── build_features.py
-│ ├── models/ # Scripts to train models and then use trained models to make predictions
-│ │ ├── train_model.py
-│ │ └── predict_model.py
-│ └── visualization/ # Scripts to create exploratory and results-oriented visualizations
-│ └── visualize.py
-│
-├── tests/ # Test cases for your project
-│ ├── **init**.py
-│ └── test_data.py
-│
-├── latex/ # Latex cases
-│ ├── ...
-│ └── ...
-│
-├── requirements.txt # The dependencies file for reproducing the analysis environment
-├── setup.py # Makes project pip installable (pip install -e .) so src can be imported
-├── README.md # The top-level README for developers using this project
-└── .gitignore # Specifies intentionally untracked files to ignore
+- Random search for Unsupervised,
+  random search for NN,
+  plots with diferent names for NN,
+  oversample for 10%
