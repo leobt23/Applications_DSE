@@ -22,7 +22,7 @@ def main():
     cfg_file = load_config("config.yml")
 
     # Data Loading
-    data_loader = DataLoader(cfg_file["data"]["light_version"])
+    data_loader = DataLoader(cfg_file["data"]["full_version"])
     data = data_loader.load_csv()
 
     # Data Processing
@@ -37,6 +37,9 @@ def main():
 
     # Apply resampling - TODO: SMOTE is not working IDK why;
     resampler = Resampler()
+
+    # print percentage of frauds in the dataset
+    print("Percentage of frauds in the dataset: ", y_train.sum() / len(y_train))
     X_train, y_train = resampler.apply_resampling(
         cfg_file["resampling"]["strategy"],
         X_train,
@@ -44,6 +47,8 @@ def main():
         sampling_strategy=cfg_file["resampling"].get("sampling_strategy", "auto"),
     )
 
+    # print percentage of frauds in the dataset
+    print("Percentage of frauds in the dataset: ", y_train.sum() / len(y_train))
     # Define models
     models_supervised_ML = [
         (
@@ -73,6 +78,7 @@ def main():
     ml_evaluator_unsupervised = MLModelUnsupervisedEvaluator(
         models_unsupervised_ML,
         X_train,
+        y_train,
         X_val,
         y_val,
         model_summary,

@@ -1,31 +1,9 @@
-2024-01-05 11:36:04,215 Config file loaded.
-2024-01-05 11:36:04,324 Data loaded from data/processed_data/creditcard_test_light09.csv
-2024-01-05 11:36:04,354 Removing duplicates from the data.
-2024-01-05 11:36:04,403 Adding hour columns to the data.
-2024-01-05 11:36:04,404 Logarithm of 10 to the Amount column
-2024-01-05 11:36:04,410 Splitting the data into features and targets.
-2024-01-05 11:36:04,419 Splitting the data into train, test and validation sets.
-2024-01-05 11:36:04,419 Scaling the data.
-2024-01-05 11:36:04,435 Resampling applied: RandomUnderSampler with sampling_strategy=0.5
-2024-01-05 11:36:04,455 Evaluating RandomForestClassifier...
-2024-01-05 11:36:06,514 Model summary saved.
-2024-01-05 11:36:06,514 Successfully saved the model summary
-2024-01-05 11:36:07,684 Evaluating SVC...
-2024-01-05 11:36:07,784 Model summary saved.
-2024-01-05 11:36:07,784 Successfully saved the model summary
-2024-01-05 11:36:07,940 Saving all plots
-2024-01-05 11:36:08,816 Saving all plots
-2024-01-05 11:36:09,270 Saving all plots
-2024-01-05 11:36:11,084 Saving all plots
-2024-01-05 11:36:11,585 Model summary saved.
-2024-01-05 11:36:11,585 Successfully saved the model summary
-2024-01-05 11:36:11,585 Testing RandomForestClassifier...
-2024-01-05 11:36:11,604 Saving all plots
-2024-01-05 11:36:11,934 Testing SVC...
-2024-01-05 11:36:12,090 Saving all plots
-2024-01-05 11:36:13,504 Saving all plots
-2024-01-05 11:36:13,984 Saving all plots
-2024-01-05 11:36:14,624 Testing NN...
-2024-01-05 11:36:15,554 Saving all plots
-2024-01-05 11:36:15,864 Model summary saved.
-2024-01-05 11:36:15,864 Successfully saved the model summary
+2024-01-07 22:44:51,905 Config file loaded.
+2024-01-07 22:44:52,837 Data loaded from data/raw_data/creditcard.csv
+2024-01-07 22:44:53,317 Removing duplicates from the data.
+2024-01-07 22:44:54,123 Adding hour columns to the data.
+2024-01-07 22:44:54,124 Logarithm of 10 to the Amount column
+2024-01-07 22:44:54,178 Splitting the data into features and targets.
+2024-01-07 22:44:54,246 Splitting the data into train, test and validation sets.
+2024-01-07 22:44:54,247 Scaling the data.
+2024-01-07 22:44:54,369 Resampling applied: RandomUnderSampler with sampling_strategy=0.1

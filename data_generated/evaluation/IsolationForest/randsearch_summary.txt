@@ -1,0 +1,23 @@
+Type: Random Search
+mean_fit_time: [0.04609736 0.00082342 0.00299946 0.0911843  0.04970256 0.07755454
+ 0.00270812 0.00495625 0.08329304 0.08597064]
+std_fit_time: [0.00420836 0.00085375 0.00166069 0.00314734 0.00263572 0.00083259
+ 0.00382986 0.00353729 0.00432034 0.00543487]
+mean_score_time: [0.00354759 0.00175134 0.00161544 0.00178075 0.00340565 0.00264915
+ 0.00173418 0.00036263 0.00371647 0.0042274 ]
+std_score_time: [0.00040294 0.00247677 0.00125892 0.00068507 0.00043871 0.00273346
+ 0.00178333 0.00051284 0.00336156 0.001665  ]
+param_n_estimators: [50 2 2 100 50 100 2 2 100 100]
+param_max_features: [0.5 1.0 0.5 1.0 1.0 1.0 0.1 0.1 0.5 0.5]
+param_contamination: [0.3 0.1 0.1 0.3 0.2 0.2 0.3 0.3 0.1 0.3]
+param_bootstrap: [False True False True False True False True False True]
+params: [{'n_estimators': 50, 'max_features': 0.5, 'contamination': 0.3, 'bootstrap': False}, {'n_estimators': 2, 'max_features': 1.0, 'contamination': 0.1, 'bootstrap': True}, {'n_estimators': 2, 'max_features': 0.5, 'contamination': 0.1, 'bootstrap': False}, {'n_estimators': 100, 'max_features': 1.0, 'contamination': 0.3, 'bootstrap': True}, {'n_estimators': 50, 'max_features': 1.0, 'contamination': 0.2, 'bootstrap': False}, {'n_estimators': 100, 'max_features': 1.0, 'contamination': 0.2, 'bootstrap': True}, {'n_estimators': 2, 'max_features': 0.1, 'contamination': 0.3, 'bootstrap': False}, {'n_estimators': 2, 'max_features': 0.1, 'contamination': 0.3, 'bootstrap': True}, {'n_estimators': 100, 'max_features': 0.5, 'contamination': 0.1, 'bootstrap': False}, {'n_estimators': 100, 'max_features': 0.5, 'contamination': 0.3, 'bootstrap': True}]
+split0_test_score: [0. 0. 0. 0. 0. 0. 0. 0. 0. 0.]
+split1_test_score: [0. 0. 0. 0. 0. 0. 0. 0. 0. 0.]
+split2_test_score: [0.96660118 0.48850575 0.79633867 0.96456693 0.95634921 0.95427435
+ 0.83628319 0.84140969 0.93089431 0.97064579]
+mean_test_score: [0.32220039 0.16283525 0.26544622 0.32152231 0.31878307 0.31809145
+ 0.27876106 0.2804699  0.3102981  0.3235486 ]
+std_test_score: [0.45566017 0.23028382 0.37539765 0.45470121 0.45082734 0.44984924
+ 0.39422767 0.39664433 0.43882779 0.45756681]
+rank_test_score: [ 2 10  9  3  4  5  8  7  6  1]

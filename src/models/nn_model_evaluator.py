@@ -1,4 +1,5 @@
 # nn_model_evaluator.py
+import kerastuner as kt
 import matplotlib.pyplot as plt
 import pandas as pd
 from sklearn.metrics import accuracy_score, f1_score, roc_auc_score
@@ -28,6 +29,7 @@ class NNModelEvaluator(AbstractModelEvaluator):
         self.history = None
         self.model_summary = None
         self.model_predictions = None
+        self.input_shape = 0
 
     def plot_training_history(self, history):
         plt.figure(figsize=(12, 6))
@@ -55,23 +57,7 @@ class NNModelEvaluator(AbstractModelEvaluator):
         plt.savefig("data_generated/evaluation/plots/nn.png")  # Add your path here
         plt.close()
 
-    def build_model(self, input_dim: int):
-        """Builds a NN model.
-
-        Args:
-            input_dim (int): Input dimension.
-
-        Returns:
-            tensorflow.keras.Sequential: NN model.
-        """
-        model = Sequential()
-        model.add(Dense(128, input_dim=input_dim, activation="relu"))
-        model.add(Dropout(0.5))
-        model.add(Dense(64, activation="relu"))
-        model.add(Dense(1, activation="sigmoid"))
-        return model
-
-    def compile_and_train_model(self, model, X_train, y_train):
+    def train_model(self, model, X_train, y_train):
         """Compiles and trains a NN model.
 
         Args:
@@ -82,20 +68,18 @@ class NNModelEvaluator(AbstractModelEvaluator):
         Returns:
             tensorflow.keras.callbacks.History: Training history.
         """
-        model.compile(
-            loss="binary_crossentropy",
-            optimizer=Adam(learning_rate=0.001),
-            metrics=["accuracy"],
-        )
+
         callback = EarlyStopping(
-            monitor="val_loss", patience=5, restore_best_weights=True
+            monitor="val_loss",
+            patience=30,
+            restore_best_weights=True,
         )
         history = model.fit(
             X_train,
             y_train,
             validation_split=0.2,
-            epochs=100,
-            batch_size=128,
+            epochs=500,
+            batch_size=64,
             callbacks=[callback],
         )
         return history, model
@@ -121,6 +105,38 @@ class NNModelEvaluator(AbstractModelEvaluator):
             }
         }, {"NN": {"y_pred": y_pred, "y_pred_prob": y_pred_prob}}
 
+    def build_model(self, hp):
+        model = Sequential()
+        # First Dense layer
+        model.add(
+            Dense(
+                units=hp.Int("units1", min_value=32, max_value=256, step=32),
+                activation="relu",
+                input_shape=(self.input_shape,),
+            )
+        )  # input shape inferred
+        # Dropout layer after the first Dense layer
+        model.add(
+            Dropout(rate=hp.Float("dropout1", min_value=0.0, max_value=0.5, step=0.25))
+        )
+
+        # Second Dense layer
+        model.add(
+            Dense(
+                units=hp.Int("units2", min_value=32, max_value=256, step=32),
+                activation="relu",
+            )
+        )
+
+        model.add(Dense(1, activation="sigmoid"))  # Example output layer
+
+        model.compile(
+            optimizer=hp.Choice("optimizer", values=["adam", "sgd"]),
+            loss="binary_crossentropy",
+            metrics=["accuracy"],
+        )
+        return model
+
     def evaluate(self, X_train, y_train, X_val, y_val):
         """Evaluates the model.
 
@@ -130,8 +146,25 @@ class NNModelEvaluator(AbstractModelEvaluator):
             X_val (np.array): Validation features.
             y_val (np.array): Validation targets.
         """
-        model = self.build_model(X_train.shape[1])
-        history, model = self.compile_and_train_model(model, X_train, y_train)
+
+        self.input_shape = X_train.shape[1]
+
+        tuner = kt.Hyperband(
+            self.build_model,
+            objective="val_accuracy",  # Assuming you have a validation set to evaluate on
+            max_epochs=10,  # Maximum number of epochs to train one model. Adjust as necessary.
+            factor=3,  # Reduction factor for the number of epochs and number of models for each bracket.
+        )
+
+        # Execute the search
+        tuner.search(X_train, y_train, epochs=10, validation_split=0.2)
+
+        # Get the best hyperparameters and rebuild the model
+        best_hps = tuner.get_best_hyperparameters(num_trials=1)[0]
+
+        model = self.build_model(best_hps)
+
+        history, model = self.train_model(model, X_train, y_train)
         model_summary, model_predictions = self.evaluate_performance(
             model, X_val, y_val
         )

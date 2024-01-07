@@ -1,5 +1,5 @@
 # Fdb version 4
-["pdflatex"] 1704302098 "c:/Users/leo_b/OneDrive/Documentos/Projects/personal_projects/Applications_DSE/latex/conference_101719.tex" "conference_101719.pdf" "conference_101719" 1704302098 0
+["pdflatex"] 1704467135 "c:/Users/leo_b/OneDrive/Documentos/Projects/personal_projects/Applications_DSE/latex/conference_101719.tex" "conference_101719.pdf" "conference_101719" 1704469843 0
   "C:/Users/leo_b/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1697022694 82507 a9eef8696c92627b87e9975edea03b2a ""
   "C:/Users/leo_b/AppData/Local/MiKTeX/miktex/data/le/pdftex/pdflatex.fmt" 1695213483 23178960 d5d5a19967e8d9f4d43d11518c50cafe ""
   "C:/Users/leo_b/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/base/8r.enc" 1458473887 4993 80dc9bab7f31fb78a000ccfed0e27cab ""
@@ -83,10 +83,10 @@
   "C:/Users/leo_b/AppData/Local/Programs/MiKTeX/tex/latex/psnfss/ot1ptm.fd" 1585253778 1007 15056f4a61917ceed3a44e4ac11fcc52 ""
   "C:/Users/leo_b/AppData/Local/Programs/MiKTeX/tex/latex/psnfss/ts1ptm.fd" 1585253778 653 96f56dc5d1ef1fe1121f1cfeec70ee0c ""
   "C:/Users/leo_b/AppData/Local/Programs/MiKTeX/tex/latex/xcolor/xcolor.sty" 1656233290 56148 51a9a8571c07b9921892ae11063ae853 ""
-  "EDA.tex" 1704302005 8856 d1496d2abc9d4dea397f8488372e30bf ""
-  "c:/Users/leo_b/OneDrive/Documentos/Projects/personal_projects/Applications_DSE/latex/conference_101719.tex" 1704302097 3340 f0edd3a672fa9d494726ef079234b3f1 ""
-  "conference_101719.aux" 1704302098 1162 fa6e53edd51c0f96339672d74b3ae8c8 "pdflatex"
-  "conference_101719.tex" 1704302097 3340 f0edd3a672fa9d494726ef079234b3f1 ""
+  "EDA.tex" 1704467133 8860 b0a22917b7ee1194d59fa1889ab7c9b8 ""
+  "c:/Users/leo_b/OneDrive/Documentos/Projects/personal_projects/Applications_DSE/latex/conference_101719.tex" 1704302169 3340 f0edd3a672fa9d494726ef079234b3f1 ""
+  "conference_101719.aux" 1704469843 1162 fa6e53edd51c0f96339672d74b3ae8c8 "pdflatex"
+  "conference_101719.tex" 1704302169 3340 f0edd3a672fa9d494726ef079234b3f1 ""
   "images/initial_dataset_balance.png" 1697015923 10257 010410a2584e650f9c7982329bfe1bcf ""
   (generated)
   "conference_101719.aux"

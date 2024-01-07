@@ -55,7 +55,6 @@ class MLModelEvaluator(AbstractModelEvaluator):
         save_model_summary(
             random_search.cv_results_, file_path=path_to_save, type="Random Search"
         )
-        random_search.fit(X_train, y_train)
         return random_search
 
     def evaluate_model(self, model, X_val, y_val):
