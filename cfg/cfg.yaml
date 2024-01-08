@@ -6,7 +6,7 @@ data:
   full_version: "data/raw_data/creditcard.csv"
 resampling:
   strategy: "RandomUnderSampler" # Can be SMOTE, ADASYN, RandomUnderSampler, etc.
-  sampling_strategy: 0.1 # The desired sampling ratio
+  sampling_strategy: 0.2 # The desired sampling ratio
 models_parameters:
   ml_supervised:
     RandomForestClassifier:

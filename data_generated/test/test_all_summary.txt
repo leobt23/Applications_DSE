@@ -1,6 +1,6 @@
 Type: evaluate
-RandomForestClassifier: {'ROC AUC': 0.9473699018331706, 'F1 Score': 0.39220183486238536, 'Accuracy': 0.9628278860990321, 'Best Params': {'min_samples_split': 5, 'max_features': 'sqrt', 'max_depth': 4}}
-SVC: {'ROC AUC': 0.9507704875799979, 'F1 Score': 0.7554479418886197, 'Accuracy': 0.9929162575396269, 'Best Params': {'kernel': 'poly', 'gamma': 'scale', 'degree': 4, 'C': 10}}
-OneClassSVM: {'ROC AUC': 0.746300100336262, 'F1 Score': 0.058232639394380545, 'Accuracy': 0.5462898022162996}
-IsolationForest: {'ROC AUC': 0.8285344804208699, 'F1 Score': 0.14408973252804141, 'Accuracy': 0.8608500490952448}
+RandomForestClassifier: {'ROC AUC': 0.9549740461854535, 'F1 Score': 0.1491882404563405, 'Accuracy': 0.9862204724409449, 'Best Params': {'min_samples_split': 10, 'max_features': 'log2', 'max_depth': 8}}
+SVC: {'ROC AUC': 0.9634840708378494, 'F1 Score': 0.4375804375804375, 'Accuracy': 0.9968944540777168, 'Best Params': {'kernel': 'poly', 'gamma': 'scale', 'degree': 4, 'C': 10}}
+OneClassSVM: {'ROC AUC': 0.6963787006553863, 'F1 Score': 0.004944405297918333, 'Accuracy': 0.4079067057051082}
+IsolationForest: {'ROC AUC': 0.7335085164978551, 'F1 Score': 0.0890260026443367, 'Accuracy': 0.9853108388527246}
 Neural Network: {'ROC AUC': 1.0, 'F1 Score': 1.0, 'Accuracy': 1.0}

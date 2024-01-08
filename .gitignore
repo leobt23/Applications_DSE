@@ -158,5 +158,4 @@ cython_debug/
 # image folder
 images*
 
-# data_generated/evaluation/plots/
-data_generated/evaluation/plots/*
+untitled_project

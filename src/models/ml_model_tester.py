@@ -1,6 +1,7 @@
 from typing import Tuple
 
 import joblib
+import numpy as np
 import pandas as pd
 from sklearn.metrics import accuracy_score, f1_score, roc_auc_score
 
@@ -62,8 +63,23 @@ class MLModelTester(AbstractModelTester):
             y_pred = model.predict(X_test)
             y_pred_prob = model.predict_proba(X_test)[:, 1]
 
-            # Calculate metrics
-            auc_score = roc_auc_score(y_test, y_pred_prob)
+            try:
+                # Check if y_test has more than one unique class
+                if len(np.unique(y_test)) > 1:
+                    # Calculate metrics
+                    auc_score = roc_auc_score(y_test, y_pred_prob)
+                else:
+                    # Handle the case where only one class is present
+                    auc_score = "Not Defined"
+                    print(
+                        "ROC AUC score is not defined when only one class is present in y_true."
+                    )
+            except ValueError as e:
+                # Handle the error if it occurs
+                auc_score = "Not Defined"
+                print("Error calculating ROC AUC: ", e)
+
+            # Calculate other metrics
             f1 = f1_score(y_test, y_pred)
             accuracy = accuracy_score(y_test, y_pred)
 
@@ -74,7 +90,6 @@ class MLModelTester(AbstractModelTester):
                 "Accuracy": accuracy,
                 "Best Params": model_summary_evaluation[name]["Best Params"],
             }
-
             model_predictions[name] = {"y_pred": y_pred, "y_pred_prob": y_pred_prob}
 
             save_all_plots(

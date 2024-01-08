@@ -38,8 +38,6 @@ def main():
     # Apply resampling - TODO: SMOTE is not working IDK why;
     resampler = Resampler()
 
-    # print percentage of frauds in the dataset
-    print("Percentage of frauds in the dataset: ", y_train.sum() / len(y_train))
     X_train, y_train = resampler.apply_resampling(
         cfg_file["resampling"]["strategy"],
         X_train,
@@ -47,8 +45,6 @@ def main():
         sampling_strategy=cfg_file["resampling"].get("sampling_strategy", "auto"),
     )
 
-    # print percentage of frauds in the dataset
-    print("Percentage of frauds in the dataset: ", y_train.sum() / len(y_train))
     # Define models
     models_supervised_ML = [
         (
