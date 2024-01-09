@@ -1,0 +1,55 @@
+\section{Data Preprocessing}
+
+\subsection{Linear VS Non-Linear Scaling}
+In summary, linear scaling methods are generally the first choice due to their simplicity and effectiveness in many scenarios. However, if you're dealing with outliers, skewed data, or specific nonlinear relationships, you might benefit from non-linear scaling methods. It's crucial to understand both your data and model requirements when making this decision.
+
+\subsection{Metrics used}
+
+\subsubsection*{F1 Score Explanation}
+
+The F1 score is a measure of a model's accuracy in a binary classification task, which considers both precision and recall of the test to compute the score. The F1 score can be understood as a weighted average (harmonic mean) of the precision and recall, where an F1 score reaches its best value at 1 (perfect precision and recall) and worst at 0.
+
+\subsection*{Key Concepts}
+
+\textbf{Precision}: This is the number of true positive results divided by the number of all positive results, including those not identified correctly. It reflects the model's ability to identify only the relevant objects.
+
+\[
+    Precision = \frac{TP}{TP + FP}
+\]
+
+\textbf{Recall (Sensitivity or True Positive Rate)}: This is the number of true positive results divided by the number of all samples that should have been identified as positive. It reflects the ability of the model to find all the relevant cases within a dataset.
+
+\[
+    Recall = \frac{TP}{TP + FN}
+\]
+
+\textbf{F1 Score}: This is the harmonic mean of precision and recall. The harmonic mean is used rather than the arithmetic mean as it punishes extreme values more. A model with perfect precision and recall will have an F1 score of 1. A model with a perfect precision but poor recall, or vice versa, will have an F1 score closer to 0.
+
+\[
+    F1 = 2 \cdot \frac{Precision \cdot Recall}{Precision + Recall}
+\]
+
+Alternatively:
+
+\[
+    F1 = \frac{2TP}{2TP + FP + FN}
+\]
+
+\subsection*{When to Use F1 Score}
+
+\begin{itemize}
+    \item Use the F1 Score when you seek a balance between precision and recall, especially if there is an uneven class distribution (large number of actual negatives).
+    \item The F1 Score is utilized when both false positives and false negatives are equally costly, and it provides a single metric that summarizes model performance in a way that values precision and recall equally.
+\end{itemize}
+
+\subsection*{Considerations}
+
+\begin{itemize}
+    \item While the F1 Score is better than accuracy for imbalanced classes, in extremely imbalanced situations, even F1 might not be a perfect measure.
+    \item In scenarios where one type of error has a significantly different consequence than the other, you might need to focus more on improving either recall or precision, and thus a different metric might be more appropriate.
+\end{itemize}
+
+\end{document}
+
+
+

@@ -1,16 +1,13 @@
 TODO
 
-- Fazer stardardscaler e verificar em que modelos é que funciona melhor e se o PCA o afeta de alguma maneira;
-- Models (OneClassSVM, IsolationForest, Autoencoders);
-- Verificar accuracy com e sem preprocessing;
-- Implementar cross validation, oversample ou undersample durante cross-validation, not before;
+- Autoencoders
 - Advanced approaches (pooling data, ensembling models, etc.)
+- Verificar accuracy com e sem preprocessing;
+- Fazer stardardscaler e verificar em que modelos é que funciona
+- melhor e se o PCA o afeta de alguma maneira;
+- Implementar cross validation, oversample ou undersample durante cross-validation, not before;
 - Escrever relatório;
 - Testar setup + requirements;
 - O standard scaler piora os resultados em principio... VERIFICAR ISTO
 - RandomOverSampler 8% 10% 15% 20%
-
-- Random search for Unsupervised,
-  random search for NN,
-  plots with diferent names for NN,
-  oversample for 10%
+- As confirmed above, all features are numerical features. So, we are going to check if scaling is necessary. Since we are going to use tree-based models, we will not consider linear scaling. (https://www.kaggle.com/code/ohseokkim/creditcard-fraud-balance-is-key-feat-pycaret)

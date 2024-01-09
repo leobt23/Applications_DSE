@@ -22,7 +22,7 @@ def main():
     cfg_file = load_config("config.yml")
 
     # Data Loading
-    data_loader = DataLoader(cfg_file["data"]["full_version"])
+    data_loader = DataLoader(cfg_file["data"]["light_version"])
     data = data_loader.load_csv()
 
     # Data Processing
@@ -35,7 +35,6 @@ def main():
     data_processor.scale_data()
     X_train, X_test, X_val, y_train, y_test, y_val = data_processor.get_processed_data()
 
-    # Apply resampling - TODO: SMOTE is not working IDK why;
     resampler = Resampler()
 
     X_train, y_train = resampler.apply_resampling(

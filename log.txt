@@ -1,35 +1,35 @@
-2024-01-07 23:19:59,907 Config file loaded.
-2024-01-07 23:20:00,835 Data loaded from data/raw_data/creditcard.csv
-2024-01-07 23:20:01,333 Removing duplicates from the data.
-2024-01-07 23:20:01,790 Adding hour columns to the data.
-2024-01-07 23:20:01,790 Logarithm of 10 to the Amount column
-2024-01-07 23:20:01,844 Splitting the data into features and targets.
-2024-01-07 23:20:01,910 Splitting the data into train, test and validation sets.
-2024-01-07 23:20:01,910 Scaling the data.
-2024-01-07 23:20:02,029 Resampling applied: RandomUnderSampler with sampling_strategy=0.2
-2024-01-07 23:20:02,049 Evaluating RandomForestClassifier...
-2024-01-07 23:20:03,803 Model summary saved.
-2024-01-07 23:20:03,804 Successfully saved the model summary
-2024-01-07 23:20:03,844 Evaluating SVC...
-2024-01-07 23:20:04,983 Model summary saved.
-2024-01-07 23:20:04,984 Successfully saved the model summary
-2024-01-07 23:20:05,298 Saving all plots
-2024-01-07 23:20:09,741 Model summary saved.
-2024-01-07 23:20:09,741 Successfully saved the model summary
-2024-01-07 23:20:11,769 Saving all plots
-2024-01-07 23:20:13,881 Model summary saved.
-2024-01-07 23:20:13,882 Successfully saved the model summary
-2024-01-07 23:20:14,151 Saving all plots
-2024-01-07 23:20:50,642 Saving all plots
-2024-01-07 23:20:51,197 Model summary saved.
-2024-01-07 23:20:51,198 Successfully saved the model summary
-2024-01-07 23:20:51,198 Testing RandomForestClassifier...
-2024-01-07 23:20:51,307 Saving all plots
-2024-01-07 23:20:51,647 Testing SVC...
-2024-01-07 23:20:52,775 Saving all plots
-2024-01-07 23:21:06,509 Saving all plots
-2024-01-07 23:21:08,123 Saving all plots
-2024-01-07 23:21:08,780 Testing NN...
-2024-01-07 23:21:18,448 Saving all plots
-2024-01-07 23:21:18,831 Model summary saved.
-2024-01-07 23:21:18,832 Successfully saved the model summary
+2024-01-08 19:19:20,023 Config file loaded.
+2024-01-08 19:19:20,153 Data loaded from data/processed_data/creditcard_test_light09.csv
+2024-01-08 19:19:20,181 Removing duplicates from the data.
+2024-01-08 19:19:20,231 Adding hour columns to the data.
+2024-01-08 19:19:20,231 Logarithm of 10 to the Amount column
+2024-01-08 19:19:20,237 Splitting the data into features and targets.
+2024-01-08 19:19:20,247 Splitting the data into train, test and validation sets.
+2024-01-08 19:19:20,248 Scaling the data.
+2024-01-08 19:19:20,489 Resampling applied: SMOTE with sampling_strategy=0.2
+2024-01-08 19:19:20,504 Evaluating RandomForestClassifier...
+2024-01-08 19:19:22,723 Model summary saved.
+2024-01-08 19:19:22,724 Successfully saved the model summary
+2024-01-08 19:19:22,910 Evaluating SVC...
+2024-01-08 19:19:37,090 Model summary saved.
+2024-01-08 19:19:37,090 Successfully saved the model summary
+2024-01-08 19:19:40,793 Saving all plots
+2024-01-08 19:21:18,508 Model summary saved.
+2024-01-08 19:21:18,510 Successfully saved the model summary
+2024-01-08 19:21:28,313 Saving all plots
+2024-01-08 19:21:30,910 Model summary saved.
+2024-01-08 19:21:30,911 Successfully saved the model summary
+2024-01-08 19:21:31,025 Saving all plots
+2024-01-08 19:25:09,480 Saving all plots
+2024-01-08 19:25:10,022 Model summary saved.
+2024-01-08 19:25:10,023 Successfully saved the model summary
+2024-01-08 19:25:10,023 Testing RandomForestClassifier...
+2024-01-08 19:25:10,043 Saving all plots
+2024-01-08 19:25:10,328 Testing SVC...
+2024-01-08 19:25:10,887 Saving all plots
+2024-01-08 19:25:25,842 Saving all plots
+2024-01-08 19:25:26,217 Saving all plots
+2024-01-08 19:25:26,824 Testing NN...
+2024-01-08 19:25:27,983 Saving all plots
+2024-01-08 19:25:28,286 Model summary saved.
+2024-01-08 19:25:28,286 Successfully saved the model summary

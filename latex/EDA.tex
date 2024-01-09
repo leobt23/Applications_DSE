@@ -69,7 +69,7 @@ The fact the dataset is unbalanced can lead to misleading results when using cor
     \item Also, because the minority class has fewer data points, there's a higher risk of not detecting a relationship (false negative) when one might exist.
 \end{itemize}
 
-Due to the problem i presented, Traditional correlation metrics may not be suitable for imbalanced datasets. In this binary classification problem with a highly imbalanced target, a high Pearson correlation coefficient with a predictor might be misleading.
+Due to the problem I presented, Traditional correlation metrics may not be suitable for imbalanced datasets. In this binary classification problem with a highly imbalanced target, a high Pearson correlation coefficient with a predictor might be misleading.
 
 \begin{figure}[htbp]
     \centerline{\includegraphics[scale=0.5]{images/initial_dataset_balance.png}}
@@ -81,7 +81,7 @@ Due to the problem i presented, Traditional correlation metrics may not be suita
 \subsection{Variance}
 
 
-Given that your data is the result of a PCA transformation, several unique characteristics and considerations come into play:
+The majority of the data is the result of a PCA transformation - in this case was to \textbf{guarantee anonymity of the clients} - several unique characteristics and considerations come into play:
 
 \begin{enumerate}
     \item \textbf{Orthogonality:} The principal components resulting from PCA are orthogonal (uncorrelated). Thus, the correlation matrix of these components should be a diagonal matrix with ones on the diagonal (or very close to this in practice due to numerical precision).
@@ -112,9 +112,6 @@ PCA is a dimensionality reduction technique that seeks to identify axes in data 
 Consequently, when PCA-transformed features are acquired (like 'V1', 'V2', 'V3', etc.), they are inherently ordered by the variance they represent from the original dataset, with 'V1' representing the most and the final component the least.
 
 
-
-
-\end{document}
 
 
 

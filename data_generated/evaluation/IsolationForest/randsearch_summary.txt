@@ -1,25 +1,26 @@
 Type: Random Search
-mean_fit_time: [0.00363247 0.08419736 0.03965322 0.08292015 0.08346542 0.00301957
- 0.07697654 0.07660484 0.07870523 0.00299176]
-std_fit_time: [4.94714830e-04 1.58119529e-03 5.15454658e-04 1.05980571e-03
- 2.84213017e-03 3.96449307e-05 1.43566749e-03 8.21305208e-04
- 5.34955981e-04 1.43491984e-06]
-mean_score_time: [0.00139078 0.00412305 0.00335002 0.00510351 0.00462429 0.00165987
- 0.00481073 0.00487987 0.00480294 0.00099556]
-std_score_time: [4.60617386e-04 1.91964945e-04 5.09982672e-04 6.02936070e-04
- 4.50519074e-04 9.40552743e-04 2.43721351e-04 3.15887153e-04
- 2.19713382e-04 1.46109075e-06]
-param_n_estimators: [2 100 50 100 100 2 100 100 100 2]
-param_max_features: [0.1 0.5 0.1 0.5 0.1 1.0 1.0 1.0 0.1 1.0]
-param_contamination: [0.3 0.2 0.2 0.3 0.2 0.3 0.3 0.1 0.2 0.2]
-param_bootstrap: [True False True False False False True True True True]
-params: [{'n_estimators': 2, 'max_features': 0.1, 'contamination': 0.3, 'bootstrap': True}, {'n_estimators': 100, 'max_features': 0.5, 'contamination': 0.2, 'bootstrap': False}, {'n_estimators': 50, 'max_features': 0.1, 'contamination': 0.2, 'bootstrap': True}, {'n_estimators': 100, 'max_features': 0.5, 'contamination': 0.3, 'bootstrap': False}, {'n_estimators': 100, 'max_features': 0.1, 'contamination': 0.2, 'bootstrap': False}, {'n_estimators': 2, 'max_features': 1.0, 'contamination': 0.3, 'bootstrap': False}, {'n_estimators': 100, 'max_features': 1.0, 'contamination': 0.3, 'bootstrap': True}, {'n_estimators': 100, 'max_features': 1.0, 'contamination': 0.1, 'bootstrap': True}, {'n_estimators': 100, 'max_features': 0.1, 'contamination': 0.2, 'bootstrap': True}, {'n_estimators': 2, 'max_features': 1.0, 'contamination': 0.2, 'bootstrap': True}]
-split0_test_score: [0. 0. 0. 0. 0. 0. 0. 0. 0. 0.]
-split1_test_score: [0. 0. 0. 0. 0. 0. 0. 0. 0. 0.]
-split2_test_score: [0.62970297 0.86894075 0.84892086 0.83979764 0.87207207 0.83816014
- 0.8392555  0.87382298 0.86678508 0.8490566 ]
-mean_test_score: [0.20990099 0.28964692 0.28297362 0.27993255 0.29069069 0.27938671
- 0.27975183 0.29127433 0.28892836 0.28301887]
-std_test_score: [0.29684483 0.4096226  0.40018513 0.3958844  0.41109872 0.39511248
- 0.39562884 0.4119241  0.40860641 0.40024912]
-rank_test_score: [10  3  6  7  2  9  8  1  4  5]
+mean_fit_time: [0.11699438 0.07640886 0.07545114 0.00536879 0.00626175 0.16508857
+ 0.00588202 0.07263676 0.08454069 0.00568875]
+std_fit_time: [0.00459907 0.00106724 0.00160141 0.00017958 0.00064791 0.00311335
+ 0.00022087 0.00457206 0.00121451 0.00051945]
+mean_score_time: [0.02033345 0.01455394 0.01283622 0.00286794 0.00200391 0.02541502
+ 0.00285435 0.01255703 0.01363977 0.00219313]
+std_score_time: [7.03451700e-04 9.51874989e-04 6.21690972e-04 2.46269735e-04
+ 1.43302591e-05 8.72266557e-04 6.34001611e-04 3.50625196e-04
+ 4.89534999e-04 2.81092460e-04]
+param_n_estimators: [100 50 50 2 2 100 2 50 50 2]
+param_max_features: [1.0 0.5 0.1 0.5 0.5 0.5 0.1 1.0 0.5 1.0]
+param_contamination: [0.2 0.2 0.2 0.3 0.3 0.3 0.2 0.1 0.2 0.1]
+param_bootstrap: [True True False True False False False False False False]
+params: [{'n_estimators': 100, 'max_features': 1.0, 'contamination': 0.2, 'bootstrap': True}, {'n_estimators': 50, 'max_features': 0.5, 'contamination': 0.2, 'bootstrap': True}, {'n_estimators': 50, 'max_features': 0.1, 'contamination': 0.2, 'bootstrap': False}, {'n_estimators': 2, 'max_features': 0.5, 'contamination': 0.3, 'bootstrap': True}, {'n_estimators': 2, 'max_features': 0.5, 'contamination': 0.3, 'bootstrap': False}, {'n_estimators': 100, 'max_features': 0.5, 'contamination': 0.3, 'bootstrap': False}, {'n_estimators': 2, 'max_features': 0.1, 'contamination': 0.2, 'bootstrap': False}, {'n_estimators': 50, 'max_features': 1.0, 'contamination': 0.1, 'bootstrap': False}, {'n_estimators': 50, 'max_features': 0.5, 'contamination': 0.2, 'bootstrap': False}, {'n_estimators': 2, 'max_features': 1.0, 'contamination': 0.1, 'bootstrap': False}]
+split0_test_score: [0.30558723 0.26482213 0.31345029 0.11725293 0.17954723 0.16076447
+ 0.17782027 0.496      0.36820084 0.19173554]
+split1_test_score: [0.16532258 0.17573222 0.16371681 0.06260575 0.09674027 0.11875
+ 0.15982721 0.24752475 0.16101695 0.0358209 ]
+split2_test_score: [0.83148518 0.80357462 0.83973076 0.7454418  0.69684814 0.78279713
+ 0.80129302 0.85642512 0.81628319 0.79307468]
+mean_test_score: [0.43413166 0.41470966 0.43896596 0.30843349 0.32437855 0.35410387
+ 0.37964683 0.53331662 0.44850032 0.34021037]
+std_test_score: [0.28674717 0.27736405 0.28990154 0.30981583 0.26553649 0.3036168
+ 0.29823935 0.24997908 0.27347086 0.32648829]
+rank_test_score: [ 4  5  3 10  9  7  6  1  2  8]
