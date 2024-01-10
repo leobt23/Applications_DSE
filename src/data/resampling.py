@@ -125,7 +125,10 @@ class Resampler(Resampling):
         # Create a new X and add y to it
         self.save_plot(X, y, "data_generated/resampling/", "pre", strategy_name)
         strategy_class = self.get_resampling_class(strategy_name)
-        resampler = strategy_class(sampling_strategy=sampling_strategy)
+        if strategy_name == "NearMiss":
+            resampler = strategy_class(version=3)
+        else:
+            resampler = strategy_class(sampling_strategy=sampling_strategy)
         X_res, y_res = resampler.fit_resample(X, y)
         app_logger.info(
             f"Resampling applied: {strategy_name} with sampling_strategy={sampling_strategy}"
