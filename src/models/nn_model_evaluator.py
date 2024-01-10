@@ -2,7 +2,13 @@
 import kerastuner as kt
 import matplotlib.pyplot as plt
 import pandas as pd
-from sklearn.metrics import accuracy_score, f1_score, roc_auc_score
+from sklearn.metrics import (
+    accuracy_score,
+    average_precision_score,
+    f1_score,
+    recall_score,
+    roc_auc_score,
+)
 from tensorflow.keras.callbacks import EarlyStopping
 from tensorflow.keras.layers import Dense, Dropout
 from tensorflow.keras.models import Sequential
@@ -54,10 +60,10 @@ class NNModelEvaluator(AbstractModelEvaluator):
         plt.xlabel("Epoch")
         plt.legend(["Train", "Test"], loc="upper left")
 
-        plt.savefig("data_generated/evaluation/plots/nn.png")  # Add your path here
+        plt.savefig("data_generated/evaluation/plots/nn.png")
         plt.close()
 
-    def train_model(self, model, X_train, y_train):
+    def train_model(self, model, X_train, y_train, X_val, y_val):
         """Compiles and trains a NN model.
 
         Args:
@@ -77,11 +83,12 @@ class NNModelEvaluator(AbstractModelEvaluator):
         history = model.fit(
             X_train,
             y_train,
-            validation_split=0.2,
+            validation_data=(X_val, y_val),
             epochs=500,
             batch_size=64,
             callbacks=[callback],
         )
+
         return history, model
 
     def evaluate_performance(self, model, X_val, y_val):
@@ -97,11 +104,17 @@ class NNModelEvaluator(AbstractModelEvaluator):
         """
         y_pred = (model.predict(X_val) > 0.5).astype(int).ravel()
         y_pred_prob = model.predict(X_val).ravel()
+        # Convert probabilities to binary predictions using a threshold
+        precision = average_precision_score(y_val, y_pred_prob)
+        # Calculate recall
+        recall = recall_score(y_val, y_pred)
         return {
             "NN": {
                 "ROC AUC": roc_auc_score(y_val, y_pred_prob),
                 "F1 Score": f1_score(y_val, y_pred),
                 "Accuracy": accuracy_score(y_val, y_pred),
+                "Precision": precision,
+                "Recall": recall,
             }
         }, {"NN": {"y_pred": y_pred, "y_pred_prob": y_pred_prob}}
 
@@ -164,7 +177,7 @@ class NNModelEvaluator(AbstractModelEvaluator):
 
         model = self.build_model(best_hps)
 
-        history, model = self.train_model(model, X_train, y_train)
+        history, model = self.train_model(model, X_train, y_train, X_val, y_val)
         model_summary, model_predictions = self.evaluate_performance(
             model, X_val, y_val
         )

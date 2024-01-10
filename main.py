@@ -1,28 +1,52 @@
+import random as rn
 import sys
 
+import numpy as np
+import pandas as pd
+import tensorflow as tf
 import yaml
 from sklearn.ensemble import IsolationForest, RandomForestClassifier
+
+# classification report
+from sklearn.metrics import (
+    accuracy_score,
+    classification_report,
+    f1_score,
+    precision_score,
+    recall_score,
+    roc_auc_score,
+)
 from sklearn.svm import SVC, OneClassSVM
 from tensorflow.keras.models import Sequential
 
 from src.data.data_loader import DataLoader
 from src.data.data_processor import DataProcessor
 from src.data.resampling import Resampler
+from src.models.autoencoder import Autoencoder
 from src.models.ml_model_evaluator import MLModelEvaluator
 from src.models.ml_model_tester import MLModelTester
 from src.models.ml_model_unsupervised_evaluator import MLModelUnsupervisedEvaluator
 from src.models.ml_model_unsupervised_tester import MLModelUnsupervisedTester
 from src.models.nn_model_evaluator import NNModelEvaluator
 from src.models.nn_model_tester import NNModelTester
-from src.utils import load_config, save_model_summary
+from src.utils import (
+    load_config,
+    plot_all_metric_and_model_comparation,
+    save_model_summary,
+)
 
 
 def main():
+    # setting random seeds for libraries to ensure reproducibility
+    np.random.seed(42)
+    rn.seed(42)
+    tf.random.set_seed(42)
+
     # Acess cfg file and get the path to the data file
     cfg_file = load_config("config.yml")
 
     # Data Loading
-    data_loader = DataLoader(cfg_file["data"]["light_version"])
+    data_loader = DataLoader(cfg_file["data"]["full_version"])
     data = data_loader.load_csv()
 
     # Data Processing
@@ -125,6 +149,53 @@ def main():
 
     model_summary.update(_model_summary)
     save_model_summary(model_summary, file_path=cfg_file["model_summary_test"])
+
+    plot_all_metric_and_model_comparation()
+
+    """
+
+    autoencoder = Autoencoder(input_dim=X_train.shape[1], encoding_dim=2)
+    autoencoder.compile()
+    autoencoder.train(X_train, X_val, epochs=100, batch_size=256)
+    X_train_encoded = autoencoder.encode(X_train)
+    X_test_encoded = autoencoder.encode(X_test)
+    # decoded_data = autoencoder.decode(encoded_data)
+
+    # save data
+    np.savetxt(
+        "data/processed_data/X_train_encoded_data.csv", X_train_encoded, delimiter=","
+    )
+    np.savetxt("data/processed_data/X_test_encoded.csv", X_test_encoded, delimiter=",")
+
+    
+    # Train a classifier on the encoded data
+    classifier = RandomForestClassifier(
+        min_samples_split=10, max_features="log2", max_depth=8
+    )
+    classifier.fit(X_train_encoded, y_train)
+
+    # Make predictions and evaluate the classifier
+    y_pred = classifier.predict(X_test_encoded)
+
+    
+    # get f1 score, auc score, precision, recall, accuracy
+    _f1_score = f1_score(y_test, y_pred)
+    auc_score = roc_auc_score(y_test, y_pred)
+    precision = precision_score(y_test, y_pred)
+    recall = recall_score(y_test, y_pred)
+    accuracy = accuracy_score(y_test, y_pred)
+    autoencoder_classification = {
+        "Autoencoder": {
+            "f1_score": _f1_score,
+            "auc_score": auc_score,
+            "precision": precision,
+            "recall": recall,
+            "accuracy": accuracy,
+        }
+    }
+    print(autoencoder_classification)
+    # model_summary.update(autoencoder_classification)
+    """
 
 
 if __name__ == "__main__":

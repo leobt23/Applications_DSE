@@ -65,9 +65,18 @@ class DataProcessor(AbstractDataProcessor):
         self.y_test = self.y[self.X["hour48"] >= 24]
 
         # Validation data is 15% of test data but keep the data in order by 'Time' of the test data.
-        _, self.X_val, _, self.y_val = train_test_split(
-            self.X_test, self.y_test, test_size=0.15, shuffle=False
-        )
+        # Calculate the size of your validation set
+        val_size = int(len(self.X_test) * 0.15)
+
+        # Generate random indices for validation set
+        val_indices = np.random.choice(len(self.X_test), size=val_size, replace=False)
+
+        # Sort these indices to preserve the order of the original data
+        val_indices = np.sort(val_indices)
+
+        # Split data into validation and remaining sets
+        self.X_val = self.X_test.iloc[val_indices]
+        self.y_val = self.y_test.iloc[val_indices]
 
         self.X_train = self.X_train.drop(["hour48", "Time"], axis=1)
         self.X_test = self.X_test.drop(["hour48", "Time"], axis=1)

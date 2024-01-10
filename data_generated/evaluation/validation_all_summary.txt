@@ -1,6 +1,6 @@
 Type: evaluate
-RandomForestClassifier: {'ROC AUC': 0.909422298608416, 'F1 Score': 0.7058823529411765, 'Accuracy': 0.9953249181860683, 'Best Params': {'min_samples_split': 10, 'max_features': 'log2', 'max_depth': 8}}
-SVC: {'ROC AUC': 0.768559073016577, 'F1 Score': 0.6060606060606061, 'Accuracy': 0.9939223936418887, 'Best Params': {'kernel': 'poly', 'gamma': 'scale', 'degree': 4, 'C': 10}}
-OneClassSVM: {'ROC AUC': 0.7017380939180573, 'F1 Score': 0.027257240204429305, 'Accuracy': 0.46610565684899485, 'Best Params': {'cache_size': 200, 'coef0': 0.0, 'degree': 3, 'gamma': 'scale', 'kernel': 'rbf', 'max_iter': -1, 'nu': 0.5, 'shrinking': True, 'tol': 0.001, 'verbose': False}}
-IsolationForest: {'ROC AUC': 0.6992848034595552, 'F1 Score': 0.2692307692307692, 'Accuracy': 0.9822346891070594, 'Best Params': {'bootstrap': False, 'contamination': 0.1, 'max_features': 1.0, 'max_samples': 'auto', 'n_estimators': 50, 'n_jobs': None, 'random_state': None, 'verbose': 0, 'warm_start': False}}
-NN: {'ROC AUC': 0.8693518877862172, 'F1 Score': 0.6666666666666667, 'Accuracy': 0.9943899018232819}
+RandomForestClassifier: {'ROC AUC': 0.9402478703749122, 'F1 Score': 0.7547169811320755, 'Accuracy': 0.9939195509822264, 'Precision': 0.7686299667694492, 'Recall': 0.6896551724137931, 'Best Params': {'min_samples_split': 10, 'max_features': 'log2', 'max_depth': 8}}
+SVC: {'ROC AUC': 0.8781903500596785, 'F1 Score': 0.7450980392156864, 'Accuracy': 0.9939195509822264, 'Precision': 0.7040353285665935, 'Recall': 0.6551724137931034, 'Best Params': {'kernel': 'poly', 'gamma': 'scale', 'degree': 3, 'C': 0.1}}
+OneClassSVM: {'ROC AUC': 0.7084580042837756, 'F1 Score': 0.04612850082372323, 'Accuracy': 0.4583723105706268, 'Best Params': {'cache_size': 200, 'coef0': 0.0, 'degree': 3, 'gamma': 'scale', 'kernel': 'rbf', 'max_iter': -1, 'nu': 0.5, 'shrinking': True, 'tol': 0.001, 'verbose': False}}
+IsolationForest: {'ROC AUC': 0.8648893902977386, 'F1 Score': 0.15015015015015015, 'Accuracy': 0.8676333021515436, 'Best Params': {'bootstrap': False, 'contamination': 0.2, 'max_features': 0.1, 'max_samples': 'auto', 'n_estimators': 50, 'n_jobs': None, 'random_state': None, 'verbose': 0, 'warm_start': False}}
+NN: {'ROC AUC': 0.8778796945766092, 'F1 Score': 0.7857142857142857, 'Accuracy': 0.9943872778297475, 'Precision': 0.7638430279504999, 'Recall': 0.7586206896551724}

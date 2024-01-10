@@ -1,4 +1,10 @@
-from sklearn.metrics import accuracy_score, f1_score, roc_auc_score
+from sklearn.metrics import (
+    accuracy_score,
+    average_precision_score,
+    f1_score,
+    recall_score,
+    roc_auc_score,
+)
 from sklearn.model_selection import RandomizedSearchCV
 
 from src.logger_cfg import app_logger
@@ -71,10 +77,17 @@ class MLModelEvaluator(AbstractModelEvaluator):
         y_pred = model.predict(X_val)
         y_pred_prob = model.predict_proba(X_val)[:, 1]
 
+        # Convert probabilities to binary predictions using a threshold
+        precision = average_precision_score(y_val, y_pred_prob)
+        # Calculate recall
+        recall = recall_score(y_val, y_pred)
+
         return {
             "ROC AUC": roc_auc_score(y_val, y_pred_prob),
             "F1 Score": f1_score(y_val, y_pred),
             "Accuracy": accuracy_score(y_val, y_pred),
+            "Precision": precision,
+            "Recall": recall,
         }
 
     def evaluate(self, X_train, y_train, X_val, y_val, n_iter=100, cv=5):

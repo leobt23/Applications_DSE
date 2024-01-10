@@ -90,13 +90,14 @@ class MLModelUnsupervisedEvaluator:  # TODO: AbstractModelEvaluator
             print(f"Training {name}...")
 
             # Perform Random Search
-            random_search = self.perform_random_search_unsupervised(
-                model, self.X_train, self.y_train, 10, 5, name
-            )
+            if name != "OneClassSVM":
+                random_search = self.perform_random_search_unsupervised(
+                    model, self.X_train, self.y_train, 10, 5, name
+                )
 
-            model = random_search.best_estimator_
-
-            print(random_search.best_params_)
+                model = random_search.best_estimator_
+            else:
+                pass
 
             # Train the model on normal data
             model.fit(self.X_train)

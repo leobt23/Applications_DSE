@@ -2,10 +2,17 @@ import os
 import sys
 
 import matplotlib.pyplot as plt
+import numpy as np
 import seaborn as sns
 import yaml
 from joblib import dump
-from sklearn.metrics import confusion_matrix, roc_auc_score, roc_curve
+from sklearn.metrics import (
+    average_precision_score,
+    confusion_matrix,
+    precision_recall_curve,
+    roc_auc_score,
+    roc_curve,
+)
 
 from src.logger_cfg import app_logger
 
@@ -76,9 +83,21 @@ def save_confusion_matrix(y_true, y_pred, model_name, folder, type):
         # Generate the confusion matrix
         cm = confusion_matrix(y_true, y_pred)
 
+        # Calculate the percentage for each cell in the confusion matrix
+        cm_percentage = cm.astype("float") / cm.sum(axis=1)[:, np.newaxis]
+        cm_percentage = np.round(cm_percentage * 100, 2)  # Round to 2 decimal places
+
+        # Create an array of strings to be used for annotations
+        annot = np.empty_like(cm, dtype=object)
+        for i in range(cm.shape[0]):
+            for j in range(cm.shape[1]):
+                annot[i, j] = f"{cm[i, j]}\n{cm_percentage[i, j]}%"
+
         # Plot and save the confusion matrix
         fig, ax = plt.subplots(figsize=(6, 5))
-        sns.heatmap(cm, annot=True, fmt="d", cmap="Reds", ax=ax)
+        sns.heatmap(
+            cm, annot=annot, fmt="", cmap="Reds", ax=ax
+        )  # Use empty format string
         plt.xlabel("Predicted label")
         plt.ylabel("True label")
         plt.title(f"Confusion Matrix: {model_name}")
@@ -91,6 +110,31 @@ def save_confusion_matrix(y_true, y_pred, model_name, folder, type):
             f"An error occurred while saving the confusion matrix for {model_name}: {e}"
         )
         sys.exit(1)
+
+
+def plot_precision_recall_curve(y_true, y_pred, folder, model_name, type):
+    """
+    Plots the Precision-Recall curve for given true labels and predicted probabilities.
+
+    :param y_true: Array of true binary labels (0s and 1s)
+    :param y_scores: Predicted probabilities for the positive class (between 0 and 1)
+    """
+    # Calculate precision-recall values
+    precision, recall, thresholds = precision_recall_curve(y_true, y_pred)
+
+    # Calculate average precision score
+    average_precision = average_precision_score(y_true, y_pred)
+
+    # Plot the precision-recall curve
+    plt.figure(figsize=(8, 6))
+    plt.plot(recall, precision, label=f"Average Precision = {average_precision:0.2f}")
+    plt.xlabel("Recall")
+    plt.ylabel("Precision")
+    plt.title("Precision-Recall Curve")
+    plt.legend(loc="best")
+    plt.grid(True)
+    plt.savefig(f"{folder}/{type}_precision_recal_curve_{model_name}.png")
+    plt.close()
 
 
 def save_roc_curve(y_true, y_pred_prob, model_name, folder, type):
@@ -149,12 +193,12 @@ def anomaly_scores(model_name, folder, scores="", type="evaluate"):
 
 
 def save_all_plots(
-    y_val_15, model_predictions, folder="latex/model_plots", type="evaluate", scores=""
+    y_val, model_predictions, folder="latex/model_plots", type="evaluate", scores=""
 ):
     """Save all plots for each model
 
     Args:
-        y_val_15 (pd.Series): Validation labels
+        y_val (pd.Series): Validation labels
         model_predictions (dict): Predictions for each model
         folder (str, optional): Folder to save the plots to. Defaults to "latex/model_plots".
         type (str, optional): Type of the plots (evaluate or test). Defaults to "evaluate".
@@ -166,7 +210,7 @@ def save_all_plots(
     for name in model_predictions:
         if name != "OneClassSVM" and name != "IsolationForest":
             save_roc_curve(
-                y_val_15,
+                y_val,
                 model_predictions[name]["y_pred_prob"],
                 name,
                 folder=folder,
@@ -174,10 +218,18 @@ def save_all_plots(
             )
 
         save_confusion_matrix(
-            y_val_15,
+            y_val,
             model_predictions[name]["y_pred"],
             name,
             folder=folder,
+            type=type,
+        )
+
+        plot_precision_recall_curve(
+            y_val,
+            model_predictions[name]["y_pred"],
+            folder=folder,
+            model_name=name,
             type=type,
         )
 
@@ -207,3 +259,48 @@ def save_model(model: object, model_name: str, directory: str = "bestmodels/"):
         print("Model '%s' can not be saved" % model_name)
     else:
         print("Successfully saved the model '%s'" % model_name)
+
+
+def plot_all_metric_and_model_comparation():
+    models_metrics = {}
+
+    titles = [
+        "ROC_AUC_Scores_Comparison",
+        "F1_Scores_Comparison",
+        "Accuracy_Comparison",
+    ]
+
+    with open("data_generated/test/test_all_summary.txt", "r") as file:
+        lines = file.readlines()
+        for line in lines:
+            if line.startswith("Type"):  # Skip header or unrelated lines
+                continue
+            parts = line.split(": ", 1)
+            if len(parts) == 2:
+                model_name = parts[0].strip()
+                metrics = eval(
+                    parts[1].strip()
+                )  # Convert string representation of dictionary to actual dictionary
+                models_metrics[model_name] = metrics
+
+    roc_auc_scores = {
+        model: metrics["ROC AUC"] for model, metrics in models_metrics.items()
+    }
+    f1_scores = {
+        model: metrics["F1 Score"] for model, metrics in models_metrics.items()
+    }
+    accuracies = {
+        model: metrics["Accuracy"] for model, metrics in models_metrics.items()
+    }
+    colors = ["blue", "green", "red", "purple", "orange"]
+
+    for metrics, title in zip([roc_auc_scores, f1_scores, accuracies], titles):
+        names = list(metrics.keys())
+        values = list(metrics.values())
+        plt.figure(figsize=(10, 6))  # You can adjust the figure size
+        plt.bar(names, values, color=colors[: len(metrics)])
+        plt.ylabel("Score")
+        plt.title(title.replace("_", " "))
+        plt.xticks(rotation=45)
+        plt.savefig(f"data_generated/test/plots/{title}.png")
+        plt.close()

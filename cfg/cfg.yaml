@@ -5,7 +5,7 @@ data:
   light_version: "data/processed_data/creditcard_test_light09.csv"
   full_version: "data/raw_data/creditcard.csv"
 resampling:
-  strategy: "SMOTE" # Can be SMOTE, ADASYN, RandomUnderSampler, etc.
+  strategy: "SMOTE" # Can be SMOTE, ADASYN, RandomUnderSampler, RandomOverSampler, etc.
   sampling_strategy: 0.2 # The desired sampling ratio
 models_parameters:
   ml_supervised:
@@ -15,13 +15,13 @@ models_parameters:
       max_features: ["auto", "sqrt", "log2"]
     SVC:
       C: [0.1, 0.2, 1, 10]
-      gamma: ["scale", "auto"]
-      degree: [3, 4, 5] # Relevant for poly kernel
-      kernel: ["linear", "rbf", "poly"]
+      gamma: ["scale"]
+      degree: [3, 4] # Relevant for poly kernel
+      kernel: ["rbf", "poly"]
   ml_unsupervised:
     OneClassSVM:
-      gamma: ["scale", "auto"]
-      kernel: ["linear", "rbf", "poly", "sigmoid"]
+      gamma: ["scale"]
+      kernel: ["rbf"]
     IsolationForest:
       n_estimators: [2, 50, 100]
       contamination: [0.1, 0.2, 0.3]

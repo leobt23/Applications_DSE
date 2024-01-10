@@ -3,7 +3,13 @@ from typing import Tuple
 import joblib
 import numpy as np
 import pandas as pd
-from sklearn.metrics import accuracy_score, f1_score, roc_auc_score
+from sklearn.metrics import (
+    accuracy_score,
+    average_precision_score,
+    f1_score,
+    recall_score,
+    roc_auc_score,
+)
 
 from src.models.abstract_model_tester import AbstractModelTester
 from src.utils import app_logger, save_all_plots
@@ -82,12 +88,18 @@ class MLModelTester(AbstractModelTester):
             # Calculate other metrics
             f1 = f1_score(y_test, y_pred)
             accuracy = accuracy_score(y_test, y_pred)
+            # Convert probabilities to binary predictions using a threshold
+            precision = average_precision_score(y_test, y_pred_prob)
+            # Calculate recall
+            recall = recall_score(y_test, y_pred)
 
             # Add model performance to summary
             model_summary[name] = {
                 "ROC AUC": auc_score,
                 "F1 Score": f1,
                 "Accuracy": accuracy,
+                "Precision": precision,
+                "Recall": recall,
                 "Best Params": model_summary_evaluation[name]["Best Params"],
             }
             model_predictions[name] = {"y_pred": y_pred, "y_pred_prob": y_pred_prob}

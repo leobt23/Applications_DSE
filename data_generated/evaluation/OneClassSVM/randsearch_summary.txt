@@ -1,23 +1,14 @@
 Type: Random Search
-mean_fit_time: [1.62886461 3.32077718 2.18313249 4.07653546 1.61476755 3.31572088
- 2.19241635 4.12963994]
-std_fit_time: [0.22935459 0.30885831 0.34903739 0.84054177 0.21882827 0.3164158
- 0.34662752 0.8392626 ]
-mean_score_time: [0.42750565 1.92285124 0.45990515 0.83957346 0.42257738 1.90002791
- 0.46074414 0.83640265]
-std_score_time: [0.0123193  0.00577356 0.00868655 0.03325824 0.00914977 0.00105078
- 0.0033262  0.00607948]
-param_kernel: ['linear' 'rbf' 'poly' 'sigmoid' 'linear' 'rbf' 'poly' 'sigmoid']
-param_gamma: ['scale' 'scale' 'scale' 'scale' 'auto' 'auto' 'auto' 'auto']
-params: [{'kernel': 'linear', 'gamma': 'scale'}, {'kernel': 'rbf', 'gamma': 'scale'}, {'kernel': 'poly', 'gamma': 'scale'}, {'kernel': 'sigmoid', 'gamma': 'scale'}, {'kernel': 'linear', 'gamma': 'auto'}, {'kernel': 'rbf', 'gamma': 'auto'}, {'kernel': 'poly', 'gamma': 'auto'}, {'kernel': 'sigmoid', 'gamma': 'auto'}]
-split0_test_score: [0.01221854 0.09690787 0.00457666 0.02389346 0.01221854 0.09556743
- 0.00457753 0.0361835 ]
-split1_test_score: [0.01670379 0.07124419 0.00611046 0.00612089 0.01670379 0.07250129
- 0.00611189 0.01054677]
-split2_test_score: [0.3593423  0.70005807 0.13466533 0.66114286 0.3593423  0.70004354
- 0.13466533 0.66133181]
-mean_test_score: [0.12942154 0.28940338 0.04845082 0.23038573 0.12942154 0.28937075
- 0.04845159 0.23602069]
-std_test_score: [0.16258884 0.29056567 0.06096609 0.30467769 0.16258884 0.29054215
- 0.06096554 0.30092244]
-rank_test_score: [5 1 8 4 5 2 7 3]
+mean_fit_time: [3.24626978]
+std_fit_time: [0.33232555]
+mean_score_time: [2.69643195]
+std_score_time: [0.01427712]
+param_kernel: ['rbf']
+param_gamma: ['scale']
+params: [{'kernel': 'rbf', 'gamma': 'scale'}]
+split0_test_score: [0.09882965]
+split1_test_score: [0.07317073]
+split2_test_score: [0.72012579]
+mean_test_score: [0.29737539]
+std_test_score: [0.29911315]
+rank_test_score: [1]

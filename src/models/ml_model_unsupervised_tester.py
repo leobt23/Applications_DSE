@@ -61,6 +61,7 @@ class MLModelUnsupervisedTester(AbstractModelTester):
 
         # Add model performance to summary
         model_summary[name] = {"ROC AUC": roc_auc, "F1 Score": f1, "Accuracy": accuracy}
+        model_summary[name]["Best Params"] = model.get_params()
         model_predictions[name] = {
             "y_pred": y_pred_binary,
         }
@@ -71,7 +72,7 @@ class MLModelUnsupervisedTester(AbstractModelTester):
         model_summary = {}
         model_predictions = {}
         for _, name in self.models:
-            print(f"Training {name}...")
+            print(f"Testing {name}...")
 
             model = self.get_model(name)
 

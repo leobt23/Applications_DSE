@@ -1,6 +1,6 @@
 Type: evaluate
-RandomForestClassifier: {'ROC AUC': 0.9408668578479228, 'F1 Score': 0.801007556675063, 'Accuracy': 0.9944592509468368, 'Best Params': {'min_samples_split': 10, 'max_features': 'log2', 'max_depth': 8}}
-SVC: {'ROC AUC': 0.8640313144050331, 'F1 Score': 0.780246913580247, 'Accuracy': 0.993757890307196, 'Best Params': {'kernel': 'poly', 'gamma': 'scale', 'degree': 4, 'C': 10}}
-OneClassSVM: {'ROC AUC': 0.7151738257945547, 'F1 Score': 0.05072374118520352, 'Accuracy': 0.46184598120353487}
-IsolationForest: {'ROC AUC': 0.7566296507213364, 'F1 Score': 0.37086092715231783, 'Accuracy': 0.9733482956936457}
-Neural Network: {'ROC AUC': 1.0, 'F1 Score': 1.0, 'Accuracy': 1.0}
+RandomForestClassifier: {'ROC AUC': 0.9238729119210326, 'F1 Score': 0.7639902676399026, 'Accuracy': 0.9931968017954832, 'Precision': 0.8037097967107653, 'Recall': 0.7476190476190476, 'Best Params': {'min_samples_split': 10, 'max_features': 'log2', 'max_depth': 8}}
+SVC: {'ROC AUC': 0.9355492054452761, 'F1 Score': 0.8423772609819121, 'Accuracy': 0.9957217000981905, 'Precision': 0.835145200903915, 'Recall': 0.7761904761904762, 'Best Params': {'kernel': 'poly', 'gamma': 'scale', 'degree': 3, 'C': 0.1}}
+OneClassSVM: {'ROC AUC': 0.7169215750081355, 'F1 Score': 0.051217675119256845, 'Accuracy': 0.46991162855940527, 'Best Params': {'cache_size': 200, 'coef0': 0.0, 'degree': 3, 'gamma': 'scale', 'kernel': 'rbf', 'max_iter': -1, 'nu': 0.5, 'shrinking': True, 'tol': 0.001, 'verbose': False}}
+IsolationForest: {'ROC AUC': 0.8700465750081354, 'F1 Score': 0.16353887399463807, 'Accuracy': 0.8687052882592229, 'Best Params': {'bootstrap': False, 'contamination': 0.2, 'max_features': 0.1, 'max_samples': 'auto', 'n_estimators': 50, 'n_jobs': None, 'random_state': None, 'verbose': 0, 'warm_start': False}}
+Neural Network: {'ROC AUC': 0.9523182422171603, 'F1 Score': 0.8515815085158152, 'Accuracy': 0.9957217000981905, 'Precison': 0.8605411564853045, 'Recall': 0.8333333333333334}
