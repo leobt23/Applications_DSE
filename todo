@@ -11,3 +11,4 @@ TODO
 - O standard scaler piora os resultados em principio... VERIFICAR ISTO
 - RandomOverSampler 8% 10% 15% 20%
 - As confirmed above, all features are numerical features. So, we are going to check if scaling is necessary. Since we are going to use tree-based models, we will not consider linear scaling. (https://www.kaggle.com/code/ohseokkim/creditcard-fraud-balance-is-key-feat-pycaret)
+- As matrizes de confusão estão com problemas;
