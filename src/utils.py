@@ -7,6 +7,7 @@ import seaborn as sns
 import yaml
 from joblib import dump
 from sklearn.metrics import (
+    ConfusionMatrixDisplay,
     average_precision_score,
     confusion_matrix,
     precision_recall_curve,
@@ -81,26 +82,34 @@ def save_confusion_matrix(y_true, y_pred, model_name, folder, type):
         os.makedirs(folder, exist_ok=True)
 
         # Generate the confusion matrix
-        cm = confusion_matrix(y_true, y_pred)
+        conf_matrix = confusion_matrix(y_true, y_pred)
 
         # Calculate the percentage for each cell in the confusion matrix
-        cm_percentage = cm.astype("float") / cm.sum(axis=1)[:, np.newaxis]
-        cm_percentage = np.round(cm_percentage * 100, 2)  # Round to 2 decimal places
+        cm_perc = conf_matrix / conf_matrix.sum(keepdims=True) * 100
 
-        # Create an array of strings to be used for annotations
-        annot = np.empty_like(cm, dtype=object)
-        for i in range(cm.shape[0]):
-            for j in range(cm.shape[1]):
-                annot[i, j] = f"{cm[i, j]}\n{cm_percentage[i, j]}%"
+        # Define the display with display labels as the class names
+        cm_display = ConfusionMatrixDisplay(
+            confusion_matrix=conf_matrix, display_labels=["False", "True"]
+        )
 
-        # Plot and save the confusion matrix
-        fig, ax = plt.subplots(figsize=(6, 5))
-        sns.heatmap(
-            cm, annot=annot, fmt="", cmap="Reds", ax=ax
-        )  # Use empty format string
-        plt.xlabel("Predicted label")
-        plt.ylabel("True label")
-        plt.title(f"Confusion Matrix: {model_name}")
+        # Plot using a specific color map and add title
+        cm_display.plot(cmap=plt.cm.get_cmap("copper"))
+        plt.title("Confusion Matrix")
+
+        # Loop over data dimensions and create text annotations.
+        for i in range(conf_matrix.shape[0]):
+            for j in range(conf_matrix.shape[1]):
+                percentage = f"{cm_perc[i, j]:.2f}%"  # Format as rounded integer
+                plt.text(
+                    j,
+                    i,
+                    f"\n\n({percentage})",
+                    ha="center",
+                    va="center",
+                    color="white"
+                    if conf_matrix[i, j] > conf_matrix.max() / 2
+                    else "white",
+                )
         plt.tight_layout()
         plt.savefig(f"{folder}/{type}_confusion_matrix_{model_name}.png")
         plt.close()

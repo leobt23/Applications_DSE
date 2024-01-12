@@ -1,6 +1,7 @@
 import random as rn
 import sys
 
+import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import tensorflow as tf
@@ -46,7 +47,7 @@ def main():
     cfg_file = load_config("config.yml")
 
     # Data Loading
-    data_loader = DataLoader(cfg_file["data"]["full_version"])
+    data_loader = DataLoader(cfg_file["data"]["light_version"])
     data = data_loader.load_csv()
 
     # Data Processing
@@ -67,7 +68,7 @@ def main():
         y_train,
         sampling_strategy=cfg_file["resampling"].get("sampling_strategy", "auto"),
     )
-
+    """
     # Define models
     models_supervised_ML = [
         (
@@ -90,7 +91,7 @@ def main():
     )
 
     ml_evaluator.evaluate(X_train, y_train, X_val, y_val, n_iter=2)
-
+    
     # Retrieve summaries and predictions
     model_summary, model_predictions = ml_evaluator.get_evaluation_results()
 
@@ -151,33 +152,64 @@ def main():
     save_model_summary(model_summary, file_path=cfg_file["model_summary_test"])
 
     plot_all_metric_and_model_comparation()
-
     """
 
+    # Train an autoencoder on the training data
     autoencoder = Autoencoder(input_dim=X_train.shape[1], encoding_dim=2)
     autoencoder.compile()
-    autoencoder.train(X_train, X_val, epochs=100, batch_size=256)
-    X_train_encoded = autoencoder.encode(X_train)
-    X_test_encoded = autoencoder.encode(X_test)
-    # decoded_data = autoencoder.decode(encoded_data)
+    autoencoder.train(X_train, X_val, epochs=50, batch_size=256)
 
-    # save data
-    np.savetxt(
-        "data/processed_data/X_train_encoded_data.csv", X_train_encoded, delimiter=","
+    reconstructions = autoencoder.predict(X_test)
+
+    mse = np.mean(np.power(X_test - reconstructions, 2), axis=1)
+
+    clean = mse[y_test == 0]
+    fraud = mse[y_test == 1]
+
+    fig, ax = plt.subplots(figsize=(6, 6))
+
+    ax.hist(clean, bins=50, density=True, label="clean", alpha=0.6, color="green")
+    ax.hist(fraud, bins=50, density=True, label="fraud", alpha=0.6, color="red")
+
+    plt.title("(Normalized) Distribution of the Reconstruction Loss")
+    plt.legend()
+    # save plot
+    plt.savefig("data_generated/test/plots/autoencoder_reconstruction_loss.png")
+    plt.close()
+
+    THRESHOLD = 3
+
+    def mad_score(points):
+        m = np.median(points)
+        ad = np.abs(points - m)
+        mad = np.median(ad)
+
+        return 0.6745 * ad / mad
+
+    z_scores = mad_score(mse)
+    outliers = z_scores > THRESHOLD
+
+    print(
+        f"Detected {np.sum(outliers):,} outliers in a total of {np.size(z_scores):,} transactions [{np.sum(outliers)/np.size(z_scores):.2%}]."
     )
-    np.savetxt("data/processed_data/X_test_encoded.csv", X_test_encoded, delimiter=",")
 
-    
-    # Train a classifier on the encoded data
-    classifier = RandomForestClassifier(
-        min_samples_split=10, max_features="log2", max_depth=8
+    from sklearn.metrics import confusion_matrix, precision_recall_curve
+
+    # get (mis)classification
+    cm = confusion_matrix(y_test, outliers)
+
+    # true/false positives/negatives
+    (tn, fp, fn, tp) = cm.flatten()
+
+    print(
+        f"""The classifications using the MAD method with threshold={THRESHOLD} are as follows:
+{cm}
+
+% of transactions labeled as fraud that were correct (precision): {tp}/({fp}+{tp}) = {tp/(fp+tp):.2%}
+% of fraudulent transactions were caught succesfully (recall):    {tp}/({fn}+{tp}) = {tp/(fn+tp):.2%}"""
     )
-    classifier.fit(X_train_encoded, y_train)
 
-    # Make predictions and evaluate the classifier
-    y_pred = classifier.predict(X_test_encoded)
-
-    
+    """
     # get f1 score, auc score, precision, recall, accuracy
     _f1_score = f1_score(y_test, y_pred)
     auc_score = roc_auc_score(y_test, y_pred)

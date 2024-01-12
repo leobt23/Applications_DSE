@@ -82,3 +82,6 @@ class Autoencoder:
 
     def decode(self, encoded_data):
         return self.decoder.predict(encoded_data)
+
+    def predict(self, x):
+        return self.autoencoder.predict(x)

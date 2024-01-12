@@ -1,24 +1,25 @@
 Type: Random Search
-mean_fit_time: [0.08238856 0.0421234  0.03645857 0.00180936 0.07115444 0.03427641
- 0.07580956 0.0739677  0.         0.        ]
-std_fit_time: [0.00706631 0.00520167 0.00730373 0.00024664 0.00630563 0.00317035
- 0.00953784 0.00298849 0.         0.        ]
-mean_score_time: [0.         0.00169063 0.00537841 0.00099818 0.00562072 0.00521763
- 0.         0.         0.00520881 0.        ]
-std_score_time: [0.         0.00127434 0.00760621 0.00081585 0.00709339 0.00737885
- 0.         0.         0.00736637 0.        ]
-param_n_estimators: [100 50 50 2 100 50 100 100 2 2]
-param_max_features: [0.5 0.1 0.5 0.1 0.1 1.0 0.5 1.0 1.0 0.1]
-param_contamination: [0.1 0.2 0.1 0.2 0.3 0.1 0.2 0.3 0.3 0.1]
-param_bootstrap: [False False False True True True True True True False]
-params: [{'n_estimators': 100, 'max_features': 0.5, 'contamination': 0.1, 'bootstrap': False}, {'n_estimators': 50, 'max_features': 0.1, 'contamination': 0.2, 'bootstrap': False}, {'n_estimators': 50, 'max_features': 0.5, 'contamination': 0.1, 'bootstrap': False}, {'n_estimators': 2, 'max_features': 0.1, 'contamination': 0.2, 'bootstrap': True}, {'n_estimators': 100, 'max_features': 0.1, 'contamination': 0.3, 'bootstrap': True}, {'n_estimators': 50, 'max_features': 1.0, 'contamination': 0.1, 'bootstrap': True}, {'n_estimators': 100, 'max_features': 0.5, 'contamination': 0.2, 'bootstrap': True}, {'n_estimators': 100, 'max_features': 1.0, 'contamination': 0.3, 'bootstrap': True}, {'n_estimators': 2, 'max_features': 1.0, 'contamination': 0.3, 'bootstrap': True}, {'n_estimators': 2, 'max_features': 0.1, 'contamination': 0.1, 'bootstrap': False}]
-split0_test_score: [0. 0. 0. 0. 0. 0. 0. 0. 0. 0.]
-split1_test_score: [0.57342657 0.76363636 0.62162162 0.35772358 0.84090909 0.54285714
- 0.725      0.77108434 0.83769634 0.59459459]
-split2_test_score: [0.32820513 0.59482759 0.28421053 0.26595745 0.58874459 0.33673469
- 0.49769585 0.62447257 0.64166667 0.47663551]
-mean_test_score: [0.3005439  0.45282132 0.30194405 0.20789367 0.47655123 0.29319728
- 0.40756528 0.46518564 0.493121   0.3570767 ]
-std_test_score: [0.23491611 0.32752553 0.25408557 0.15170166 0.35234693 0.22374852
- 0.30276381 0.33433717 0.35775518 0.25704269]
-rank_test_score: [ 8  4  7 10  2  9  5  3  1  6]
+mean_fit_time: [0.15489682 0.06461183 0.15057286 0.08731278 0.05882001 0.00521755
+ 0.14781086 0.00540129 0.14715783 0.05838497]
+std_fit_time: [0.00773703 0.00896153 0.00274609 0.00119478 0.00254107 0.00409973
+ 0.00525558 0.00069352 0.00439805 0.00211186]
+mean_score_time: [0.02530607 0.01147461 0.02287086 0.013846   0.01280594 0.00343823
+ 0.0268925  0.00351151 0.02589869 0.01299977]
+std_score_time: [0.00187455 0.00039768 0.00136751 0.00220388 0.00505832 0.00319685
+ 0.00198196 0.00066251 0.00267368 0.00130613]
+param_n_estimators: [100 50 100 50 50 2 100 2 100 50]
+param_max_features: [0.5 1.0 0.1 0.5 1.0 0.5 0.5 0.5 0.1 1.0]
+param_contamination: [0.1 0.3 0.1 0.1 0.1 0.2 0.2 0.1 0.2 0.2]
+param_bootstrap: [True True False False True True True True False True]
+params: [{'n_estimators': 100, 'max_features': 0.5, 'contamination': 0.1, 'bootstrap': True}, {'n_estimators': 50, 'max_features': 1.0, 'contamination': 0.3, 'bootstrap': True}, {'n_estimators': 100, 'max_features': 0.1, 'contamination': 0.1, 'bootstrap': False}, {'n_estimators': 50, 'max_features': 0.5, 'contamination': 0.1, 'bootstrap': False}, {'n_estimators': 50, 'max_features': 1.0, 'contamination': 0.1, 'bootstrap': True}, {'n_estimators': 2, 'max_features': 0.5, 'contamination': 0.2, 'bootstrap': True}, {'n_estimators': 100, 'max_features': 0.5, 'contamination': 0.2, 'bootstrap': True}, {'n_estimators': 2, 'max_features': 0.5, 'contamination': 0.1, 'bootstrap': True}, {'n_estimators': 100, 'max_features': 0.1, 'contamination': 0.2, 'bootstrap': False}, {'n_estimators': 50, 'max_features': 1.0, 'contamination': 0.2, 'bootstrap': True}]
+split0_test_score: [0.52546917 0.12943262 0.5359116  0.55621302 0.57894737 0.25206612
+ 0.35714286 0.59701493 0.29004329 0.3248731 ]
+split1_test_score: [0.21383648 0.12868048 0.21105528 0.25287356 0.18018018 0.12772586
+ 0.17429194 0.16346154 0.14814815 0.17370892]
+split2_test_score: [0.84707265 0.78813275 0.84568746 0.85725249 0.85104702 0.70114719
+ 0.81062767 0.64463197 0.82147272 0.83537464]
+mean_test_score: [0.52879276 0.34874862 0.53088478 0.55544636 0.53672486 0.36031305
+ 0.44735416 0.46836948 0.41988805 0.44465222]
+std_test_score: [0.25852826 0.31069165 0.25911189 0.24673726 0.27550273 0.24629394
+ 0.26749997 0.21647707 0.28981171 0.28309087]
+rank_test_score: [ 4 10  3  1  2  9  6  5  8  7]

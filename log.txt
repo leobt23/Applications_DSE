@@ -1,33 +1,10 @@
-2024-01-10 16:23:24,088 Config file loaded.
-2024-01-10 16:23:25,026 Data loaded from data/raw_data/creditcard.csv
-2024-01-10 16:23:25,507 Removing duplicates from the data.
-2024-01-10 16:23:25,962 Adding hour columns to the data.
-2024-01-10 16:23:25,962 Logarithm of 10 to the Amount column
-2024-01-10 16:23:26,027 Splitting the data into features and targets.
-2024-01-10 16:23:26,081 Splitting the data into train, test and validation sets.
-2024-01-10 16:23:26,081 Scaling the data.
-2024-01-10 16:23:27,085 Resampling applied: NearMiss with sampling_strategy=0.2
-2024-01-10 16:23:27,269 Evaluating RandomForestClassifier...
-2024-01-10 16:23:28,981 Model summary saved.
-2024-01-10 16:23:28,981 Successfully saved the model summary
-2024-01-10 16:23:29,030 Evaluating SVC...
-2024-01-10 16:23:30,060 Model summary saved.
-2024-01-10 16:23:30,060 Successfully saved the model summary
-2024-01-10 16:23:31,733 Saving all plots
-2024-01-10 16:23:33,542 Saving all plots
-2024-01-10 16:23:35,287 Model summary saved.
-2024-01-10 16:23:35,287 Successfully saved the model summary
-2024-01-10 16:23:35,308 Saving all plots
-2024-01-10 16:25:24,060 Saving all plots
-2024-01-10 16:25:24,667 Model summary saved.
-2024-01-10 16:25:24,667 Successfully saved the model summary
-2024-01-10 16:25:24,667 Testing RandomForestClassifier...
-2024-01-10 16:25:24,821 Saving all plots
-2024-01-10 16:25:25,287 Testing SVC...
-2024-01-10 16:25:30,855 Saving all plots
-2024-01-10 16:25:35,869 Saving all plots
-2024-01-10 16:25:36,397 Saving all plots
-2024-01-10 16:25:37,393 Testing NN...
-2024-01-10 16:25:47,257 Saving all plots
-2024-01-10 16:25:47,727 Model summary saved.
-2024-01-10 16:25:47,728 Successfully saved the model summary
+2024-01-12 22:17:04,684 Config file loaded.
+2024-01-12 22:17:04,839 Data loaded from data/processed_data/creditcard_test_light09.csv
+2024-01-12 22:17:04,868 Removing duplicates from the data.
+2024-01-12 22:17:04,923 Adding hour columns to the data.
+2024-01-12 22:17:04,923 Logarithm of 10 to the Amount column
+2024-01-12 22:17:04,931 Splitting the data into features and targets.
+2024-01-12 22:17:04,939 Splitting the data into train, test and validation sets.
+2024-01-12 22:17:04,940 Scaling the data.
+2024-01-12 22:17:05,506 Resampling applied: SMOTE with sampling_strategy=0.2
+2024-01-12 22:17:05,833 Creating Autoencoder model.

@@ -8,7 +8,7 @@ Out of the 284,807 transactions recorded, 492 were fraudulent, making up a mere 
 
 The dataset consists mainly of numerical variables derived from a Principal Component Analysis (PCA) transformation. To maintain confidentiality, the original features and further details about the data are not disclosed. The variables V1, V2, through V28 are the principal components derived from the PCA. The only exceptions that haven't undergone PCA are 'Time' and 'Amount'. The 'Time' feature indicates the seconds that have passed between each transaction and the first one in the dataset. On the other hand, 'Amount' denotes the transaction value, which can be useful for context-sensitive learning approaches. The 'Class' feature is the target variable, where a value of 1 indicates a fraudulent transaction, and 0 signifies a legitimate one.
 
-There is no null or missing values of the dataset.
+There is no null or missing values of the dataset, but was 1854 observations duplicated, which were removed because they don't add any value to the analysis.
 
 \begin{table}[htbp]
     \caption{Summary Statistics for Fraud and Valid Transactions}
@@ -48,6 +48,7 @@ The spread of transaction amounts, as represented by the standard deviation, is 
 
 While fraudulent transactions are comparatively rarer, their amounts can vary significantly, sometimes even surpassing the typical amounts seen in valid transactions. It underscores the importance of leveraging advanced techniques to detect such anomalies amidst the vast sea of valid transactions.
 
+\sub
 
 \subsubsection{Imbalanced Dataset}
 
