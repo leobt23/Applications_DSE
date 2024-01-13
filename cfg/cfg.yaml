@@ -5,7 +5,7 @@ data:
   light_version: "data/processed_data/creditcard_test_light09.csv"
   full_version: "data/raw_data/creditcard.csv"
 resampling:
-  strategy: "SMOTE" # Can be SMOTE, ADASYN, RandomUnderSampler, NearMiss, RandomOverSampler, etc.
+  strategy: "NearMiss" # Can be SMOTE, ADASYN, RandomUnderSampler, NearMiss, RandomOverSampler, etc.
   sampling_strategy: 0.2 # The desired sampling ratio
 models_parameters:
   ml_supervised:

@@ -1,5 +1,6 @@
 # Fdb version 4
-["pdflatex"] 1705055796 "c:/Users/leo_b/OneDrive/Documentos/Projects/personal_projects/Applications_DSE/latex/conference_101719.tex" "conference_101719.pdf" "conference_101719" 1705055797 2
+["pdflatex"] 1705100427 "c:/Users/leo_b/OneDrive/Documentos/Projects/personal_projects/Applications_DSE/latex/conference_101719.tex" "conference_101719.pdf" "conference_101719" 1705100428 2
+  "Anexes.tex" 1705100424 268 f388594ed029514c64a3faa6236bd932 ""
   "C:/Users/leo_b/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1697022694 82507 a9eef8696c92627b87e9975edea03b2a ""
   "C:/Users/leo_b/AppData/Local/MiKTeX/miktex/data/le/pdftex/pdflatex.fmt" 1695213483 23178960 d5d5a19967e8d9f4d43d11518c50cafe ""
   "C:/Users/leo_b/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/base/8r.enc" 1458473887 4993 80dc9bab7f31fb78a000ccfed0e27cab ""
@@ -84,11 +85,12 @@
   "C:/Users/leo_b/AppData/Local/Programs/MiKTeX/tex/latex/psnfss/ot1ptm.fd" 1585253778 1007 15056f4a61917ceed3a44e4ac11fcc52 ""
   "C:/Users/leo_b/AppData/Local/Programs/MiKTeX/tex/latex/psnfss/ts1ptm.fd" 1585253778 653 96f56dc5d1ef1fe1121f1cfeec70ee0c ""
   "C:/Users/leo_b/AppData/Local/Programs/MiKTeX/tex/latex/xcolor/xcolor.sty" 1656233290 56148 51a9a8571c07b9921892ae11063ae853 ""
-  "EDA.tex" 1705055792 9024 886232477827e7a72e4fb2c9fbf04061 ""
-  "Preprocessing.tex" 1704737432 2889 f9cc4aacd5ba554f3add885fdf98690d ""
-  "c:/Users/leo_b/OneDrive/Documentos/Projects/personal_projects/Applications_DSE/latex/conference_101719.tex" 1704733073 3369 b51b4285fc87c14e82fe653170cf0b42 ""
-  "conference_101719.aux" 1705055797 1518 38c88647480f2915b59eb5a081d1d856 "pdflatex"
-  "conference_101719.tex" 1704733073 3369 b51b4285fc87c14e82fe653170cf0b42 ""
+  "EDA.tex" 1705100325 10239 9361a1bdb3ffaa1fcd9acf9dc3580efa ""
+  "Preprocessing.tex" 1705099090 2869 9cca8a9d5ce673ef844eb7d500499489 ""
+  "c:/Users/leo_b/OneDrive/Documentos/Projects/personal_projects/Applications_DSE/latex/conference_101719.tex" 1705099305 3323 583afafd0be6994faf536d946db3f480 ""
+  "conference_101719.aux" 1705100428 2038 16fbfe070fa2926b3afc249d39fe25f2 "pdflatex"
+  "conference_101719.tex" 1705099305 3323 583afafd0be6994faf536d946db3f480 ""
+  "images/eda_distributions_all_fraud_or_not.png" 1705098299 389138 8806c57b27675fcb7c0771a78b935348 ""
   "images/initial_dataset_balance.png" 1697015923 10257 010410a2584e650f9c7982329bfe1bcf ""
   (generated)
   "conference_101719.aux"

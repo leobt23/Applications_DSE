@@ -12,7 +12,7 @@ from sklearn.metrics import (
 from tensorflow.keras.models import load_model
 
 from src.models.abstract_model_tester import AbstractModelTester
-from src.utils import app_logger, save_all_plots
+from src.utils import app_logger, save_all_plots, save_outputs
 
 
 class NNModelTester(AbstractModelTester):
@@ -29,32 +29,6 @@ class NNModelTester(AbstractModelTester):
             object: Loaded model object.
         """
         return load_model(model_path)
-
-    def plot_training_history(self, history):
-        plt.figure(figsize=(12, 6))
-
-        # Add title
-        plt.suptitle("Training History", fontsize=16)
-        # Plot training & validation accuracy values
-        plt.subplot(1, 2, 1)
-        plt.plot(history.history["accuracy"])
-        plt.plot(history.history["val_accuracy"])
-        plt.title("Model accuracy")
-        plt.ylabel("Accuracy")
-        plt.xlabel("Epoch")
-        plt.legend(["Train", "Test"], loc="upper left")
-
-        # Plot training & validation loss values
-        plt.subplot(1, 2, 2)
-        plt.plot(history.history["loss"])
-        plt.plot(history.history["val_loss"])
-        plt.title("Model loss")
-        plt.ylabel("Loss")
-        plt.xlabel("Epoch")
-        plt.legend(["Train", "Test"], loc="upper left")
-
-        plt.savefig("data_generated/test/plots/nn.png")
-        plt.close()
 
     def test_nn_model(
         self,
@@ -110,5 +84,7 @@ class NNModelTester(AbstractModelTester):
             folder="data_generated/test/plots",
             type="test",
         )
+
+        save_outputs(y_pred_nn, "NN", folder="data_generated/test/outputs")
 
         return model_summary, model_predictions

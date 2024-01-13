@@ -1,25 +1,24 @@
 Type: Random Search
-mean_fit_time: [0.15489682 0.06461183 0.15057286 0.08731278 0.05882001 0.00521755
- 0.14781086 0.00540129 0.14715783 0.05838497]
-std_fit_time: [0.00773703 0.00896153 0.00274609 0.00119478 0.00254107 0.00409973
- 0.00525558 0.00069352 0.00439805 0.00211186]
-mean_score_time: [0.02530607 0.01147461 0.02287086 0.013846   0.01280594 0.00343823
- 0.0268925  0.00351151 0.02589869 0.01299977]
-std_score_time: [0.00187455 0.00039768 0.00136751 0.00220388 0.00505832 0.00319685
- 0.00198196 0.00066251 0.00267368 0.00130613]
-param_n_estimators: [100 50 100 50 50 2 100 2 100 50]
-param_max_features: [0.5 1.0 0.1 0.5 1.0 0.5 0.5 0.5 0.1 1.0]
-param_contamination: [0.1 0.3 0.1 0.1 0.1 0.2 0.2 0.1 0.2 0.2]
-param_bootstrap: [True True False False True True True True False True]
-params: [{'n_estimators': 100, 'max_features': 0.5, 'contamination': 0.1, 'bootstrap': True}, {'n_estimators': 50, 'max_features': 1.0, 'contamination': 0.3, 'bootstrap': True}, {'n_estimators': 100, 'max_features': 0.1, 'contamination': 0.1, 'bootstrap': False}, {'n_estimators': 50, 'max_features': 0.5, 'contamination': 0.1, 'bootstrap': False}, {'n_estimators': 50, 'max_features': 1.0, 'contamination': 0.1, 'bootstrap': True}, {'n_estimators': 2, 'max_features': 0.5, 'contamination': 0.2, 'bootstrap': True}, {'n_estimators': 100, 'max_features': 0.5, 'contamination': 0.2, 'bootstrap': True}, {'n_estimators': 2, 'max_features': 0.5, 'contamination': 0.1, 'bootstrap': True}, {'n_estimators': 100, 'max_features': 0.1, 'contamination': 0.2, 'bootstrap': False}, {'n_estimators': 50, 'max_features': 1.0, 'contamination': 0.2, 'bootstrap': True}]
-split0_test_score: [0.52546917 0.12943262 0.5359116  0.55621302 0.57894737 0.25206612
- 0.35714286 0.59701493 0.29004329 0.3248731 ]
-split1_test_score: [0.21383648 0.12868048 0.21105528 0.25287356 0.18018018 0.12772586
- 0.17429194 0.16346154 0.14814815 0.17370892]
-split2_test_score: [0.84707265 0.78813275 0.84568746 0.85725249 0.85104702 0.70114719
- 0.81062767 0.64463197 0.82147272 0.83537464]
-mean_test_score: [0.52879276 0.34874862 0.53088478 0.55544636 0.53672486 0.36031305
- 0.44735416 0.46836948 0.41988805 0.44465222]
-std_test_score: [0.25852826 0.31069165 0.25911189 0.24673726 0.27550273 0.24629394
- 0.26749997 0.21647707 0.28981171 0.28309087]
-rank_test_score: [ 4 10  3  1  2  9  6  5  8  7]
+mean_fit_time: [0.09078288 0.04649806 0.08788292 0.00241335 0.003287   0.04620544
+ 0.04287235 0.00278322 0.09521159 0.00304484]
+std_fit_time: [0.00292545 0.00201415 0.0007889  0.00020332 0.00053743 0.00264913
+ 0.00159114 0.00024321 0.00817638 0.00087303]
+mean_score_time: [0.00356126 0.00274444 0.00366243 0.00200184 0.00149012 0.00252016
+ 0.0026776  0.00134746 0.00421882 0.00164421]
+std_score_time: [0.00047451 0.00026115 0.00135591 0.00041065 0.00042918 0.00067681
+ 0.00051962 0.0004672  0.00100012 0.00028974]
+param_n_estimators: [100 50 100 2 2 50 50 2 100 2]
+param_max_features: [0.1 0.5 1.0 0.5 1.0 0.5 1.0 0.5 1.0 1.0]
+param_contamination: [0.1 0.2 0.2 0.3 0.1 0.1 0.2 0.3 0.1 0.2]
+param_bootstrap: [True True True False False False False True True True]
+params: [{'n_estimators': 100, 'max_features': 0.1, 'contamination': 0.1, 'bootstrap': True}, {'n_estimators': 50, 'max_features': 0.5, 'contamination': 0.2, 'bootstrap': True}, {'n_estimators': 100, 'max_features': 1.0, 'contamination': 0.2, 'bootstrap': True}, {'n_estimators': 2, 'max_features': 0.5, 'contamination': 0.3, 'bootstrap': False}, {'n_estimators': 2, 'max_features': 1.0, 'contamination': 0.1, 'bootstrap': False}, {'n_estimators': 50, 'max_features': 0.5, 'contamination': 0.1, 'bootstrap': False}, {'n_estimators': 50, 'max_features': 1.0, 'contamination': 0.2, 'bootstrap': False}, {'n_estimators': 2, 'max_features': 0.5, 'contamination': 0.3, 'bootstrap': True}, {'n_estimators': 100, 'max_features': 1.0, 'contamination': 0.1, 'bootstrap': True}, {'n_estimators': 2, 'max_features': 1.0, 'contamination': 0.2, 'bootstrap': True}]
+split0_test_score: [0. 0. 0. 0. 0. 0. 0. 0. 0. 0.]
+split1_test_score: [0.66666667 0.81081081 0.86451613 0.39705882 0.30188679 0.67669173
+ 0.86451613 0.7752809  0.66666667 0.72972973]
+split2_test_score: [0.30917874 0.59437751 0.57142857 0.58299595 0.33333333 0.3490566
+ 0.57142857 0.77192982 0.27586207 0.55371901]
+mean_test_score: [0.3252818  0.46839611 0.47864823 0.32668492 0.21174004 0.34191611
+ 0.47864823 0.51573691 0.31417625 0.42781625]
+std_test_score: [0.27240361 0.34278956 0.35898299 0.2431535  0.15027221 0.27630438
+ 0.35898299 0.36468363 0.27351063 0.31092872]
+rank_test_score: [ 8  4  2  7 10  6  2  1  9  5]

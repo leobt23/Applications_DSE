@@ -217,7 +217,11 @@ def save_all_plots(
     app_logger.info("Saving all plots")
     # Generate and save plots for each model
     for name in model_predictions:
-        if name != "OneClassSVM" and name != "IsolationForest":
+        if (
+            name != "OneClassSVM"
+            and name != "IsolationForest"
+            and name != "Autoencoder"
+        ):
             save_roc_curve(
                 y_val,
                 model_predictions[name]["y_pred_prob"],
@@ -313,3 +317,16 @@ def plot_all_metric_and_model_comparation():
         plt.xticks(rotation=45)
         plt.savefig(f"data_generated/test/plots/{title}.png")
         plt.close()
+
+
+def save_outputs(model_predictions, name, folder="data_generated/test/outputs"):
+    # if folder does not exist, create it
+
+    if not os.path.exists(folder):
+        os.makedirs(folder)
+
+    csv_file = f"{folder}/_outputs_{name}.csv"
+    # just save a array to csv file int format
+    np.savetxt(csv_file, model_predictions, delimiter=",", fmt="%d")
+
+    app_logger.info(f"Outputs saved to {csv_file}")

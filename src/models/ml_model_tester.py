@@ -12,7 +12,7 @@ from sklearn.metrics import (
 )
 
 from src.models.abstract_model_tester import AbstractModelTester
-from src.utils import app_logger, save_all_plots
+from src.utils import app_logger, save_all_plots, save_outputs
 
 
 class MLModelTester(AbstractModelTester):
@@ -110,5 +110,7 @@ class MLModelTester(AbstractModelTester):
                 folder="data_generated/test/plots",
                 type="test",
             )
+
+            save_outputs(y_pred, name, folder="data_generated/test/outputs")
 
         return model_summary, model_predictions

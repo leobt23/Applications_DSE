@@ -449,6 +449,17 @@ INPUT .\Preprocessing.tex
 INPUT Preprocessing.tex
 INPUT .\Preprocessing.tex
 INPUT Preprocessing.tex
+INPUT .\Anexes.tex
+INPUT Anexes.tex
+INPUT .\Anexes.tex
+INPUT Anexes.tex
+INPUT .\images\eda_distributions_all_fraud_or_not.png
+INPUT .\images\eda_distributions_all_fraud_or_not.png
+INPUT images\eda_distributions_all_fraud_or_not.png
+INPUT .\images\eda_distributions_all_fraud_or_not.png
+INPUT .\images\eda_distributions_all_fraud_or_not.png
+INPUT .\images\eda_distributions_all_fraud_or_not.png
+INPUT .\images\eda_distributions_all_fraud_or_not.png
 INPUT conference_101719.aux
 INPUT C:\Users\leo_b\AppData\Local\Programs\MiKTeX\fonts\type1\public\amsfonts\cm\cmmi10.pfb
 INPUT C:\Users\leo_b\AppData\Local\Programs\MiKTeX\fonts\type1\public\amsfonts\cm\cmmi10.pfb

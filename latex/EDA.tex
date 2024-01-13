@@ -72,6 +72,18 @@ The fact the dataset is unbalanced can lead to misleading results when using cor
 
 Due to the problem I presented, Traditional correlation metrics may not be suitable for imbalanced datasets. In this binary classification problem with a highly imbalanced target, a high Pearson correlation coefficient with a predictor might be misleading.
 
+\subsubsection{Distributions}
+
+Due to the PCA transformation, the features are not directly interpretable. However, we can still examine the distributions of the features to gain some insights.
+The distributions of the features for both fraudulent and valid transactions are shown in Figure \ref{eda_distributions_all_fraud_or_not}.
+The goal was to understand the distribution of the features for both classes.
+Several features exhibit distinct distribution patterns when comparing the two Class categories: V4 and V11 show clear segregation between Class 0 and Class 1, suggesting high discriminatory power.
+Features V12, V14, and V18 display partial separation, indicating moderate distinction between classes. V1, V2, V3, and V10 each present a somewhat unique distribution, whereas V25, V26, and V28 appear to have overlapping distributions for both classes.
+Generally speaking, except for the 'Time' and 'Amount' features, the distribution of features for genuine transactions (Class = 0) tends to be centralized around 0, often with an extended tail at one end.
+Conversely, distributions for fraudulent transactions (Class = 1) are typically asymmetrical, reflecting a deviation from the norm.
+
+
+
 \begin{figure}[htbp]
     \centerline{\includegraphics[scale=0.5]{images/initial_dataset_balance.png}}
     \caption{Example of a figure caption.}

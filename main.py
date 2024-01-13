@@ -34,6 +34,7 @@ from src.utils import (
     load_config,
     plot_all_metric_and_model_comparation,
     save_model_summary,
+    save_outputs,
 )
 
 
@@ -60,6 +61,8 @@ def main():
     data_processor.scale_data()
     X_train, X_test, X_val, y_train, y_test, y_val = data_processor.get_processed_data()
 
+    save_outputs(y_test, "True_y", folder="data_generated/test/outputs")
+
     resampler = Resampler()
 
     X_train, y_train = resampler.apply_resampling(
@@ -68,7 +71,7 @@ def main():
         y_train,
         sampling_strategy=cfg_file["resampling"].get("sampling_strategy", "auto"),
     )
-    """
+
     # Define models
     models_supervised_ML = [
         (
@@ -91,7 +94,7 @@ def main():
     )
 
     ml_evaluator.evaluate(X_train, y_train, X_val, y_val, n_iter=2)
-    
+
     # Retrieve summaries and predictions
     model_summary, model_predictions = ml_evaluator.get_evaluation_results()
 
@@ -149,85 +152,17 @@ def main():
     _model_summary, model_predictions = nn_tester.test_nn_model(X_test, y_test)
 
     model_summary.update(_model_summary)
-    save_model_summary(model_summary, file_path=cfg_file["model_summary_test"])
 
     plot_all_metric_and_model_comparation()
-    """
 
     # Train an autoencoder on the training data
     autoencoder = Autoencoder(input_dim=X_train.shape[1], encoding_dim=2)
     autoencoder.compile()
-    autoencoder.train(X_train, X_val, epochs=50, batch_size=256)
+    autoencoder.train(X_train, X_val, epochs=20, batch_size=256)
 
-    reconstructions = autoencoder.predict(X_test)
-
-    mse = np.mean(np.power(X_test - reconstructions, 2), axis=1)
-
-    clean = mse[y_test == 0]
-    fraud = mse[y_test == 1]
-
-    fig, ax = plt.subplots(figsize=(6, 6))
-
-    ax.hist(clean, bins=50, density=True, label="clean", alpha=0.6, color="green")
-    ax.hist(fraud, bins=50, density=True, label="fraud", alpha=0.6, color="red")
-
-    plt.title("(Normalized) Distribution of the Reconstruction Loss")
-    plt.legend()
-    # save plot
-    plt.savefig("data_generated/test/plots/autoencoder_reconstruction_loss.png")
-    plt.close()
-
-    THRESHOLD = 3
-
-    def mad_score(points):
-        m = np.median(points)
-        ad = np.abs(points - m)
-        mad = np.median(ad)
-
-        return 0.6745 * ad / mad
-
-    z_scores = mad_score(mse)
-    outliers = z_scores > THRESHOLD
-
-    print(
-        f"Detected {np.sum(outliers):,} outliers in a total of {np.size(z_scores):,} transactions [{np.sum(outliers)/np.size(z_scores):.2%}]."
-    )
-
-    from sklearn.metrics import confusion_matrix, precision_recall_curve
-
-    # get (mis)classification
-    cm = confusion_matrix(y_test, outliers)
-
-    # true/false positives/negatives
-    (tn, fp, fn, tp) = cm.flatten()
-
-    print(
-        f"""The classifications using the MAD method with threshold={THRESHOLD} are as follows:
-{cm}
-
-% of transactions labeled as fraud that were correct (precision): {tp}/({fp}+{tp}) = {tp/(fp+tp):.2%}
-% of fraudulent transactions were caught succesfully (recall):    {tp}/({fn}+{tp}) = {tp/(fn+tp):.2%}"""
-    )
-
-    """
-    # get f1 score, auc score, precision, recall, accuracy
-    _f1_score = f1_score(y_test, y_pred)
-    auc_score = roc_auc_score(y_test, y_pred)
-    precision = precision_score(y_test, y_pred)
-    recall = recall_score(y_test, y_pred)
-    accuracy = accuracy_score(y_test, y_pred)
-    autoencoder_classification = {
-        "Autoencoder": {
-            "f1_score": _f1_score,
-            "auc_score": auc_score,
-            "precision": precision,
-            "recall": recall,
-            "accuracy": accuracy,
-        }
-    }
-    print(autoencoder_classification)
-    # model_summary.update(autoencoder_classification)
-    """
+    _model_summary, model_predictions = autoencoder.predict(X_test, y_test)
+    model_summary.update(_model_summary)
+    save_model_summary(model_summary, file_path=cfg_file["model_summary_test"])
 
 
 if __name__ == "__main__":
