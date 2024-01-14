@@ -60,7 +60,10 @@ def main():
     data_processor.split_into_train_test()
     data_processor.scale_data()
     X_train, X_test, X_val, y_train, y_test, y_val = data_processor.get_processed_data()
-
+    # save X_test as csv
+    X_test = pd.DataFrame(X_test)
+    X_test.to_csv("data_generated/test/outputs/X_test.csv", index=False)
+    print("Hello world")
     save_outputs(y_test, "True_y", folder="data_generated/test/outputs")
 
     resampler = Resampler()
