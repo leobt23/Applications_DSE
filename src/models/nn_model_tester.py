@@ -54,6 +54,9 @@ class NNModelTester(AbstractModelTester):
 
         y_pred_nn = (model_nn.predict(X_test) > 0.5).astype(int).ravel()
         y_pred_prob = model_nn.predict(X_test)
+        save_outputs(
+            y_pred_prob, "NN_probs" + "0", folder="data_generated/test/outputs"
+        )
         y_pred_prob = y_pred_prob.ravel()
         auc_nn = roc_auc_score(y_test, y_pred_prob)
         f1_nn = f1_score(y_test, y_pred_nn)

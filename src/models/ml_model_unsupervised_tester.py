@@ -56,8 +56,11 @@ class MLModelUnsupervisedTester(AbstractModelTester):
         # assuming the model has a decision_function or score_samples method
         if hasattr(model, "decision_function"):
             scores = model.decision_function(self.X_test)
+            save_outputs(scores, name + "0", folder="data_generated/test/outputs")
         else:
             scores = model.score_samples(self.X_test)
+            save_outputs(scores, name + "0", folder="data_generated/test/outputs")
+            app_logger.info("Model does not have decision_function method")
 
         # Add model performance to summary
         model_summary[name] = {"ROC AUC": roc_auc, "F1 Score": f1, "Accuracy": accuracy}

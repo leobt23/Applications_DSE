@@ -1,8 +1,0 @@
-2024-01-14 10:51:00,957 Config file loaded.
-2024-01-14 10:51:01,123 Data loaded from data/processed_data/creditcard_test_light09.csv
-2024-01-14 10:51:01,160 Removing duplicates from the data.
-2024-01-14 10:51:01,276 Adding hour columns to the data.
-2024-01-14 10:51:01,277 Logarithm of 10 to the Amount column
-2024-01-14 10:51:01,287 Splitting the data into features and targets.
-2024-01-14 10:51:01,308 Splitting the data into train, test and validation sets.
-2024-01-14 10:51:01,308 Scaling the data.

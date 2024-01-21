@@ -3,7 +3,7 @@ import pandas as pd
 from sklearn.metrics import accuracy_score, f1_score, make_scorer, roc_auc_score
 from sklearn.model_selection import RandomizedSearchCV
 
-from src.utils import save_all_plots, save_model, save_model_summary
+from src.utils import save_all_plots, save_model, save_model_summary, save_outputs
 
 
 class MLModelUnsupervisedEvaluator:  # TODO: AbstractModelEvaluator

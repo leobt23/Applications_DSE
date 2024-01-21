@@ -327,6 +327,15 @@ def save_outputs(model_predictions, name, folder="data_generated/test/outputs"):
 
     csv_file = f"{folder}/_outputs_{name}.csv"
     # just save a array to csv file int format
-    np.savetxt(csv_file, model_predictions, delimiter=",", fmt="%d")
+    if (
+        name == "NN_probs0"
+        or name == "IsolationForest0"
+        or name == "OneClassSVM0"
+        or name == "SVC0"
+        or name == "RandomForestClassifier0"
+    ):
+        np.savetxt(csv_file, model_predictions, delimiter=",", fmt="%f")
+    else:
+        np.savetxt(csv_file, model_predictions, delimiter=",", fmt="%d")
 
     app_logger.info(f"Outputs saved to {csv_file}")

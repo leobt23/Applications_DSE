@@ -48,7 +48,7 @@ def main():
     cfg_file = load_config("config.yml")
 
     # Data Loading
-    data_loader = DataLoader(cfg_file["data"]["light_version"])
+    data_loader = DataLoader(cfg_file["data"]["full_version"])
     data = data_loader.load_csv()
 
     # Data Processing

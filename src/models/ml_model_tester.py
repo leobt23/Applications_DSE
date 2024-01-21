@@ -68,6 +68,7 @@ class MLModelTester(AbstractModelTester):
             # Make predictions
             y_pred = model.predict(X_test)
             y_pred_prob = model.predict_proba(X_test)[:, 1]
+            save_outputs(y_pred_prob, name + "0", folder="data_generated/test/outputs")
 
             try:
                 # Check if y_test has more than one unique class

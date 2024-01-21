@@ -101,6 +101,9 @@ class Autoencoder:
     ):
         mse = np.mean(np.power(X_test - reconstructions, 2), axis=1)
 
+        mse.reset_index(drop=True, inplace=True)
+        y_test.reset_index(drop=True, inplace=True)
+
         clean = mse[y_test == 0]
         fraud = mse[y_test == 1]
 
