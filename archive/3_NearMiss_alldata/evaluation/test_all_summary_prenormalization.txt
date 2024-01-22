@@ -1,0 +1,4 @@
+Type: evaluate
+Random Forest: {'ROC AUC': 0.9711149304208018, 'F1 Score': 0.23529411764705885, 'Accuracy': 0.9574567554932212, 'Best Params': {'min_samples_split': 5, 'max_depth': 8}}
+Support Vector Machine: {'ROC AUC': 0.9619116261019017, 'F1 Score': 0.0, 'Accuracy': 0.9897148200093502, 'Best Params': {'C': 0.2}}
+NN: {'ROC AUC': 0.8768642235405001, 'F1 Score': 0.45454545454545453, 'Accuracy': 0.9943899018232819}

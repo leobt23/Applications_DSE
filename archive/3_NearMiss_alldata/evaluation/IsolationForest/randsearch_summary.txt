@@ -1,0 +1,24 @@
+Type: Random Search
+mean_fit_time: [0.11524288 0.06405218 0.05369822 0.00718379 0.11455401 0.04885562
+ 0.10416842 0.10609118 0.00486922 0.00484856]
+std_fit_time: [0.01533376 0.00991145 0.00339219 0.00131545 0.00793904 0.00095453
+ 0.00304574 0.00782013 0.00061885 0.00023849]
+mean_score_time: [0.00624228 0.0045387  0.00293001 0.00367053 0.00378013 0.00318185
+ 0.00388002 0.00353193 0.00286619 0.00167004]
+std_score_time: [0.00097145 0.00139695 0.00092266 0.00102477 0.00056444 0.00088944
+ 0.00084247 0.00111094 0.00031113 0.0004746 ]
+param_n_estimators: [100 50 50 2 100 50 100 100 2 2]
+param_max_features: [0.5 0.1 0.5 0.1 0.1 1.0 0.5 1.0 1.0 0.1]
+param_contamination: [0.1 0.2 0.1 0.2 0.3 0.1 0.2 0.3 0.3 0.1]
+param_bootstrap: [False False False True True True True True True False]
+params: [{'n_estimators': 100, 'max_features': 0.5, 'contamination': 0.1, 'bootstrap': False}, {'n_estimators': 50, 'max_features': 0.1, 'contamination': 0.2, 'bootstrap': False}, {'n_estimators': 50, 'max_features': 0.5, 'contamination': 0.1, 'bootstrap': False}, {'n_estimators': 2, 'max_features': 0.1, 'contamination': 0.2, 'bootstrap': True}, {'n_estimators': 100, 'max_features': 0.1, 'contamination': 0.3, 'bootstrap': True}, {'n_estimators': 50, 'max_features': 1.0, 'contamination': 0.1, 'bootstrap': True}, {'n_estimators': 100, 'max_features': 0.5, 'contamination': 0.2, 'bootstrap': True}, {'n_estimators': 100, 'max_features': 1.0, 'contamination': 0.3, 'bootstrap': True}, {'n_estimators': 2, 'max_features': 1.0, 'contamination': 0.3, 'bootstrap': True}, {'n_estimators': 2, 'max_features': 0.1, 'contamination': 0.1, 'bootstrap': False}]
+split0_test_score: [0. 0. 0. 0. 0. 0. 0. 0. 0. 0.]
+split1_test_score: [0.57342657 0.76363636 0.62162162 0.35772358 0.84090909 0.54285714
+ 0.725      0.77108434 0.83769634 0.59459459]
+split2_test_score: [0.32820513 0.59482759 0.28421053 0.26595745 0.58874459 0.33673469
+ 0.49769585 0.62447257 0.64166667 0.47663551]
+mean_test_score: [0.3005439  0.45282132 0.30194405 0.20789367 0.47655123 0.29319728
+ 0.40756528 0.46518564 0.493121   0.3570767 ]
+std_test_score: [0.23491611 0.32752553 0.25408557 0.15170166 0.35234693 0.22374852
+ 0.30276381 0.33433717 0.35775518 0.25704269]
+rank_test_score: [ 8  4  7 10  2  9  5  3  1  6]
