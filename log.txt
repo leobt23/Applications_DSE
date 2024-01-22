@@ -1,0 +1,46 @@
+2024-01-22 06:37:48,433 Config file loaded.
+2024-01-22 06:37:49,390 Data loaded from data/raw_data/creditcard.csv
+2024-01-22 06:37:49,885 Removing duplicates from the data.
+2024-01-22 06:37:50,367 Adding hour columns to the data.
+2024-01-22 06:37:50,367 Logarithm of 10 to the Amount column
+2024-01-22 06:37:50,419 Splitting the data into features and targets.
+2024-01-22 06:37:50,475 Splitting the data into train, test and validation sets.
+2024-01-22 06:37:50,475 Scaling the data.
+2024-01-22 06:37:53,955 Outputs saved to data_generated/test/outputs/_outputs_True_y.csv
+2024-01-22 06:37:54,768 Resampling applied: SMOTE with sampling_strategy=0.15
+2024-01-22 06:37:55,390 Evaluating RandomForestClassifier...
+2024-01-22 06:38:01,722 Model summary saved.
+2024-01-22 06:38:01,722 Successfully saved the model summary
+2024-01-22 06:38:03,588 Evaluating SVC...
+2024-01-22 07:19:20,321 Model summary saved.
+2024-01-22 07:19:20,322 Successfully saved the model summary
+2024-01-22 07:35:01,957 Saving all plots
+2024-01-22 07:57:06,686 Saving all plots
+2024-01-22 07:57:22,523 Model summary saved.
+2024-01-22 07:57:22,523 Successfully saved the model summary
+2024-01-22 07:57:23,803 Saving all plots
+2024-01-22 08:00:41,570 Saving all plots
+2024-01-22 08:00:42,220 Model summary saved.
+2024-01-22 08:00:42,220 Successfully saved the model summary
+2024-01-22 08:00:42,221 Testing RandomForestClassifier...
+2024-01-22 08:00:42,456 Outputs saved to data_generated/test/outputs/_outputs_RandomForestClassifier0.csv
+2024-01-22 08:00:42,555 Saving all plots
+2024-01-22 08:00:43,195 Outputs saved to data_generated/test/outputs/_outputs_RandomForestClassifier.csv
+2024-01-22 08:00:43,196 Testing SVC...
+2024-01-22 08:02:54,102 Outputs saved to data_generated/test/outputs/_outputs_SVC0.csv
+2024-01-22 08:02:54,212 Saving all plots
+2024-01-22 08:02:55,295 Outputs saved to data_generated/test/outputs/_outputs_SVC.csv
+2024-01-22 08:27:12,280 Outputs saved to data_generated/test/outputs/_outputs_OneClassSVM0.csv
+2024-01-22 08:27:12,420 Outputs saved to data_generated/test/outputs/_outputs_OneClassSVM.csv
+2024-01-22 08:27:12,421 Saving all plots
+2024-01-22 08:27:14,308 Outputs saved to data_generated/test/outputs/_outputs_IsolationForest0.csv
+2024-01-22 08:27:14,449 Outputs saved to data_generated/test/outputs/_outputs_IsolationForest.csv
+2024-01-22 08:27:14,450 Saving all plots
+2024-01-22 08:27:15,566 Testing NN...
+2024-01-22 08:27:25,082 Outputs saved to data_generated/test/outputs/_outputs_NN_probs0.csv
+2024-01-22 08:27:25,191 Saving all plots
+2024-01-22 08:27:25,876 Outputs saved to data_generated/test/outputs/_outputs_NN.csv
+2024-01-22 08:27:26,352 Creating Autoencoder model.
+2024-01-22 08:28:13,852 Outputs saved to data_generated/test/outputs/_outputs_Autoencoder.csv
+2024-01-22 08:28:15,785 Model summary saved.
+2024-01-22 08:28:15,786 Successfully saved the model summary
